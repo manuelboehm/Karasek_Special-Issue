@@ -48,13 +48,15 @@ numbersections: true
 
 -   Empirical Research in Vocational Education and Training (IF: 1.6)
 
+-   Learning and Instruction (IF: 4.7) - not that fitting...
+
 \newpage
 
 # Abstract {.unnumbered}
 
 ...
 
-Keywords: ...
+Keywords: workplace learning, teacher training, informal learning, experience sampling, multilevel modelling
 
 \newpage
 
@@ -62,11 +64,29 @@ Keywords: ...
 
 According to @rauschUsingDiariesResearch2014, ...
 
-Research Questions
+-   teacher shortage and difficult working conditions of teachers
+
+    -   stress, coping are important
+
+    -   learning of teachers has a particular important role
+
+        -   teachers have to prepare their lessons and
+
+        -   furthermore, teachers need to stay up to date
+
+        -   The teaching profession has a particular set of characteristics and job demands. At the same time, teachers are provided with a high degree of freedom or job decision latitude. –\> Karasek: learning hypothesis
+
+    -   vocational schools are under-represented in studies (). while there is research tackling other schools, still very little research on vocational schools.
+
+-   lack of research on teachers at vocational schools ()
+
+    -   experience sampling
+
+Thus, the following research questions will be tackled in this paper:
 
 1.  RQ (learning, stress and coping across activities, control for age, sex, jobscope) - MLM
 
-    Which of teachers' daily work activities are perceived as (a) the most conducive to learning? (b) Which are perceived as the most stressful and (c) with which of the stresful activities could the teachers cope the best?
+    Which of teachers' daily work activities are perceived as (a) the most conducive to learning? (b) Which are perceived as the most stressful and (c) with which of the stressful activities could the teachers cope the best?
 
 2.  RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
 
@@ -90,6 +110,10 @@ Research Questions
 
 ### Characteristics
 
+-   Needed: Alternative to Rothland (2013)???
+
+    -   Multiple sources that describe the characteristics
+
 ### Teachers' Daily Work Activities
 
 ## Teachers' WPL
@@ -99,7 +123,6 @@ Research Questions
 -   Karasek
     -   Studies on Karasek
         -   The Job Demand-Control (-Support) Model and psychological well-being: A review of 20 years of empirical research (<https://doi.org/10.1080/026783799296084>)
-        -   
 
 1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
 
@@ -107,7 +130,7 @@ Research Questions
 
     use stress as a characteristic of activities to introduce Karasek (and briefly talk about negative consequences: Lazarus & Folkman)
 
-get con concrete: Teachers' Learning Activities
+get concrete: Teachers' Learning Activities
 
 # Description of the Empirical Study
 
@@ -164,22 +187,6 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 ```{r, include=FALSE}
 
-RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
-
-Can the learning-fostering characteristics ... be found in the activity categories? Are there significant differences between these categories?
-
-RQ (Karasek, control for age, sex, jobscope) - MLM
-
-Do stress and coping predict informal learning in teachers' daily work activities, as stated in Karasek's learning hypothesis?
-
-H: according to Karasek
-
-RQ (Time effect) H: higher participation -> bigger pc_learn
-
-Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
-
-[Desription of the Learning (freetext fields, Banschbach)]
-
 ```
 
 ## RQ2: Fostering Characteristics between Categories of Teachers' Daily Work Activities
@@ -188,13 +195,13 @@ Can time effects be found in the data? Does continued experience sampling have a
 
 ```
 
-## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis?
+## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis
 
 ```{r}
 
 ```
 
-## RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning?
+## RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning
 
 ```{r}
 
@@ -213,7 +220,6 @@ Can time effects be found in the data? Does continued experience sampling have a
 # Data availability statement
 
 The anonymized data are available on github under the following link: ...\
-
 
 # References
 

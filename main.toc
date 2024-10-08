@@ -3,19 +3,21 @@
 \contentsline {section}{Abstract}{2}{section*.4}%
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {section}{\numberline {2}Research on Teachers' Workplace Learning}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Characteristics of the Teacher Profession}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.1}Characteristics of the Teacher Profession and their Daily Work Activities}{3}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Characteristics}{3}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Teachers' Daily Work Activities}{3}{subsubsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.2}Teachers' WPL}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.1.2}Teachers' Daily Work Activities}{4}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}Teachers' WPL}{4}{subsection.2.2}%
 \contentsline {section}{\numberline {3}Description of the Empirical Study}{4}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Sample and Acquisition of Participants}{4}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Measurements Used in the Diary Study}{4}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Procedure of the Diary Study}{4}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Data Processing and Analysis}{4}{subsection.3.4}%
 \contentsline {section}{\numberline {4}Results}{4}{section.4}%
-\contentsline {subsection}{\numberline {4.1}RQ1}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}RQ2}{4}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}RQ3}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.1}RQ1: Learning, Stress and Coping during Teachers' Daily Work Tasks}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}RQ2: Fostering Characteristics between Categories of Teachers' Daily Work Activities}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning}{4}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}RQ5: Description of the Learning During Teachers' Daily Work Activities}{4}{subsection.4.5}%
 \contentsline {section}{\numberline {5}Conclusion}{4}{section.5}%
 \contentsline {section}{\numberline {6}Data availability statement}{5}{section.6}%
 \contentsline {section}{\numberline {7}References}{5}{section.7}%
