@@ -1,0 +1,117 @@
+---
+title: "Investigating Vocational Teachers' Informal Workplace Learning Using Experience Sampling"
+author: "Manuel Böhm"
+date: '`r Sys.Date()`'
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    toc_depth: 2
+  html_document:
+    toc: true
+    toc_depth: '2'
+    df_print: paged
+  word_document: default
+bibliography:
+- _bib/references.bib
+- _bib/grateful-refs.bib
+csl: _bib/apa.csl
+link-citations: true
+toc: true
+toc-title: Article Outline
+header-includes: \pagenumbering{gobble}
+numbersections: true
+---
+\newpage
+\pagenumbering{arabic}
+
+# Abstract
+
+# Introduction
+
+
+
+Research Questions
+
+RQ 1 (learning across activities, control for age, sex, jobscope)
+- MLM
+
+
+RQ 2 (Time effect)
+H: higher participation -> bigger pc_learn
+
+RQ 3 (Karasek, control for age, sex, jobscope)
+- MLM
+H: according to Karasek
+
+
+
+# Theoretical Background
+
+## Models
+ 
+- Lazarus & Folkman (for Stress)
+- Karasek
+- Billett?!
+
+
+```{r maintenance, eval=FALSE, include=FALSE}
+source("_src/maintenance.R", local = knitr::knit_global())
+```
+
+```{r session start, include=FALSE}
+## Load and install packages (using package manager)
+if (!require("pacman")) {
+  install.packages("pacman")
+  library(pacman)
+}
+pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
+               modelsummary, performance, stats, lmerTest, ggplot2, corrr,
+               parameters, car, psych, jtools, grateful, blockTools,
+               robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
+               sjPlot) 
+
+# install.packages("robustlmm", dependencies = TRUE)
+# install.packages("broom.mixed", dependencies = TRUE)
+```
+
+```{r load files, include=FALSE}
+# welcome questionnaire
+welcome_raw <- read.csv2("_data/raw/20221018_1718_1_AARL-BS Willkommen.csv")
+# activities questionnaire
+activities_raw <- read.csv2("_data/raw/20221018_1717_2_AARL-BS Taetigkeiten_de102944944440141306.csv")
+# jobscope
+jobscope <- read.csv2("_data/jobscope.csv", na = "?")
+# jobscope correction
+jobscope_correction <- read.csv2("_data/jobscope_v3.csv")
+```
+
+```{r data prep, include=FALSE}
+source("_src/data_prep_welcome.R", local = knitr::knit_global())
+source("_src/data_prep_activities.R", local = knitr::knit_global())
+```
+
+# Results
+
+## RQ1
+
+```{r analysis, include=FALSE}
+
+
+```
+
+## RQ2
+
+## RQ3
+
+\newpage
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::
+
+\newpage
+
+# Appendix
+
