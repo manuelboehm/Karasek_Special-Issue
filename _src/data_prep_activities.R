@@ -63,4 +63,12 @@ combined_df <- combined_df %>%
 
 # prepare and clean combined dataframe
 # delete individual invalid cases
+# ...
+
+# add n_entry for number of consequent entries per code
+combined_df_test <- combined_df %>%
+  group_by(code) %>%
+  arrange((Begin)) %>%
+  mutate(n_entry = seq_along(id))
+
 

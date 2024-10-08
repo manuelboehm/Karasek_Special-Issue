@@ -22,38 +22,59 @@ toc-title: Article Outline
 header-includes: \pagenumbering{gobble}
 numbersections: true
 ---
+
 \newpage
 \pagenumbering{arabic}
+
+# Acknowledgement
+
+-   Banschbach (falls ich die Daten von ihr hier verwende)
 
 # Abstract
 
 # Introduction
 
-
+According to @rauschUsingDiariesResearch2014, ...
 
 Research Questions
 
-RQ 1 (learning across activities, control for age, sex, jobscope)
-- MLM
+1.  RQ (learning across activities, control for age, sex, jobscope) - MLM
 
+2.  RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
 
-RQ 2 (Time effect)
-H: higher participation -> bigger pc_learn
+3.  RQ (Karasek, control for age, sex, jobscope) - MLM
 
-RQ 3 (Karasek, control for age, sex, jobscope)
-- MLM
-H: according to Karasek
+    H: according to Karasek
 
+4.  RQ (Time effect) H: higher participation -\> bigger pc_learn
 
+5.  Desription of the Learning (freetext fields, Banschbach)
 
-# Theoretical Background
+# Research on Teachers' Workplace Learning 
 
-## Models
- 
-- Lazarus & Folkman (for Stress)
-- Karasek
-- Billett?!
+## Characteristics of the Teacher Profession 
 
+### Characteristics
+
+### Teachers' Daily Work Tasks
+
+### Teachers' Learning Activities
+
+## Teachers' WPL
+
+-   Billett?!
+-   Lazarus & Folkman (for Stress)
+-   Karasek
+
+1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
+
+2.  Consideration of stress (Karasek, ...)
+
+    use stress as a characteristic of activities to introduce Karasek (and briefly talk about negative consequences: Lazarus & Folkman)
+
+# Method
+
+## Description of the Developed Task Framework
 
 ```{r maintenance, eval=FALSE, include=FALSE}
 source("_src/maintenance.R", local = knitr::knit_global())
@@ -95,14 +116,24 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 ## RQ1
 
-```{r analysis, include=FALSE}
+```{r, include=FALSE}
 
 
 ```
 
 ## RQ2
 
+```{r}
+
+```
+
 ## RQ3
+
+```{r}
+
+```
+
+# Conclusion
 
 \newpage
 
@@ -114,4 +145,3 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 \newpage
 
 # Appendix
-
