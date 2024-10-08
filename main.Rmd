@@ -84,15 +84,15 @@ According to @rauschUsingDiariesResearch2014, ...
 
 Thus, the following research questions will be tackled in this paper:
 
-1.  RQ (learning, stress and coping across activities, control for age, sex, jobscope) - MLM
+1.  RQ (Stress, coping and learning across activities, control for age, sex, jobscope + data from the FBS) - MLM
 
-    Which of teachers' daily work activities are perceived as (a) the most conducive to learning? (b) Which are perceived as the most stressful and (c) with which of the stressful activities could the teachers cope the best?
+    Which of teachers' daily work activities are perceived as (a) the most stressful and (b) with which of the stressful activities could the teachers cope the best? (c) Which of teachers' daily activities are perceived as the most conducive to learning?
 
 2.  RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
 
     Can the learning-fostering characteristics ... be found in the activity categories? Are there significant differences between these categories?
 
-3.  RQ (Karasek, control for age, sex, jobscope) - MLM
+3.  RQ (Karasek, control for age, sex, jobscope + data from the FBS) - MLM
 
     Do stress and coping predict informal learning in teachers' daily work activities, as stated in Karasek's learning hypothesis?
 
@@ -110,19 +110,35 @@ Thus, the following research questions will be tackled in this paper:
 
 ### Characteristics
 
+-   High degree of freedom in the profession
+
+-   subject (especially in vocational schools).
+
+    -   --\> high demand to learn
+
 -   Needed: Alternative to Rothland (2013)???
 
     -   Multiple sources that describe the characteristics
 
+-   teacher stressors and coping (briefly): outline from research on teacher stress
+
+    -   –\> Lazarus & Folkman (for Stress)
+
 ### Teachers' Daily Work Activities
+
+-   overview teachers' work activities (framework from the literature)
 
 ## Teachers' WPL
 
+-   formal, non-formal vs. informal WPL (so far from bwpat!!!)
+
+In workplace learning, researchers typically differentiate between formal, non-formal and informal learning (e.g., Coombs & Ahmed, 1974; Imants & van Veen, 2010). Formal learning is typically defined as structured learning in pedagogical settings such as university teacher training. In these settings, learning occurs intentionally and is planned (Marsick & Watkins, 2015; UNESCO Institute for Statistics, 2012). Non-formal learning is “institutionalized, intentional and planned” as well (UNESCO Institute for Statistics, 2012, p. 11) but in contrast to formal learning, it is not part of the national qualifications framework but includes training and development in companies (Bilger et al., 2013, p. 20) such as information resources for further teacher training. In contrast, informal learning is unintentional and experiential. It occurs as a by-product of other activities such as working (e.g., Marsick & Watkins, 2015, p. 6; UNESCO Institute for Statistics, 2012, p. 19). This learning is also referred to as implicit learning (Eraut, 2004) or incidental learning (Marsick & Watkins, 2015). Though less conscious, this informal learning is considered as a vital source of teachers’ professional development. Work task characteristics that foster informal workplace learning include newness, complexity, collaboration and so forth (Hoekstra, 2007; Lohman, 2003; Rausch, 2013; Kwakman, 2003) many of which, as discussed above, are also likely to cause stress (Karasek, 1979).
+
 -   Billett?!
--   Lazarus & Folkman (for Stress)
 -   Karasek
     -   Studies on Karasek
         -   The Job Demand-Control (-Support) Model and psychological well-being: A review of 20 years of empirical research (<https://doi.org/10.1080/026783799296084>)
+        -   
 
 1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
 
@@ -132,17 +148,37 @@ Thus, the following research questions will be tackled in this paper:
 
 get concrete: Teachers' Learning Activities
 
-# Description of the Empirical Study
+# Description of the Longitudinal Study
 
-## Sample and Acquisition of Participants
+## Research Design and Sample
 
-## Measurements Used in the Diary Study
+This study is part of a research programme (AARL-BS) which was initiated to investigate the relations between working hours, work activities, and work experience, such as learning, stress and coping of teachers at vocational schools. [Data was collected in two studies, an online survey study and an app-based diary study. This allowed for balancing the advantages and disadvantages of the respective methods regarding the estimation of working hours and the measuring of work experience, in particular. Participation was voluntary and all participants provided written informed consent.]{.underline}
 
--   Description of the Developed Task Framework
+### Questionnaire Study
 
-## Procedure of the Diary Study
+The survey study was conducted from February to November 2022. A sample of 1,146 full-time teachers participated in the survey study, 74.3 % of which held no further management function beyond their teaching duties. The mean age was 46.98 years and 39.1 % of the sample is female. The distribution of the survey sample is representative for vocational teachers in the German federal state of Baden-Wuerttemberg with regard to gender, age composition, level of employment, and administrative district.
 
-## Data Processing and Analysis
+In the survey study, data on teachers’ working time, the distribution of the working hours between different tasks, working conditions, job satisfaction, and further constructs were collected. The questionnaire was developed on the basis of a comprehensive literature review (Aprea & Sarochan, 2023) and intensive consultations with representatives of the Association of Vocational School Teachers in Baden-Württemberg (BLV). [See the other papers ...]{.underline}
+
+### Diary Study (gop more into detail here, ESM, design) 
+
+The diary study took place from mid-March to mid-October 2022, including weekends and vacation periods, excluding four weeks during the summer holiday. A multi-cohort design was chosen to reduce participant burden. Each of the five cohorts held the diary for one week and paused for four weeks. The diary app was implemented using mQuest by the German online service provider Cluetec (Karlsruhe). [Diary entries from 145 full-time teachers were included, 75.2 % of which without a management function. The mean age is 44.99 years and 46.9 % of the sample is female. After intensive data preparation and filtering, the analysis is based on 10.327 activities that were reported in the diary app]{.underline}.
+
+The participants were requested to record all work-related activities by selecting the respective work activity from a given list of activities, indicating start and end time and answering one item each for experienced stress, coping, and learning related to the respective task. [In addition, in a weekly review, the participants were requested to indicate the working hours for each day of the past week.]{.underline} During a cohort’s diary period, three daily notifications reminded the participants to record their work activities.
+
+## Measures and Data Analysis
+
+-   Stress, Coping and Learning across the Daily Work Activities
+    -   Stress, coping and learning were all measured using 1 item scales self report
+    -   Description of the Developed Task Framework
+
+From bwpat
+
+Afterwards, the perception of stress, coping and learning at the given work activity are evaluated by the participants. (1) Stress, (2) coping and (3) learning are each designed with an 8-point Likert-scale with 0 as the lowest and 7 as the highest value. To avoid influencing entries with a default value, “-1” is set as the default value in these three items and must be changed to proceed. All three questions are depicted with a slider to set the value and a brief explanation: (1) Did you find this work activity stressful? (0 = not at all stressful; 7 = very stressful; -1 = invalid entry); (2) How well were you able to cope with this stress? (0 = not coped well at all; 7 = coped very well; -1 = invalid entry); (3) Did you learn anything new for your job during this work activity? (0 = learned nothing at all; 7 = learned very much; -1 = invalid entry). Based on theoretical assumptions, participants could only evaluate their coping for work activities with a stress-level above 0.
+
+## Data Analysis (still from bwpat)
+
+Descriptive statistics were calculated to address RQ1 to RQ3. Regarding RQ4, a multiple linear regression analysis was conducted to investigate the statistical prediction of job satisfaction based on working hours, management function, stress, coping, and learning. Interaction terms were checked. However, moderators showed no significant effects, so no interactions were included in the final analysis.
 
 ```{r maintenance, eval=FALSE, include=FALSE}
 source("_src/maintenance.R", local = knitr::knit_global())
@@ -183,7 +219,7 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 # Results
 
-## RQ1: Learning, Stress and Coping during Teachers' Daily Work Tasks
+## RQ1: Stress, Coping and Learning during Teachers' Daily Work Tasks
 
 ```{r, include=FALSE}
 
@@ -196,6 +232,8 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 ```
 
 ## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis
+
+-   interaction effect
 
 ```{r}
 
@@ -219,7 +257,7 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 # Data availability statement
 
-The anonymized data are available on github under the following link: ...\
+The anonymized data are available on Mendeley Data (https://www.elsevier.com/researcher/author/tools-and-resources/research-data) under the following link: ...\
 
 # References
 
