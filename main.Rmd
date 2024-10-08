@@ -160,20 +160,47 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 # Results
 
-## RQ1
+## RQ1: Learning, Stress and Coping during Teachers' Daily Work Tasks
 
 ```{r, include=FALSE}
 
+RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
+
+Can the learning-fostering characteristics ... be found in the activity categories? Are there significant differences between these categories?
+
+RQ (Karasek, control for age, sex, jobscope) - MLM
+
+Do stress and coping predict informal learning in teachers' daily work activities, as stated in Karasek's learning hypothesis?
+
+H: according to Karasek
+
+RQ (Time effect) H: higher participation -> bigger pc_learn
+
+Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
+
+[Desription of the Learning (freetext fields, Banschbach)]
 
 ```
 
-## RQ2
+## RQ2: Fostering Characteristics between Categories of Teachers' Daily Work Activities
 
 ```{r}
 
 ```
 
-## RQ3
+## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis?
+
+```{r}
+
+```
+
+## RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning?
+
+```{r}
+
+```
+
+## RQ5: Description of the Learning During Teachers' Daily Work Activities
 
 ```{r}
 
@@ -187,7 +214,6 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 The anonymized data are available on github under the following link: ...\
 
-–\> Remove Email Addresses from the raw data and make it available online.
 
 # References
 
