@@ -26,11 +26,37 @@ numbersections: true
 \newpage
 \pagenumbering{arabic}
 
-# Acknowledgement
+# Acknowledgement {.unnumbered}
 
--   Banschbach (falls ich die Daten von ihr hier verwende)
+-   Frau Banschbach (falls ich die Daten von ihr hier verwende)
 
-# Abstract
+# Possible Journals {.unnumbered}
+
+-   Teaching and Teacher Education (IF: 4.0)
+
+-   Human Resource Development International (IF: 3.8)
+
+    -   <https://doi.org/10.1080/13678860010004123> was also published here
+
+-   Journal of Workplace Learning (IF: )
+
+-   Vocations and Learning (IF: 1.9)
+
+-   Learning Environments Research (IF: 2.7)
+
+-   Technology, Knowledge and Learning (IF: 3.0) - not that fitting...
+
+-   Empirical Research in Vocational Education and Training (IF: 1.6)
+
+\newpage
+
+# Abstract {.unnumbered}
+
+...
+
+Keywords: ...
+
+\newpage
 
 # Introduction
 
@@ -38,33 +64,42 @@ According to @rauschUsingDiariesResearch2014, ...
 
 Research Questions
 
-1.  RQ (learning across activities, control for age, sex, jobscope) - MLM
+1.  RQ (learning, stress and coping across activities, control for age, sex, jobscope) - MLM
+
+    Which of teachers' daily work activities are perceived as (a) the most conducive to learning? (b) Which are perceived as the most stressful and (c) with which of the stresful activities could the teachers cope the best?
 
 2.  RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
 
+    Can the learning-fostering characteristics ... be found in the activity categories? Are there significant differences between these categories?
+
 3.  RQ (Karasek, control for age, sex, jobscope) - MLM
+
+    Do stress and coping predict informal learning in teachers' daily work activities, as stated in Karasek's learning hypothesis?
 
     H: according to Karasek
 
 4.  RQ (Time effect) H: higher participation -\> bigger pc_learn
 
-5.  Desription of the Learning (freetext fields, Banschbach)
+    Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
 
-# Research on Teachers' Workplace Learning 
+5.  [Desription of the Learning (freetext fields, Banschbach)]
 
-## Characteristics of the Teacher Profession 
+# Research on Teachers' Workplace Learning
+
+## Characteristics of the Teacher Profession and their Daily Work Activities
 
 ### Characteristics
 
-### Teachers' Daily Work Tasks
-
-### Teachers' Learning Activities
+### Teachers' Daily Work Activities
 
 ## Teachers' WPL
 
 -   Billett?!
 -   Lazarus & Folkman (for Stress)
 -   Karasek
+    -   Studies on Karasek
+        -   The Job Demand-Control (-Support) Model and psychological well-being: A review of 20 years of empirical research (<https://doi.org/10.1080/026783799296084>)
+        -   
 
 1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
 
@@ -72,9 +107,19 @@ Research Questions
 
     use stress as a characteristic of activities to introduce Karasek (and briefly talk about negative consequences: Lazarus & Folkman)
 
-# Method
+get con concrete: Teachers' Learning Activities
 
-## Description of the Developed Task Framework
+# Description of the Empirical Study
+
+## Sample and Acquisition of Participants
+
+## Measurements Used in the Diary Study
+
+-   Description of the Developed Task Framework
+
+## Procedure of the Diary Study
+
+## Data Processing and Analysis
 
 ```{r maintenance, eval=FALSE, include=FALSE}
 source("_src/maintenance.R", local = knitr::knit_global())
@@ -90,10 +135,11 @@ pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
                modelsummary, performance, stats, lmerTest, ggplot2, corrr,
                parameters, car, psych, jtools, grateful, blockTools,
                robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
-               sjPlot) 
+               sjPlot, devtools, rmdwc) 
 
 # install.packages("robustlmm", dependencies = TRUE)
 # install.packages("broom.mixed", dependencies = TRUE)
+
 ```
 
 ```{r load files, include=FALSE}
@@ -136,6 +182,12 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 # Conclusion
 
 \newpage
+
+# Data availability statement
+
+The anonymized data are available on github under the following link: ...\
+
+–\> Remove Email Addresses from the raw data and make it available online.
 
 # References
 

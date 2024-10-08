@@ -36,7 +36,7 @@ tinytex::reinstall_tinytex()
 
 
 ################
-##### Github Setup #####
+##### Github Setup 
 ################
 # git config
 use_git_config(user.name = "manuelboehm", user.email = "boehm.manuel@outlook.de")
@@ -53,3 +53,11 @@ use_github()
 
 # tutorial
 # https://rfortherestofus.com/2021/02/how-to-use-git-github-with-r/
+
+################
+##### install wordcountaddin
+################
+
+devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
+
+

@@ -6,3 +6,5 @@
 .httr-oauth
 .DS_Store
 .quarto
+# ignore raw data and instead only show the anonymized files
+_raw/

@@ -2,15 +2,18 @@
 ### Data Prep Welcome
 #########
 
+welcome_anonymous <- welcome_raw %>%
+  select(-MailAdresse, -SETgvMailAdresse, -Email, -Email2)
+
 # clean welcome
 # rename variables
-welcome_renamed <- welcome_raw %>%
+
+welcome_renamed <- welcome_anonymous %>%
   rename(
     version = Version,
     canceled = Canceled, 
     agreement = Zustimmung, 
     code = Code, 
-    email = MailAdresse, 
     consent = Einwilligung, 
     consent2 = Einwilligung2, 
     consent3 = Einwilligung3, 
@@ -23,14 +26,6 @@ welcome_renamed$jobscope <- welcome_renamed$Stellenumfang
 # code only in capital letters
 welcome_renamed <- welcome_renamed %>%
   mutate(code = toupper(code))
-
-# email only in small letters
-welcome_renamed <- welcome_renamed %>%
-  mutate(email = tolower(email))
-welcome_renamed <- welcome_renamed %>%
-  mutate(Email = tolower(Email))
-welcome_renamed <- welcome_renamed %>%
-  mutate(Email2 = tolower(Email2))
 
 # remove codes used for test purposes (WEITERE?! - check notes!!!)
 welcome_filtered <- welcome_renamed %>%
@@ -51,9 +46,9 @@ rm(welcome_filtered)
 
 welcome <- welcome_prep %>%
   select(-canceled, -DeviceID, -consent, -consent2, -consent3, -UPDgvZustimmung, 
-         -Interviewer, -CodeReset, -SETgvMailAdresse, -SETgvZustimmung, 
+         -Interviewer, -CodeReset, -SETgvZustimmung, 
          -SETgvDeviceID, -SETgvUser, -SETgvCode, -TNCodeInput, -agreement, 
-         -version, -Email2, -Email, -email)
+         -version)
 
 rm(welcome_prep)
 

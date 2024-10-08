@@ -2,6 +2,11 @@
 ### Data Prep Activities
 #########
 
+activities_anonymous <- activities_raw %>%
+  select(-MailAdresse, -SETMailAdresse)
+
+write.csv(activities_anonymous, "./_data/activities_anonymous.csv")
+
 # clean activities
 # rename variables
 activities_renamed <- activities_raw %>%
@@ -9,7 +14,6 @@ activities_renamed <- activities_raw %>%
     version = Version,
     canceled = Canceled, 
     code = Code, 
-    email = MailAdresse, 
     consent = Zustimmung, 
     category = X00, 
     task_no = Task, 
@@ -35,9 +39,9 @@ activities_filtered <- activities_renamed %>%
          consent == 1 | consent == "Ja")
 
 activities_prep <- activities_filtered %>%
-  select(-canceled, -DeviceID, -consent, -email, -gvTASK10, -gvTASK02, -gvTASK03, 
+  select(-canceled, -DeviceID, -consent, -gvTASK10, -gvTASK02, -gvTASK03, 
          -gvTASK04, -gvTASK05, -gvTASK06, -gvTASK07, -gvTASK08, -gvTASK09, 
-         -SETgvZustimmung, -SETMailAdresse, -SETCode, -SETgvUser, -SETgvTASK01, 
+         -SETgvZustimmung, -SETCode, -SETgvUser, -SETgvTASK01, 
          -SETgvTASK02, -SETgvTASK03, -SETgvTASK04, -SETgvTASK05, -SETgvTASK06, 
          -SETgvTASK07, -SETgvTASK08, -SETgvTASK09, -SETgvTASK10, -SETgvDATEstart, 
          -UPDgvDATEstart, -UPDgvTASK10, -UPDgvTASK01, -UPDgvTASK02, -UPDgvTASK03, 
@@ -64,6 +68,9 @@ combined_df <- combined_df %>%
 # prepare and clean combined dataframe
 # delete individual invalid cases
 # ...
+
+# improve category fit
+
 
 # add n_entry for number of consequent entries per code
 combined_df_test <- combined_df %>%
