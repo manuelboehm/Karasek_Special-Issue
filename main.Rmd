@@ -28,7 +28,7 @@ numbersections: true
 
 # Acknowledgement {.unnumbered}
 
-We would like to express our gratitude to Miss Julia Banschbach for the invaluable work in her masters' thesis. The created  learning outcome framework based on the literature and the qualitative data analysis served as a basis for answering the second research question in this paper. 
+We would like to express our gratitude to Miss Julia Banschbach for the invaluable work in her masters' thesis. The created  learning outcome framework based on the literature as well as her qualitative data analysis served as a basis for answering the second research question in this paper. 
 
 # Possible Journals {.unnumbered}
 
