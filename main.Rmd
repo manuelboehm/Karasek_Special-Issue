@@ -109,7 +109,7 @@ include a participation effect (control for a bias) H: higher participation -\> 
 
 # Research on Teachers' Workplace Learning
 
-## Characteristics of the Teaching Profession and Vocational Teachers' Learning Activities
+## Characteristics of the Teaching Profession and Vocational Teachers' Daily Work Activities
 
 ### Characteristics
 
@@ -468,7 +468,7 @@ print(crosstable)
 ```
 
 
-## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis
+## RQ3: Prediction Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)
 
 -   interaction effect
 

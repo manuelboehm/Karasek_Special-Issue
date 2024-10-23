@@ -3,7 +3,7 @@
 \contentsline {section}{Abstract}{2}{section*.4}%
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {section}{\numberline {2}Research on Teachers' Workplace Learning}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Characteristics of the Teaching Profession and Vocational Teachers' Learning Activities}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.1}Characteristics of the Teaching Profession and Vocational Teachers' Daily Work Activities}{3}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Characteristics}{3}{subsubsection.2.1.1}%
 \contentsline {subsubsection}{\numberline {2.1.2}Teachers' Daily Work Activities}{4}{subsubsection.2.1.2}%
 \contentsline {subsection}{\numberline {2.2}Workplace Learning and Vocational Teachers' Learning Activities}{4}{subsection.2.2}%
