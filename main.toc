@@ -28,7 +28,7 @@
 \contentsline {section}{\numberline {4}Results}{7}{section.4}%
 \contentsline {subsection}{\numberline {4.1}RQ1: Stress, Coping and Learning during Teachers' Daily Work Activities}{7}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}RQ2: Description of the Learning During Teachers' Daily Work Activities}{8}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis}{11}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.3}RQ3: Prediction Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)}{11}{subsection.4.3}%
 \contentsline {section}{\numberline {5}Conclusion}{13}{section.5}%
 \contentsline {section}{\numberline {6}Data availability statement}{14}{section.6}%
 \contentsline {section}{\numberline {7}References}{14}{section.7}%
