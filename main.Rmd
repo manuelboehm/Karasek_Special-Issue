@@ -28,11 +28,20 @@ numbersections: true
 
 # Acknowledgement {.unnumbered}
 
--   Frau Banschbach (falls ich die Daten von ihr hier verwende)
+-   Frau Banschbach
 
 # Possible Journals {.unnumbered}
 
--   Teaching and Teacher Education (IF: 4.0)
+Teaching and Teacher Education (IF: 4.0),\
+[https://doi.org/10.1016/S0742-051X(02)00101-4](https://doi.org/10.1016/S0742-051X(02)00101-4 "Persistent link using digital object identifier") was also published here
+
+Regelungen/Hinweise:
+
+-   Abstract: 100 words, 3 - 6 keywords
+
+-   Report: 5.000-9.000 words
+
+Ansonsten:
 
 -   Human Resource Development International (IF: 3.8)
 
@@ -88,9 +97,7 @@ Thus, the following research questions will be tackled in this paper:
 
     Which of teachers' daily work activities are perceived as (a) the most stressful and (b) with which of the stressful activities could the teachers cope the best? (c) Which of teachers' daily activities are perceived as the most conducive to learning?
 
-2.  RQ (group activity categories: social, reflection, ...) and conduct an anova to check for significant differences)
-
-    Can the learning-fostering characteristics ... be found in the activity categories? Are there significant differences between these categories?
+2.  [Desription of the Learning (freetext fields, qualitative analysis)]
 
 3.  RQ (Karasek, control for age, sex, jobscope + data from the FBS) - MLM
 
@@ -98,15 +105,11 @@ Thus, the following research questions will be tackled in this paper:
 
     H: according to Karasek
 
-4.  RQ (Time effect) H: higher participation -\> bigger pc_learn
-
-    Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
-
-5.  [Desription of the Learning (freetext fields, Banschbach)]
+include a participation effect (control for a bias) H: higher participation -\> bigger pc_learn Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
 
 # Research on Teachers' Workplace Learning
 
-## Characteristics of the Teacher Profession and their Daily Work Activities
+## Characteristics of the Teaching Profession and Vocational Teachers' Learning Activities
 
 ### Characteristics
 
@@ -126,9 +129,9 @@ Thus, the following research questions will be tackled in this paper:
 
 ### Teachers' Daily Work Activities
 
--   overview teachers' work activities (framework from the literature)
+-   Overview teachers' work activities (framework from the literature)
 
-## Teachers' WPL
+## Workplace Learning and Vocational Teachers' Learning Activities
 
 -   formal, non-formal vs. informal WPL (so far from bwpat!!!)
 
@@ -148,6 +151,40 @@ In workplace learning, researchers typically differentiate between formal, non-f
 
 get concrete: Teachers' Learning Activities
 
+## Learning Outomes from Teachers' Workplace Learning
+
+-   Goal: categorizing learning outcomes that stem from teachers' informal workplace learning
+-   For this, existing frameworks from workplace learning literature are analyzed and compared
+-   Then, a category framework is developed deductively from existing frameworks and then adjusted inductively from the results from this study.
+
+### Eraut (2004)
+
+8 categories:
+
+-   
+
+-   
+
+### Tynjälä (2013, 3-P model)
+
+### Kyndt et al. (2013)
+
+### Cerasoli et al. (2018)
+
+### Park (2020)
+
+### Smet et al. (2022)
+
+--\> also consider additional frameworks from teacher professional development
+
+## Job Demands and Job Resources in the Teaching Profession
+
+### Job Demands / Stress
+
+### Job Resources / Coping
+
+### The Effect of Job Demands / Stress and Job Resources / Coping on Vocational Teachers' Workplace Learning
+
 # Description of the Longitudinal Study
 
 ## Research Design and Sample
@@ -160,7 +197,7 @@ The survey study was conducted from February to November 2022. A sample of 1,146
 
 In the survey study, data on teachers’ working time, the distribution of the working hours between different tasks, working conditions, job satisfaction, and further constructs were collected. The questionnaire was developed on the basis of a comprehensive literature review (Aprea & Sarochan, 2023) and intensive consultations with representatives of the Association of Vocational School Teachers in Baden-Württemberg (BLV). [See the other papers ...]{.underline}
 
-### Diary Study (gop more into detail here, ESM, design) 
+### Diary Study (go more into detail here, ESM, design)
 
 The diary study took place from mid-March to mid-October 2022, including weekends and vacation periods, excluding four weeks during the summer holiday. A multi-cohort design was chosen to reduce participant burden. Each of the five cohorts held the diary for one week and paused for four weeks. The diary app was implemented using mQuest by the German online service provider Cluetec (Karlsruhe). [Diary entries from 145 full-time teachers were included, 75.2 % of which without a management function. The mean age is 44.99 years and 46.9 % of the sample is female. After intensive data preparation and filtering, the analysis is based on 10.327 activities that were reported in the diary app]{.underline}.
 
@@ -175,6 +212,14 @@ The participants were requested to record all work-related activities by selecti
 From bwpat
 
 Afterwards, the perception of stress, coping and learning at the given work activity are evaluated by the participants. (1) Stress, (2) coping and (3) learning are each designed with an 8-point Likert-scale with 0 as the lowest and 7 as the highest value. To avoid influencing entries with a default value, “-1” is set as the default value in these three items and must be changed to proceed. All three questions are depicted with a slider to set the value and a brief explanation: (1) Did you find this work activity stressful? (0 = not at all stressful; 7 = very stressful; -1 = invalid entry); (2) How well were you able to cope with this stress? (0 = not coped well at all; 7 = coped very well; -1 = invalid entry); (3) Did you learn anything new for your job during this work activity? (0 = learned nothing at all; 7 = learned very much; -1 = invalid entry). Based on theoretical assumptions, participants could only evaluate their coping for work activities with a stress-level above 0.
+
+### Learning Outcome Framework (RQ 2)
+
+K. Kompetenzebene
+
+KI. Individuum
+
+Performanzebene
 
 ## Data Analysis (still from bwpat)
 
@@ -194,7 +239,7 @@ pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
                modelsummary, performance, stats, lmerTest, ggplot2, corrr,
                parameters, car, psych, jtools, grateful, blockTools,
                robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
-               sjPlot, devtools, rmdwc) 
+               sjPlot, devtools, rmdwc, fastDummies, crosstable) 
 
 # install.packages("robustlmm", dependencies = TRUE)
 # install.packages("broom.mixed", dependencies = TRUE)
@@ -210,45 +255,317 @@ activities_raw <- read.csv2("_data/raw/20221018_1717_2_AARL-BS Taetigkeiten_de10
 jobscope <- read.csv2("_data/jobscope.csv", na = "?")
 # jobscope correction
 jobscope_correction <- read.csv2("_data/jobscope_v3.csv")
+# learning outcome framework
+lo_categorization <- read.csv2("_data/lo_categorization.csv")
+
 ```
 
 ```{r data prep, include=FALSE}
 source("_src/data_prep_welcome.R", local = knitr::knit_global())
 source("_src/data_prep_activities.R", local = knitr::knit_global())
+source("_src/data_prep_manual_qualitative.R", local = knitr::knit_global())
+
+#####
+### format all datatypes appropriately! (see previous code (data_prep)) #####
+#####
+```
+
+```{r compare df (from data_prep_qual) with combined_df & format data, include=FALSE}
+# import into combined_df from df: task_no, task, sex, age, jobscope, duration
+# combined_df$age <- welcome$age[match(combined_df$code, welcome$code)] #####
+
+combined_df$age_df <- df$age[match(combined_df$code, df$code)]
+combined_df$sex_df <- df$gender[match(combined_df$code, df$code)]
+combined_df$jobscope_df <- df$jobscope[match(combined_df$code, df$code)]
+combined_df$act_no_df <- df$task[match(combined_df$id, df$id)]
+combined_df$activity_df <- df$task_name[match(combined_df$id, df$id)]
+combined_df$duration_df <- df$duration[match(combined_df$id, df$id)]
+
+# use the values from df
+combined_df$age <- ifelse(combined_df$age == combined_df$age_df, combined_df$age, combined_df$age_df)
+
+combined_df$sex <- ifelse(combined_df$sex == combined_df$sex_df, combined_df$sex, combined_df$sex_df)
+
+combined_df$jobscope <- ifelse(combined_df$jobscope == combined_df$jobscope_df, combined_df$jobscope, combined_df$jobscope_df)
+
+combined_df$duration <- combined_df$duration_df
+
+combined_df_ <- combined_df %>%
+  filter(!is.na(activity_df))
+
+combined_df$act_no <- ifelse(combined_df$act_no == combined_df$act_no_df, combined_df$act_no, combined_df$act_no_df)
+
+combined_df$activity <- ifelse(combined_df$activity == combined_df$activity_df, combined_df$activity, combined_df$activity_df)
+
+
+#####
+### category has to be adjusted!!! & check activity and other imports again!!!
+##### 
+combined_df <- combined_df %>% # adjust act_no 29
+  mutate(act_no = ifelse(category == 4, 29, act_no)
+         )
+
+# compare number of cases (which were deleted?!)
+
+
+# correct coping
+combined_df$coping <- ifelse(combined_df$stress == 0, 0, combined_df$coping)
+
+# format data for analyses
+combined_df <- combined_df %>% # Before: 1=w, 2=m; NOW: 0=w, 1=m
+  mutate(sex = case_match(sex, 1 ~ 0, 2 ~ 1)
+         )
+
+
+
+
 ```
 
 # Results
 
-## RQ1: Stress, Coping and Learning during Teachers' Daily Work Tasks
+## RQ1: Stress, Coping and Learning during Teachers' Daily Work Activities
+
+-   maybe too similar to bwpat article
+-   may cause problems in comparison with bwpat paper (different sample size...)
+-   same approach as in bwpat paper: simple comparison of mean values and SDs across the acivities
+-   29 activities?! --\> decision needed!
+
+```{r filter and prepare data, include=FALSE}
+df_rq1 <- combined_df
+```
+
+```{r correlations and data checks, include=FALSE}
+
+```
+
+```{r rq1 analysis}
+# make sure coping is given only for stress above 0 and never -1
+# something like this...
+# df_rq3_coping <- df_rq3 %>%
+#  mutate(coping = ifelse(coping < 0, 0, coping))
+
+# act_no 29 does not exist... -> correct!
+
+rq1_stress_coping_learn <- df_rq1 %>%
+  group_by(act_no) %>%
+  summarise(stress_m = mean(stress), 
+            stress_sd = sd(stress), 
+            stress_md = median(stress), 
+            
+            coping_m = mean(coping), 
+            coping_sd = sd(coping), 
+            coping_md = median(coping), 
+            
+            learn_m = mean(pc_learn), 
+            learn_sd = sd(pc_learn), 
+            learn_md = median(pc_learn)
+            )
+
+```
+
+```{r, rq1 kable table, echo=FALSE}
+rq1_stress_coping_learn %>%
+# mutate_if(is.numeric, ~ifelse(is.na(.), " ", format(round(., 2)))) %>%
+mutate(across(is.numeric & !act_no, ~ifelse(is.na(.x) , " ", sprintf("%.2f", .x)))) %>%
+kable(# digits = c(1,2,2,2,2,2,2,2,2,2)
+      , caption = "Descriptive Statistics regarding Stress, Coping and Learning during Teachers' Daily Work Activities", col.names = c("", "M", "SD", "Mdn", "M", "SD", "Mdn", "M", "SD", "Mdn"), align = "lccccccccc") %>%
+        add_header_above(c("Activity" = 1, "Stress" = 3, "Coping" = 3, "Learning" = 3)) %>%
+  kable_styling(latex_options = c("HOLD_position"), font_size = 9)
+```
+
+## RQ2: Description of the Learning During Teachers' Daily Work Activities
 
 ```{r, include=FALSE}
+df_rq2 <- combined_df # %>%
+#  filter(learn_descr != "") # | other_descr != "")
+
+# no filter for learning (all values between 0 and 7)
+
+
+# no information as a result
+```
+
+```{r descriptive statistics}
+# PC_LEARN
+# mean, sd, median of learning 
+
+# LEARN FREETEXT FIELDS
+#
 
 ```
 
-## RQ2: Fostering Characteristics between Categories of Teachers' Daily Work Activities
+```{r adding the categorization}
+df_rq2_ <- df_rq2
 
-```{r}
+# compare with coding (contains only unique values)
+df_rq2_ <- df_rq2 %>%
+  left_join(lo_categorization, by = join_by(learn_descr == learning_outcome))
+  
+df_rq2_ <- df_rq2_ %>%
+  mutate(cat = tolower(cat))
+df_rq2_$cat <- as.factor(df_rq2_$cat)
+table(df_rq2_$cat)
 
 ```
+
+```{r, adding additional codes manually, eval=FALSE}
+df_rq2_ <- df_rq2_ %>%
+  mutate(cat = ifelse(!is.na(cat), cat, 
+    case_when(str_detect(learn_descr, "Keine") == TRUE ~ "Nichts"
+  
+)))
+
+summary(str_detect(df_rq2_$learn_descr, "Keine") == TRUE)
+
+summary(is.na(df_rq2_$cat))
+
+df_rq2_test <- df_rq2_ %>%
+  filter(is.na(cat))
+
+df_rq2_test <- df_rq2_ %>%
+  filter(is.na(cat), 
+         str_detect(learn_descr, "keine"))
+
+df_rq2_test <- df_rq2_test %>% 
+  filter(str_detect(learn_descr, "keine "))
+
+df_rq2_test <- df_rq2_ %>%
+  filter(learn_descr == "keine")
+
+```
+
+```{r cross table: lo x act, eval=FALSE}
+
+crosstable(df_rq2_, c(activity, cat)) %>%
+  as_flextable(keep_id=TRUE)
+
+df_rq2_test_ <- df_rq2_ %>%
+  filter(!is.na(cat))
+
+rq2_crosstable <- as.data.frame(table(df_rq2_test_$act_no, df_rq2_test_$learning_outcome))
+print(rq2_crosstable)
+
+
+crosstable <- df_rq2_test_ %>%
+  count(activity, cat) %>%
+  spread(cat, n, fill = 0) # Spread the results into a wide format
+
+crosstable_ <- crosstable %>%
+  group_by(activity) %>%
+  mutate(`bewusstsein der bedeutung von gelassenheit_sum`=sum(`bewusstsein der bedeutung von gelassenheit`))
+  
+
+crosstable_ <- df_rq2_test_ %>%
+  count(activity, cat) %>%
+  spread(cat, n, fill = 0) %>% # Spread 'cat' columns and values
+  group_by(activity) %>%
+  mutate(across(starts_with("bewusstsein"), sum, .names = "{.col}_sum"))
+
+### Final Table is not correct!!!
+
+print(crosstable)
+
+```
+
 
 ## RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis
 
 -   interaction effect
 
-```{r}
+```{r filter data & prepare them, include=FALSE}
+df_rq3 <- combined_df
+df_rq3$act_no <- as.factor(df_rq3$act_no)
+
+# standardize all variables
+
+# df_rq3$pc_learn_z <- standardize(df_rq3$pc_learn)
+df_rq3$stress_z <- standardize(df_rq3$stress)
+df_rq3$coping_z <- standardize(df_rq3$coping)
+
+
+# add dummy variables for act #####
+df_rq3 <- dummy_cols(df_rq3, select_columns = "act_no")
 
 ```
 
-## RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning
-
-```{r}
-
+```{r test all assumptions, include=FALSE}
+# multicollinearity?!
+# especially with the interaction term ... 
 ```
 
-## RQ5: Description of the Learning During Teachers' Daily Work Activities
+```{r correlations, include = FALSE}
+# cor_tab <- cor(subset(variant1, select = c(task_routine:proc_learn)))
 
-```{r}
+rq3_subset_cor <- subset(df_rq3, select = c(sex:jobscope, stress:pc_learn, n_entry, stress_z, coping_z))
 
+# maybe add mean and sd
+
+cor_tab_ <- rq3_subset_cor %>%
+  # select(c(group_mlm:proc_learn)) %>%
+  correlate() %>%
+  shave(upper = TRUE) %>%
+  fashion(decimals = 2, na_print = "—") 
+
+cor_tab_$term <- paste(seq_len(nrow(cor_tab_)), ". ", cor_tab_$term, sep = "")
+```
+
+```{r rq3 corr_table_kable, echo=FALSE}
+cor_tab_ %>%
+  kable(
+    caption = "Correlations between Variables RQ3",
+    col.names = c("Measure", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+  )
+```
+
+```{r rq3 model 1, include=FALSE}
+rq3_model1 <- lmerTest::lmer(data = df_rq3, pc_learn ~ 1 + (1|code), REML = T) 
+
+# summary(rq3_model1)
+```
+
+```{r rq3 model 1 ICC, echo=FALSE}
+# icc calculation
+# icc(rq2_model1)
+kable(table(round(icc(rq3_model1), 4)), caption = "ICC RQ3 (REML)")
+```
+
+```{r rq3 model 1 REML_F, include=FALSE}
+rq3_model1 <- lmerTest::lmer(data = df_rq3, pc_learn ~ 1 + (1|code), REML = F) 
+```
+
+```{r rq3 model 2, include=FALSE}
+# issue: act_no 29 not available
+
+rq3_model2 <- lmerTest::lmer(data = df_rq3, pc_learn ~  sex + age + jobscope + stress_z + coping_z + stress_z*coping_z + n_entry + 
+                               act_no_1 +  act_no_2 + 
+                               act_no_3 +  act_no_4 +
+                               act_no_5 +  act_no_6 + 
+                               act_no_7 +  act_no_8 + 
+                               act_no_9 +  act_no_10 + 
+                               act_no_11 + act_no_12 + 
+                               act_no_13 + act_no_14 + 
+                               act_no_15 + act_no_16 + 
+                               act_no_17 + act_no_18 + 
+                               act_no_19 + act_no_20 +
+                               act_no_21 + act_no_22 +
+                               act_no_23 + act_no_24 +
+                               act_no_25 + act_no_26 +
+                               act_no_27 + act_no_28 + #act_no_29 + 
+                               (1|code), REML = F) # + time + activity dummy variables
+
+summary(rq3_model2)
+```
+
+```{r rq3 results table, echo=FALSE}
+rq3_results_table <- modelsummary::msummary(list("Model 1" = rq3_model1, 
+                                                 "Model 2" = rq3_model2), gof_omit = "ICC", stars = T, title = "Summary Multilevel Model RQ3", output = 'kableExtra', metrics = "all", statistic = c("std.error", "p.value", "conf.int"))
+
+rq3_results_table %>%
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+```
+
+```{r rq3 kable, echo=FALSE}
+# kable(rq3_model2, digits = 2, caption = "MLM of Informal Learning during Teachers' Work Activities ")
 ```
 
 # Conclusion
@@ -257,7 +574,7 @@ source("_src/data_prep_activities.R", local = knitr::knit_global())
 
 # Data availability statement
 
-The anonymized data are available on Mendeley Data (https://www.elsevier.com/researcher/author/tools-and-resources/research-data) under the following link: ...\
+The anonymized data are available on Mendeley Data (<https://www.elsevier.com/researcher/author/tools-and-resources/research-data>) under the following link: ...\
 
 # References
 

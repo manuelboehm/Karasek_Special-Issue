@@ -9,14 +9,14 @@ write.csv(activities_anonymous, "./_data/activities_anonymous.csv")
 
 # clean activities
 # rename variables
-activities_renamed <- activities_raw %>%
+activities_renamed <- activities_anonymous %>%
   rename(
     version = Version,
     canceled = Canceled, 
     code = Code, 
     consent = Zustimmung, 
     category = X00, 
-    task_no = Task, 
+    act_no = Task, 
     other = Tasksnst, 
     begin_date = Datum, 
     begin_time = Start, 
@@ -27,7 +27,7 @@ activities_renamed <- activities_raw %>%
     pc_learn = Lernen, 
     learn_descr = Lernaussage, 
     other_descr = Aussage, 
-    task = gvTASK01
+    activity = gvTASK01
   )
 
 # code only in capital letters
@@ -62,7 +62,7 @@ combined_df$sex <- welcome$sex[match(combined_df$code, welcome$code)]
 combined_df$jobscope <- welcome$jobscope[match(combined_df$code, welcome$code)]
   
 combined_df <- combined_df %>%
-  select(id, code, sex, age, jobscope, gvUser, category, task_no, task, other, 
+  select(id, code, sex, age, jobscope, gvUser, category, act_no, activity, other, 
          stress, coping, pc_learn, learn_descr, other_descr, everything())
 
 # prepare and clean combined dataframe
@@ -73,7 +73,7 @@ combined_df <- combined_df %>%
 
 
 # add n_entry for number of consequent entries per code
-combined_df_test <- combined_df %>%
+combined_df <- combined_df %>%
   group_by(code) %>%
   arrange((Begin)) %>%
   mutate(n_entry = seq_along(id))

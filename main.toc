@@ -3,23 +3,33 @@
 \contentsline {section}{Abstract}{2}{section*.4}%
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {section}{\numberline {2}Research on Teachers' Workplace Learning}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Characteristics of the Teacher Profession and their Daily Work Activities}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.1}Characteristics of the Teaching Profession and Vocational Teachers' Learning Activities}{3}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Characteristics}{3}{subsubsection.2.1.1}%
 \contentsline {subsubsection}{\numberline {2.1.2}Teachers' Daily Work Activities}{4}{subsubsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.2}Teachers' WPL}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Workplace Learning and Vocational Teachers' Learning Activities}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Learning Outomes from Teachers' Workplace Learning}{4}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Eraut (2004)}{5}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Tynjälä (2013, 3-P model)}{5}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Kyndt et al.~(2013)}{5}{subsubsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.4}Cerasoli et al.~(2018)}{5}{subsubsection.2.3.4}%
+\contentsline {subsubsection}{\numberline {2.3.5}Park (2020)}{5}{subsubsection.2.3.5}%
+\contentsline {subsubsection}{\numberline {2.3.6}Smet et al.~(2022)}{5}{subsubsection.2.3.6}%
+\contentsline {subsection}{\numberline {2.4}Job Demands and Job Resources in the Teaching Profession}{5}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Job Demands / Stress}{5}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}Job Resources / Coping}{5}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}The Effect of Job Demands / Stress and Job Resources / Coping on Vocational Teachers' Workplace Learning}{5}{subsubsection.2.4.3}%
 \contentsline {section}{\numberline {3}Description of the Longitudinal Study}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Research Design and Sample}{5}{subsection.3.1}%
 \contentsline {subsubsection}{\numberline {3.1.1}Questionnaire Study}{5}{subsubsection.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.1.2}Diary Study (gop more into detail here, ESM, design)}{5}{subsubsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.2}Measures and Data Analysis}{5}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.1.2}Diary Study (go more into detail here, ESM, design)}{6}{subsubsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.2}Measures and Data Analysis}{6}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Learning Outcome Framework (RQ 2)}{6}{subsubsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.3}Data Analysis (still from bwpat)}{6}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Results}{6}{section.4}%
-\contentsline {subsection}{\numberline {4.1}RQ1: Stress, Coping and Learning during Teachers' Daily Work Tasks}{6}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}RQ2: Fostering Characteristics between Categories of Teachers' Daily Work Activities}{6}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis}{6}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}RQ4: The Effect of Continued Experience Sampling on Perceived Informal Learning}{6}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}RQ5: Description of the Learning During Teachers' Daily Work Activities}{6}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{6}{section.5}%
-\contentsline {section}{\numberline {6}Data availability statement}{7}{section.6}%
-\contentsline {section}{\numberline {7}References}{7}{section.7}%
-\contentsline {section}{\numberline {8}Appendix}{8}{section.8}%
+\contentsline {section}{\numberline {4}Results}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}RQ1: Stress, Coping and Learning during Teachers' Daily Work Activities}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}RQ2: Description of the Learning During Teachers' Daily Work Activities}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}RQ3: Prediction of Informal Learning Using Stress and Coping in Teachers' Daily Work Activities, as stated in Karasek's Learning Hypothesis}{11}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Conclusion}{13}{section.5}%
+\contentsline {section}{\numberline {6}Data availability statement}{14}{section.6}%
+\contentsline {section}{\numberline {7}References}{14}{section.7}%
+\contentsline {section}{\numberline {8}Appendix}{15}{section.8}%
