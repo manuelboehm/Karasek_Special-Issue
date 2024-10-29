@@ -7,6 +7,7 @@ output:
     latex_engine: xelatex
     toc: true
     toc_depth: 2
+    keep_tex: TRUE
   html_document:
     toc: true
     toc_depth: '2'
@@ -29,35 +30,6 @@ numbersections: true
 # Acknowledgement {.unnumbered}
 
 We would like to express our gratitude to Miss Julia Banschbach for the invaluable work in her masters' thesis. The created  learning outcome framework based on the literature as well as her qualitative data analysis served as a basis for answering the second research question in this paper. 
-
-# Possible Journals {.unnumbered}
-
-Teaching and Teacher Education (IF: 4.0),\
-[https://doi.org/10.1016/S0742-051X(02)00101-4](https://doi.org/10.1016/S0742-051X(02)00101-4 "Persistent link using digital object identifier") was also published here
-
-Regelungen/Hinweise:
-
--   Abstract: 100 words, 3 - 6 keywords
-
--   Report: 5.000-9.000 words
-
-Ansonsten:
-
--   Human Resource Development International (IF: 3.8)
-
-    -   <https://doi.org/10.1080/13678860010004123> was also published here
-
--   Journal of Workplace Learning (IF: )
-
--   Vocations and Learning (IF: 1.9)
-
--   Learning Environments Research (IF: 2.7)
-
--   Technology, Knowledge and Learning (IF: 3.0) - not that fitting...
-
--   Empirical Research in Vocational Education and Training (IF: 1.6)
-
--   Learning and Instruction (IF: 4.7) - not that fitting...
 
 \newpage
 
@@ -134,6 +106,8 @@ include a participation effect (control for a bias) H: higher participation -\> 
 ## Workplace Learning and Vocational Teachers' Learning Activities
 
 -   formal, non-formal vs. informal WPL (so far from bwpat!!!)
+- how do teachers learn?
+- include selected frameworks from literature (NK, MA)
 
 In workplace learning, researchers typically differentiate between formal, non-formal and informal learning (e.g., Coombs & Ahmed, 1974; Imants & van Veen, 2010). Formal learning is typically defined as structured learning in pedagogical settings such as university teacher training. In these settings, learning occurs intentionally and is planned (Marsick & Watkins, 2015; UNESCO Institute for Statistics, 2012). Non-formal learning is “institutionalized, intentional and planned” as well (UNESCO Institute for Statistics, 2012, p. 11) but in contrast to formal learning, it is not part of the national qualifications framework but includes training and development in companies (Bilger et al., 2013, p. 20) such as information resources for further teacher training. In contrast, informal learning is unintentional and experiential. It occurs as a by-product of other activities such as working (e.g., Marsick & Watkins, 2015, p. 6; UNESCO Institute for Statistics, 2012, p. 19). This learning is also referred to as implicit learning (Eraut, 2004) or incidental learning (Marsick & Watkins, 2015). Though less conscious, this informal learning is considered as a vital source of teachers’ professional development. Work task characteristics that foster informal workplace learning include newness, complexity, collaboration and so forth (Hoekstra, 2007; Lohman, 2003; Rausch, 2013; Kwakman, 2003) many of which, as discussed above, are also likely to cause stress (Karasek, 1979).
 
@@ -151,7 +125,7 @@ In workplace learning, researchers typically differentiate between formal, non-f
 
 get concrete: Teachers' Learning Activities
 
-## Learning Outomes from Teachers' Workplace Learning
+## Learning Outomes from Vocational Teachers' Workplace Learning
 
 -   Goal: categorizing learning outcomes that stem from teachers' informal workplace learning
 -   For this, existing frameworks from workplace learning literature are analyzed and compared
@@ -270,44 +244,132 @@ source("_src/data_prep_manual_qualitative.R", local = knitr::knit_global())
 #####
 ```
 
-```{r compare df (from data_prep_qual) with combined_df & format data, include=FALSE}
+```{r prepare combined_df with values from data_prep_qual & format data, include=FALSE}
 # import into combined_df from df: task_no, task, sex, age, jobscope, duration
 # combined_df$age <- welcome$age[match(combined_df$code, welcome$code)] #####
 
-combined_df$age_df <- df$age[match(combined_df$code, df$code)]
-combined_df$sex_df <- df$gender[match(combined_df$code, df$code)]
-combined_df$jobscope_df <- df$jobscope[match(combined_df$code, df$code)]
-combined_df$act_no_df <- df$task[match(combined_df$id, df$id)]
-combined_df$activity_df <- df$task_name[match(combined_df$id, df$id)]
-combined_df$duration_df <- df$duration[match(combined_df$id, df$id)]
+# update selected values in with values from df (manual data_prep)
+# values: age, sex, jobscope, act_no, activity, duration
 
-# use the values from df
-combined_df$age <- ifelse(combined_df$age == combined_df$age_df, combined_df$age, combined_df$age_df)
+# Define your list of column names
+# list <- c("age", "sex", "jobscope", "act_no", "activity", "duration")
+list <- c("age", "sex", "jobscope", "act_no", "activity")
+list_code <- c("age", "sex", "jobscope")
+list_id <- c("act_no", "activity")
 
-combined_df$sex <- ifelse(combined_df$sex == combined_df$sex_df, combined_df$sex, combined_df$sex_df)
+for (value in list_code) {
+# Step 1
+combined_df[[paste0(value, "_df")]] <- df[[value]][match(combined_df$code, df$code)]
+}
 
-combined_df$jobscope <- ifelse(combined_df$jobscope == combined_df$jobscope_df, combined_df$jobscope, combined_df$jobscope_df)
+for (value in list_id) {
+combined_df[[paste0(value, "_df")]] <- df[[value]][match(combined_df$id, df$id)]
+}
 
-combined_df$duration <- combined_df$duration_df
+# Step 2
+for (value in list){
+  combined_df[[value]] <- ifelse(is.na(combined_df[[paste0(value, "_df")]]) | 
+                                   is.na(match(combined_df$code, df$code)), 
+    combined_df[[value]],                         
+    combined_df[[paste0(value, "_df")]]           
+  )
+}
 
-combined_df_ <- combined_df %>%
-  filter(!is.na(activity_df))
+# LOGIC #####
+# step 1 (simply transfer the values, keep all values from df)
+# combined_df$age_df <- df$age[match(combined_df$code, df$code)]
+# combined_df$act_no_df <- df$act_no[match(combined_df$id, df$id)]
+# combined_df$activity_df <- df$activity[match(combined_df$code, df$id)]
 
-combined_df$act_no <- ifelse(combined_df$act_no == combined_df$act_no_df, combined_df$act_no, combined_df$act_no_df)
+# step 2
+# age <- ifelse
+# - age_df = NA OR 
+# - no match
 
-combined_df$activity <- ifelse(combined_df$activity == combined_df$activity_df, combined_df$activity, combined_df$activity_df)
+# then
+# = age
+# else
+# age_df
+##################
 
+combined_df <- combined_df %>%
+  select(-age_df, -sex_df, -jobscope_df, -act_no_df, -activity_df, -category)
 
 #####
-### category has to be adjusted!!! & check activity and other imports again!!!
-##### 
-combined_df <- combined_df %>% # adjust act_no 29
-  mutate(act_no = ifelse(category == 4, 29, act_no)
-         )
+# Adjustments of data (format, corrections, ...)
+#####
 
-# compare number of cases (which were deleted?!)
+# remove all other activities (29) reporting illness
+# create the dataframe sickness
+df_sickness <- df %>%
+  filter(krank_ == 1) %>%
+  select(id, code, krank_)
+
+combined_df$sickness <- 0
+combined_df$sickness <- df_sickness$krank_[match(combined_df$id, df_sickness$id)]
+
+combined_df <- combined_df %>%
+  filter(is.na(sickness))
+
+# remove additional reportings of sickness and vacation
+# sickness
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "onstige") & 
+           (str_detect(activity, "krank") | str_detect(activity, "Krank") | str_detect(activity, "corona") | str_detect(activity, "Corona")) &
+           id != 20252 & id != 19836  & id != 48289 & id != 28568 & id != 4759))
+
+# vacation
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "urlaub") | str_detect(activity, "Urlaub")))
+
+# school holidays 
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "ferien") | str_detect(activity, "oster") | str_detect(activity, "Oster")  | str_detect(activity, "Ferien") | str_detect(activity, "schulfrei")))
+
+# weekend
+combined_df <- combined_df %>%
+  filter(!str_detect(activity, "ochenende"))
+
+# free day
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "frei") | str_detect(activity, "Freien Tag") | str_detect(activity, "eiertag")))
+
+# commuting between home and school
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "rbeitsweg") | str_detect(activity, "hause") | str_detect(activity, "Hause") | str_detect(activity, "zur Schule") | str_detect(activity, "Anreise") | str_detect(activity, "Heim")))
 
 
+# other invalid entries
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "keine") | str_detect(activity, "Keine") | str_detect(activity, "mQuest") | str_detect(activity, "zeitstudie") | str_detect(activity, ": Hausarbeit") | id == 36469 | id == 49189 | id == 5081 | id == 4356 | id == 5417 | id == 17552))
+
+
+##########
+# correct categories
+##########
+# some of 29 belong to Aufsicht (9)
+combined_df <- combined_df %>% 
+  mutate(
+    act_no = case_when(
+      str_detect(activity, "onstige") & 
+      (str_detect(activity, "lausuraufsicht") | str_detect(activity, "rüfungsaufsicht") | str_detect(activity, "ufsicht Klassenarbeit")) ~ 9,
+      TRUE ~ act_no  # Behalte den Originalwert bei, wenn keine Bedingung zutrifft
+    ),
+    activity = case_when(
+      str_detect(activity, "onstige") & 
+      (str_detect(activity, "lausuraufsicht") | str_detect(activity, "rüfungsaufsicht") | str_detect(activity, "ufsicht Klassenarbeit")) ~ "Aufsicht",
+      TRUE ~ activity  # Behalte den Originalwert bei, wenn keine Bedingung zutrifft
+    )
+  )
+# auch Aufsicht: 35883
+
+
+combined_df <- combined_df %>%
+  mutate(act_no = case_when(str_detect(activity, "onstige Tätigkeit") ~ 29, .default = act_no))
+
+combined_df_test <- combined_df %>%
+  filter(act_no == 29)
+    
 # correct coping
 combined_df$coping <- ifelse(combined_df$stress == 0, 0, combined_df$coping)
 
@@ -316,9 +378,22 @@ combined_df <- combined_df %>% # Before: 1=w, 2=m; NOW: 0=w, 1=m
   mutate(sex = case_match(sex, 1 ~ 0, 2 ~ 1)
          )
 
+# test
+table(combined_df$act_no)
+table(combined_df$act_no)
+table(combined_df$activity [combined_df$act_no != 29])
+table(combined_df$activity[combined_df$act_no == 20])
+table(combined_df$activity[combined_df$act_no == 9])
+
+# compare number of cases (which were deleted?!)
+
+# check other activity (29)
+#combined_df_other <- combined_df %>%
+#  filter(act_no == 29)
 
 
-
+# combined_df <- combined_df %>% # adjust act_no 29
+#  mutate(act_no = ifelse(category == 4, 29, act_no))
 ```
 
 # Results
@@ -327,7 +402,7 @@ combined_df <- combined_df %>% # Before: 1=w, 2=m; NOW: 0=w, 1=m
 
 -   maybe too similar to bwpat article
 -   may cause problems in comparison with bwpat paper (different sample size...)
--   same approach as in bwpat paper: simple comparison of mean values and SDs across the acivities
+-   same approach as in bwpat paper: simple comparison of mean values and SDs across the activities
 -   29 activities?! --\> decision needed!
 
 ```{r filter and prepare data, include=FALSE}
@@ -408,12 +483,18 @@ table(df_rq2_$cat)
 
 ```
 
-```{r, adding additional codes manually, eval=FALSE}
+```{r, adding additional codes manually, echo=FALSE}
+# df_rq2_ <- df_rq2_ %>%
+#  mutate(cat = ifelse(!is.na(cat), cat, 
+#    case_when(str_detect(learn_descr, "Keine") == TRUE ~ "Nichts"
+#              )))
+
 df_rq2_ <- df_rq2_ %>%
-  mutate(cat = ifelse(!is.na(cat), cat, 
-    case_when(str_detect(learn_descr, "Keine") == TRUE ~ "Nichts"
-  
-)))
+  mutate(cat = case_when(
+    !is.na(cat) ~ cat,  # Wenn `cat` nicht NA ist, behalte den ursprünglichen Wert
+    str_detect(learn_descr, "Keine") ~ "Nichts"  # Setze "Nichts" wenn "Keine" in `learn_descr` gefunden wird
+  ))
+
 
 summary(str_detect(df_rq2_$learn_descr, "Keine") == TRUE)
 
@@ -434,15 +515,15 @@ df_rq2_test <- df_rq2_ %>%
 
 ```
 
-```{r cross table: lo x act, eval=FALSE}
-
+```{r cross table: lo x act, echo=FALSE}
 crosstable(df_rq2_, c(activity, cat)) %>%
   as_flextable(keep_id=TRUE)
 
 df_rq2_test_ <- df_rq2_ %>%
   filter(!is.na(cat))
 
-rq2_crosstable <- as.data.frame(table(df_rq2_test_$act_no, df_rq2_test_$learning_outcome))
+rq2_crosstable <- as.data.frame(table(df_rq2_test_$act_no, 
+                                      df_rq2_test_$cat))
 print(rq2_crosstable)
 
 
@@ -468,7 +549,7 @@ print(crosstable)
 ```
 
 
-## RQ3: Prediction Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)
+## RQ3: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)
 
 -   interaction effect
 
@@ -584,3 +665,32 @@ The anonymized data are available on Mendeley Data (<https://www.elsevier.com/re
 \newpage
 
 # Appendix
+
+## Possible Journals {.unnumbered}
+
+Teaching and Teacher Education (IF: 4.0),\
+[https://doi.org/10.1016/S0742-051X(02)00101-4](https://doi.org/10.1016/S0742-051X(02)00101-4 "Persistent link using digital object identifier") was also published here
+
+Regelungen/Hinweise:
+
+-   Abstract: 100 words, 3 - 6 keywords
+
+-   Report: 5.000-9.000 words
+
+Ansonsten:
+
+-   Human Resource Development International (IF: 3.8)
+
+    -   <https://doi.org/10.1080/13678860010004123> was also published here
+
+-   Journal of Workplace Learning (IF: )
+
+-   Vocations and Learning (IF: 1.9)
+
+-   Learning Environments Research (IF: 2.7)
+
+-   Technology, Knowledge and Learning (IF: 3.0) - not that fitting...
+
+-   Empirical Research in Vocational Education and Training (IF: 1.6)
+
+-   Learning and Instruction (IF: 4.7) - not that fitting...

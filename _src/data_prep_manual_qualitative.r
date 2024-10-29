@@ -189,3 +189,9 @@ df <- df %>%
 # end time 
 df <- df %>%
   mutate(end_time = format(as.POSIXct(`end_date+time`, format = "%Y-%m-%d %H:%M"), "%H:%M"))
+
+
+
+# prepare variable names in df
+df <- df %>%
+  rename(sex = gender, act_no = task, activity = task_name)
