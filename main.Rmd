@@ -213,7 +213,7 @@ pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
                modelsummary, performance, stats, lmerTest, ggplot2, corrr,
                parameters, car, psych, jtools, grateful, blockTools,
                robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
-               sjPlot, devtools, rmdwc, fastDummies, crosstable) 
+               sjPlot, devtools, rmdwc, fastDummies, crosstable, fuzzyjoin) 
 
 # install.packages("robustlmm", dependencies = TRUE)
 # install.packages("broom.mixed", dependencies = TRUE)
@@ -231,6 +231,12 @@ jobscope <- read.csv2("_data/jobscope.csv", na = "?")
 jobscope_correction <- read.csv2("_data/jobscope_v3.csv")
 # learning outcome framework
 lo_categorization <- read.csv2("_data/lo_categorization.csv")
+lo_categorization <- lo_categorization %>%
+  select(-pc_learn)
+
+lo_categorization_unique <- lo_categorization %>%
+  distinct(, .keep_all = TRUE)
+
 
 ```
 
@@ -369,6 +375,9 @@ combined_df <- combined_df %>%
 
 combined_df_test <- combined_df %>%
   filter(act_no == 29)
+
+combined_df_test <- combined_df %>%
+  filter(act_no == 9)
     
 # correct coping
 combined_df$coping <- ifelse(combined_df$stress == 0, 0, combined_df$coping)
@@ -379,8 +388,8 @@ combined_df <- combined_df %>% # Before: 1=w, 2=m; NOW: 0=w, 1=m
          )
 
 # test
-table(combined_df$act_no)
-table(combined_df$act_no)
+table(combined_df$activity)
+table(combined_df$activity [combined_df$act_no == 9])
 table(combined_df$activity [combined_df$act_no != 29])
 table(combined_df$activity[combined_df$act_no == 20])
 table(combined_df$activity[combined_df$act_no == 9])
@@ -394,6 +403,12 @@ table(combined_df$activity[combined_df$act_no == 9])
 
 # combined_df <- combined_df %>% # adjust act_no 29
 #  mutate(act_no = ifelse(category == 4, 29, act_no))
+
+
+# insert English activity names
+
+
+
 ```
 
 # Results
@@ -413,7 +428,7 @@ df_rq1 <- combined_df
 
 ```
 
-```{r rq1 analysis}
+```{r rq1 analysis, include=FALSE}
 # make sure coping is given only for stress above 0 and never -1
 # something like this...
 # df_rq3_coping <- df_rq3 %>%
@@ -460,7 +475,7 @@ df_rq2 <- combined_df # %>%
 # no information as a result
 ```
 
-```{r descriptive statistics}
+```{r descriptive statistics, include=FALSE}
 # PC_LEARN
 # mean, sd, median of learning 
 
@@ -469,21 +484,17 @@ df_rq2 <- combined_df # %>%
 
 ```
 
-```{r adding the categorization}
-df_rq2_ <- df_rq2
-
-# compare with coding (contains only unique values)
-df_rq2_ <- df_rq2 %>%
-  left_join(lo_categorization, by = join_by(learn_descr == learning_outcome))
-  
-df_rq2_ <- df_rq2_ %>%
-  mutate(cat = tolower(cat))
-df_rq2_$cat <- as.factor(df_rq2_$cat)
-table(df_rq2_$cat)
+```{r adding the categorization with fuzzy join (approximative matching), echo=FALSE}
+# Fuzzy Join auf den bereinigten Spalten durchführen
+df_rq2_ <- stringdist_join(df_rq2, lo_categorization,
+                          by = c("learn_descr" = "learning_outcome"),
+                          mode = "left",
+                          method = "jw", # Jaro-Winkler für "fast identische" Strings
+                          max_dist = 0.01) # Max. Distanz-Wert anpassen für gute Ergebnisse
 
 ```
 
-```{r, adding additional codes manually, echo=FALSE}
+```{r adding additional codes manually, include=FALSE, eval=FALSE}
 # df_rq2_ <- df_rq2_ %>%
 #  mutate(cat = ifelse(!is.na(cat), cat, 
 #    case_when(str_detect(learn_descr, "Keine") == TRUE ~ "Nichts"
@@ -512,41 +523,34 @@ df_rq2_test <- df_rq2_test %>%
 
 df_rq2_test <- df_rq2_ %>%
   filter(learn_descr == "keine")
+```
+
+```{r prepare the data, include=FALSE}
+# put the data into the long format
+df_long <- df_rq2_ %>%
+  pivot_longer(cols = c(cat_1, cat_2),
+               names_to = "category_type", 
+               values_to = "category")
+
+df_long <- df_long %>%
+  filter(!is.na(category) & category != "")
+
+# counting the occurrence for every activity and each category
+table_rq2 <- df_long %>%
+  group_by(act_no, category) %>%
+  summarize(count = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = category, values_from = count, values_fill = 0)
 
 ```
 
-```{r cross table: lo x act, echo=FALSE}
-crosstable(df_rq2_, c(activity, cat)) %>%
-  as_flextable(keep_id=TRUE)
-
-df_rq2_test_ <- df_rq2_ %>%
-  filter(!is.na(cat))
-
-rq2_crosstable <- as.data.frame(table(df_rq2_test_$act_no, 
-                                      df_rq2_test_$cat))
-print(rq2_crosstable)
-
-
-crosstable <- df_rq2_test_ %>%
-  count(activity, cat) %>%
-  spread(cat, n, fill = 0) # Spread the results into a wide format
-
-crosstable_ <- crosstable %>%
-  group_by(activity) %>%
-  mutate(`bewusstsein der bedeutung von gelassenheit_sum`=sum(`bewusstsein der bedeutung von gelassenheit`))
-  
-
-crosstable_ <- df_rq2_test_ %>%
-  count(activity, cat) %>%
-  spread(cat, n, fill = 0) %>% # Spread 'cat' columns and values
-  group_by(activity) %>%
-  mutate(across(starts_with("bewusstsein"), sum, .names = "{.col}_sum"))
-
-### Final Table is not correct!!!
-
-print(crosstable)
-
+```{r rq2 kable, echo=FALSE}
+table_rq2 %>%
+  kable(
+    caption = "Learning Categories across Vocational Teachers' Daily Work Activities (RQ2)"
+  )
 ```
+
+
 
 
 ## RQ3: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)
