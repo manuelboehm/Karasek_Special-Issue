@@ -237,6 +237,11 @@ lo_categorization <- lo_categorization %>%
 lo_categorization_unique <- lo_categorization %>%
   distinct(, .keep_all = TRUE)
 
+# parent categories for lo_framework
+lo_framework <- read.csv2("_archive/framework_learning_outcomes.csv")
+
+lo_framework <- lo_framework %>%
+  mutate(across(everything(), tolower))
 
 ```
 
@@ -517,7 +522,7 @@ df_rq2 <- df_rq2_ %>%
                   str_detect(learn_descr, paste0(
                   "^(\\s*ja\\s*|",
                     "\\s*s. oben\\s*)$"
-                    )) ~ "other", 
+                    )) ~ "sonstiges", 
                   TRUE ~ cat_1
                 ), cat_1))
 
@@ -597,6 +602,63 @@ rm(table_rq2a_)
 rm(table_rq2a_with_totals)
 rm(total_row)
 ```
+
+```{r qr2a1 kable, echo=FALSE}
+# table_rq2a but only Total for each category
+table_rq2a_total <- table_rq2a %>%
+  filter(act_no == "Total")
+
+table_rq2a_total %>%
+  kable(
+    caption = "Outcomes of Vocational Teachers' Daily Work Activities (RQ2)"
+  )
+
+```
+
+```{r rq2a2 kable, echo=FALSE}
+# table_rq2a but only Total for each category
+table_rq2a_ <- table_rq2a %>%
+  filter(act_no == "Total")
+
+# transpose df table_rq2a
+table_rq2a_trans <- as.data.frame(t(table_rq2a_))
+table_rq2a_trans_ <- table_rq2a_trans %>%
+  filter(V1 != "Total", 
+         V1 != "sum")
+                                  
+# import parent category from df_framework
+# table_rq2a_test <- table_rq2a %>%
+#   mutate(X1 = match(X1, lo_framework_trans$V1))
+
+```
+
+
+```{r}
+# Step 1: Join table_rq2a with lo_framework to get parent categories
+# We assume the categories in table_rq2a are in a column named `category` (replace it with the actual name).
+category_totals <- table_rq2a_ %>%
+  filter(act_no == "Total") %>%  # Filter for the total row
+  select(-act_no, -sum) %>%  # Remove the 'Total' identifier
+  pivot_longer(everything(), names_to = "category", values_to = "total") %>%
+  left_join(lo_framework %>% select(X5), by = c("category" = "X5"))  # Join to find parent categories
+
+# Trim whitespace and then perform the match
+category_totals$parent_cat <- lo_framework$X1_en[match(trimws(category_totals$category), trimws(lo_framework$X5))]
+
+#####
+# Step 2: Aggregate totals by parent category
+parent_category_totals <- category_totals %>%
+  group_by(parent_cat) %>%
+  summarise(total = sum(total, na.rm = TRUE))
+
+# Step 3: Construct the new table with parent categories
+new_table <- parent_category_totals %>%
+  mutate(act_no = "Total") %>%
+  select(act_no, parent_cat, total) %>%
+  pivot_wider(names_from = parent_cat, values_from = total, values_fill = list(total = 0))  # Create the wide format
+
+```
+
 
 ### RQ 2b: Learning Outcomes across Vocational Teachers' Daily Work Activities
 
