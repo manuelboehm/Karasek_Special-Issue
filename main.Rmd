@@ -633,7 +633,7 @@ table_rq2a_trans_ <- table_rq2a_trans %>%
 ```
 
 
-```{r}
+```{r parent_cat}
 # Step 1: Join table_rq2a with lo_framework to get parent categories
 # We assume the categories in table_rq2a are in a column named `category` (replace it with the actual name).
 category_totals <- table_rq2a_ %>%
@@ -654,15 +654,65 @@ parent_category_totals <- category_totals %>%
 # Step 3: Construct the new table with parent categories
 new_table <- parent_category_totals %>%
   mutate(act_no = "Total") %>%
-  select(act_no, parent_cat, total) %>%
+  select(act_no, parent_cat, total) %s>%
   pivot_wider(names_from = parent_cat, values_from = total, values_fill = list(total = 0))  # Create the wide format
 
 ```
 
-
 ### RQ 2b: Learning Outcomes across Vocational Teachers' Daily Work Activities
 
+```{r}
+# only consider learning outcomes specified (no "nothing", no "learning outcome not specified")
+
+# put the data into the long format
+df_long <- df_rq2 %>%
+  pivot_longer(cols = c(cat_1, cat_2),
+               names_to = "category_type", 
+               values_to = "category")
+
+df_long <- df_long %>%
+  filter(!is.na(category) & category != "")
+
+# counting the occurrence for every activity and each category
+table_rq2b <- df_long %>%
+  group_by(act_no, category) %>%
+  summarize(count = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = category, values_from = count, values_fill = 0)
+
+table_rq2b <- table_rq2b %>%
+  select(-`keine angabe`, -nichts, -`vermutliche falscheingabe` )
+
+# sum of the rows (for each activity)
+table_rq2b_ <- table_rq2b %>%
+  mutate(act_no = as.character(act_no)) %>%
+  mutate(sum = rowSums(select(., -act_no)))
+
+# sum of the columns (for each category)
+#####
+
+# Calculate column sums for each learning outcome category
+column_sums <- colSums(select(table_rq2b_, -act_no, -sum), na.rm = TRUE)
+
+# Create a tibble for the totals row
+total_row <- tibble(
+  act_no = "Total",
+  !!!column_sums  # Using the `!!!` operator to spread the sums into columns
+)
+
+# Bind the totals row to the original table
+table_rq2b_ <- table_rq2b_ %>%
+  bind_rows(total_row)
+
+table_rq2b <- table_rq2b_
+rm(table_rq2b_)
+# rm(table_rq2b_with_totals)
+rm(total_row)
+
+```
+
+
 ```{r prepare the data, include=FALSE}
+table_rq2b 
 
 
 ```
