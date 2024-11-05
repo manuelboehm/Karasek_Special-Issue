@@ -450,7 +450,6 @@ rq1_stress_coping_learn <- df_rq1 %>%
             learn_sd = sd(pc_learn), 
             learn_md = median(pc_learn)
             )
-
 ```
 
 ```{r, rq1 kable table, echo=FALSE}
@@ -468,66 +467,97 @@ kable(# digits = c(1,2,2,2,2,2,2,2,2,2)
 ```{r, include=FALSE}
 df_rq2 <- combined_df # %>%
 #  filter(learn_descr != "") # | other_descr != "")
-
 # no filter for learning (all values between 0 and 7)
-
-
-# no information as a result
 ```
 
-```{r descriptive statistics, include=FALSE}
-# PC_LEARN
-# mean, sd, median of learning 
-
-# LEARN FREETEXT FIELDS
-#
-
-```
+### RQ 2a: Categorization of Outcomes of Vocational Teachers' Daily Work Activities
 
 ```{r adding the categorization with fuzzy join (approximative matching), echo=FALSE}
-# Fuzzy Join auf den bereinigten Spalten durchführen
+# conduct Fuzzy joint on the cleaned columns
 df_rq2_ <- stringdist_join(df_rq2, lo_categorization,
                           by = c("learn_descr" = "learning_outcome"),
                           mode = "left",
-                          method = "jw", # Jaro-Winkler für "fast identische" Strings
-                          max_dist = 0.01) # Max. Distanz-Wert anpassen für gute Ergebnisse
-
+                          method = "jw",
+                          # Jaro-Winkler for "almost identical" strings
+                          max_dist = 0.01) # adjust max. distance value for good results
 ```
 
-```{r adding additional codes manually, include=FALSE, eval=FALSE}
-# df_rq2_ <- df_rq2_ %>%
-#  mutate(cat = ifelse(!is.na(cat), cat, 
-#    case_when(str_detect(learn_descr, "Keine") == TRUE ~ "Nichts"
-#              )))
+```{r add categories manually, include=FALSE}
+# convert learn_descr to lower letters
+df_rq2_$learn_descr <- tolower(df_rq2_$learn_descr)
+df_rq2_$cat_1 <- tolower(df_rq2_$cat_1)
+df_rq2_$cat_2 <- tolower(df_rq2_$cat_2)
 
-df_rq2_ <- df_rq2_ %>%
-  mutate(cat = case_when(
-    !is.na(cat) ~ cat,  # Wenn `cat` nicht NA ist, behalte den ursprünglichen Wert
-    str_detect(learn_descr, "Keine") ~ "Nichts"  # Setze "Nichts" wenn "Keine" in `learn_descr` gefunden wird
-  ))
+df_rq2 <- df_rq2_ %>%
+  mutate(cat_1 = ifelse(is.na(cat_1), 
+                case_when(
+                  # Matches cases with only "keine", "nein", "-", ".", whitespace, or an empty string
+                  str_detect(learn_descr, paste0(
+                    "^(\\s*-\\s*|",
+                    "\\s*—\\s*|",
+                    "\\s*\\.\\s*|",
+                    "\\s*|",
+                    "\\s*das\\s*|",
+                    "\\s*ferien\\s*|",
+                    "\\s*./.\\s*|",
+                    "\\s*jjj\\s*|",
+                    "\\s*ä\\s*|",
+                    "\\s*ü\\s*|",
+                    "\\s*x\\s*|)$"
+                    )) ~ "keine angabe",
+                  str_detect(learn_descr, paste0(
+                    "^(\\s*keine\\s*|",
+                    "\\s*nein\\s*|",
+                    "\\s*keine.\\s*|",
+                    "\\s*kein\\s*|",
+                    "\\s*keinr\\s*|",
+                    "\\s*kekeine\\s*|",
+                    "\\s*0\\s*)$"
+                    )) ~ "nichts", 
+                  str_detect(learn_descr, paste0(
+                  "^(\\s*ja\\s*|",
+                    "\\s*s. oben\\s*)$"
+                    )) ~ "other", 
+                  TRUE ~ cat_1
+                ), cat_1))
 
+# only consider rows with assigned cat_1
+df_rq2 <- df_rq2 %>%
+  filter(!(is.na(cat_1)))
+```
 
-summary(str_detect(df_rq2_$learn_descr, "Keine") == TRUE)
+```{r check filtering and which data is included, include=FALSE, eval=FALSE}
+# check which values are not matched
+df_rq2_test <- df_rq2 %>%
+  filter(is.na(cat_1))
 
-summary(is.na(df_rq2_$cat))
+# only consider the values that are matched in df_rq2
+df_rq2_test <- df_rq2 %>%
+  filter(!is.na(cat_1))
 
-df_rq2_test <- df_rq2_ %>%
-  filter(is.na(cat))
+# without "keine angabe", "nichts", "other" and is.na
+df_rq2_test <- df_rq2 %>%
+  filter(!is.na(cat_1)
+         & str_detect(cat_1, "keine angabe", negate = TRUE)
+         & str_detect(cat_1, "nichts", negate = TRUE) 
+         & str_detect(cat_1, "other", negate = TRUE))
 
-df_rq2_test <- df_rq2_ %>%
-  filter(is.na(cat), 
-         str_detect(learn_descr, "keine"))
+# only "keine angabe", "nichts", "other" and is.na
+df_rq2_test <- df_rq2 %>%
+  filter(!is.na(cat_1) & 
+         ( str_detect(cat_1, "keine angabe")
+         | str_detect(cat_1, "nichts")))
 
-df_rq2_test <- df_rq2_test %>% 
-  filter(str_detect(learn_descr, "keine "))
+# df_rq2_ <- df_rq2_
+```
 
-df_rq2_test <- df_rq2_ %>%
-  filter(learn_descr == "keine")
+```{r import english names, include=FALSE, eval=FALSE}
+# later after submission!
 ```
 
 ```{r prepare the data, include=FALSE}
 # put the data into the long format
-df_long <- df_rq2_ %>%
+df_long <- df_rq2 %>%
   pivot_longer(cols = c(cat_1, cat_2),
                names_to = "category_type", 
                values_to = "category")
@@ -536,21 +566,51 @@ df_long <- df_long %>%
   filter(!is.na(category) & category != "")
 
 # counting the occurrence for every activity and each category
-table_rq2 <- df_long %>%
+table_rq2a <- df_long %>%
   group_by(act_no, category) %>%
   summarize(count = n(), .groups = 'drop') %>%
   pivot_wider(names_from = category, values_from = count, values_fill = 0)
 
+# sum of the rows (for each activity)
+table_rq2a_ <- table_rq2a %>%
+  mutate(act_no = as.character(act_no)) %>%
+  mutate(sum = rowSums(select(., -act_no)))
+
+# sum of the columns (for each category)
+#####
+
+# Calculate column sums for each learning outcome category
+column_sums <- colSums(select(table_rq2a_, -act_no, -sum), na.rm = TRUE)
+
+# Create a tibble for the totals row
+total_row <- tibble(
+  act_no = "Total",
+  !!!column_sums  # Using the `!!!` operator to spread the sums into columns
+)
+
+# Bind the totals row to the original table
+table_rq2a_ <- table_rq2a_ %>%
+  bind_rows(total_row)
+
+table_rq2a <- table_rq2a_
+rm(table_rq2a_)
+rm(table_rq2a_with_totals)
+rm(total_row)
+```
+
+### RQ 2b: Learning Outcomes across Vocational Teachers' Daily Work Activities
+
+```{r prepare the data, include=FALSE}
+
+
 ```
 
 ```{r rq2 kable, echo=FALSE}
-table_rq2 %>%
+table_rq2b %>%
   kable(
     caption = "Learning Categories across Vocational Teachers' Daily Work Activities (RQ2)"
   )
 ```
-
-
 
 
 ## RQ3: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Daily Work Activities (as stated in Karasek's Learning Hypothesis)
