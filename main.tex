@@ -141,7 +141,7 @@
 \title{Investigating Vocational Teachers' Informal Workplace Learning
 Using Experience Sampling}
 \author{Manuel Böhm}
-\date{2024-10-30}
+\date{2025-02-12}
 
 \begin{document}
 \maketitle
@@ -176,6 +176,21 @@ experience sampling, multilevel modelling
 \newpage
 
 \section{Introduction}\label{introduction}
+
+{[}Schools as learning venues for teachers in the sense of workplace
+learning{]} While schools are learning venues for teachers, they also
+are teachers' workplaces
+(\url{https://www.tandfonline.com/doi/epdf/10.1080/0158037X.2024.2314128?needAccess=true})
+and therefore serve as context for teachers' workplace learning
+(Billett, 2001; workplace affordances, \ldots).
+
+{[}highlighted under todays' current conditions{]}
+
+{[}Importance and relevance of professional learning{]}
+
+{[}Comparison informal and formal workplace learning{]}
+
+Professional learning is
 
 According to Rausch
 (\citeproc{ref-rauschUsingDiariesResearch2014}{2014}), \ldots{}
@@ -216,23 +231,28 @@ According to Rausch
   \end{itemize}
 \end{itemize}
 
-Thus, the following research questions will be tackled in this paper:
+In @Böhm et al. (\citeproc{ref-boehmWorkingHoursWork2024}{2024}),
+results from the study were described with a focus on teachers' working
+hours and the distribution of working hours between different tasks.
+Building on this article, this paper will focus on teachers' workplace
+learning. Thus, the following research questions will be tackled:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
   RQ (Stress, coping and learning across activities, control for age,
-  sex, jobscope + data from the FBS) - MLM
+  sex, jobscope + data from the questionnaire study) - MLM
 
   Which of teachers' daily work activities are perceived as (a) the most
   stressful and (b) with which of the stressful activities could the
   teachers cope the best? (c) Which of teachers' daily activities are
   perceived as the most conducive to learning?
 \item
-  {[}Desription of the Learning (freetext fields, qualitative
+  {[}Description of the Learning (freetext fields, qualitative
   analysis){]}
 \item
-  RQ (Karasek, control for age, sex, jobscope + data from the FBS) - MLM
+  RQ (Karasek, control for age, sex, jobscope + data from the
+  questionnaire study) - MLM
 
   Do stress and coping predict informal learning in teachers' daily work
   activities, as stated in Karasek's learning hypothesis?
@@ -524,12 +544,13 @@ Performanzebene
 \subsection{Data Analysis (still from
 bwpat)}\label{data-analysis-still-from-bwpat}
 
-Descriptive statistics were calculated to address RQ1 to RQ3. Regarding
-RQ4, a multiple linear regression analysis was conducted to investigate
-the statistical prediction of job satisfaction based on working hours,
-management function, stress, coping, and learning. Interaction terms
-were checked. However, moderators showed no significant effects, so no
-interactions were included in the final analysis.
+Descriptive statistics were calculated to address RQ1 and RQ2. Regarding
+RQ3, a multiple level model was calculated to investigate the
+statistical prediction of vocational teachers' informal learning based
+on their stress and coping during their daily work activities, following
+Karasek's learning hypothesis. \emph{Interaction terms were checked.
+However, moderators showed no significant effects, so no interactions
+were included in the final analysis.}
 
 \section{Results}\label{results}
 
@@ -539,29 +560,28 @@ Activities}\label{rq1-stress-coping-and-learning-during-teachers-daily-work-acti
 \begin{itemize}
 \tightlist
 \item
-  maybe too similar to bwpat article
-\item
-  may cause problems in comparison with bwpat paper (different sample
-  size\ldots)
-\item
   same approach as in bwpat paper: simple comparison of mean values and
   SDs across the activities
 \item
-  29 activities?! --\textgreater{} decision needed!
+  numbers differ from results in bwpat article because of different
+  sample size
+\item
+  29 activities?! --\textgreater{} decision needed! or 12 activities?!
 \end{itemize}
 
-\begin{verbatim}
-## Warning: There was 1 warning in `mutate()`.
-## i In argument: `across(...)`.
-## Caused by warning:
-## ! Use of bare predicate functions was deprecated in tidyselect 1.1.0.
-## i Please use wrap predicates in `where()` instead.
-##   # Was:
-##   data %>% select(is.numeric)
-## 
-##   # Now:
-##   data %>% select(where(is.numeric))
-\end{verbatim}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{lccc}
+\caption{\label{tab:rq1 correlations kable table}Correlations between Stress, Coping and Learning during Teachers' Daily Work Activities}\\
+\toprule
+Term & Stress & Coping & Learning\\
+\midrule
+Stress & NA & 0.5064154 & 0.2586342\\
+Coping & 0.5064154 & NA & 0.2284519\\
+Learning & 0.2586342 & 0.2284519 & NA\\
+\bottomrule
+\end{longtable}
+\endgroup{}
 
 \begingroup\fontsize{9}{11}\selectfont
 
@@ -613,227 +633,400 @@ Activities}\label{rq1-stress-coping-and-learning-during-teachers-daily-work-acti
 \subsection{RQ2: Description of the Learning During Teachers' Daily Work
 Activities}\label{rq2-description-of-the-learning-during-teachers-daily-work-activities}
 
+\subsubsection{RQ 2a: Categorization of Outcomes of Vocational Teachers'
+Daily Work
+Activities}\label{rq-2a-categorization-of-outcomes-of-vocational-teachers-daily-work-activities}
+
 \begin{longtable}[]{@{}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0084}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0517}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0529}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0818}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0277}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0229}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0361}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0361}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0361}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0325}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0156}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0445}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0457}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0385}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0205}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0349}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0132}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0084}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0505}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0433}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0253}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0120}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0313}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0229}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0156}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0554}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0313}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0433}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0289}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 58\tabcolsep) * \real{0.0325}}@{}}
-\caption{Learning Categories across Vocational Teachers' Daily Work
-Activities (RQ2)}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0086}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0530}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0837}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0542}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0283}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0234}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0369}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0369}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0369}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0333}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0160}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0456}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0468}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0394}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0209}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0160}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0357}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0135}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0086}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0517}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0443}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0259}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0123}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0320}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0234}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0160}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0567}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0320}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0296}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0333}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 60\tabcolsep) * \real{0.0049}}@{}}
+\caption{Outcomes of Vocational Teachers' Daily Work Activities
+(RQ2)}\tabularnewline
 \toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedleft
+\begin{minipage}[b]{\linewidth}\raggedright
 act\_no
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Gelassenheit
+bewusstsein der bedeutung von gelassenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Konzentration
+bewusstsein der bedeutung von gewissenhaftem, sorgfältigen arbeiten
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von gewissenhaftem, sorgfältigen Arbeiten
+bewusstsein der bedeutung von konzentration
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Emotionale Erschöpfung
+emotionale erschöpfung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Emotionsregulation
+emotionsregulation
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Festigung der eigenen Routine
+festigung der eigenen routine
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Festigung von Kernkompetenzen
+festigung von kernkompetenzen
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Fähigkeit zur Selbstreflexion
+fähigkeit zur selbstreflexion
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gegenseitige Unterstützung
+gegenseitige unterstützung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gelassenheit
+gelassenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gemeinsame Planung und Problemlösung
+gemeinsame planung und problemlösung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gewissenhaftes, sorgfältiges Arbeiten
+gewissenhaftes, sorgfältiges arbeiten
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Jobunzufriedenheit/Frustration
+jobunzufriedenheit/frustration
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Jobzufriedenheit
+jobzufriedenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Lernen neuer Arbeitsmethoden
+keine angabe
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Motivation
+lernen neuer arbeitsmethoden
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Nichts
+motivation
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Pausenbewusstsein und Ressourcenschonung
+nichts
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Positive Einstellung zur Teamarbeit
+pausenbewusstsein und ressourcenschonung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Situationsdiagnostik
+positive einstellung zur teamarbeit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Sonstiges
+situationsdiagnostik
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Vermutliche Falscheingabe
+sonstiges
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Wissenserweiterung
+vermutliche falscheingabe
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Effektivität
+wissenserweiterung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Selbstreflexion
+effektivität
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Psychologische Sicherheit
+bewusstsein der bedeutung von selbstreflexion
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-positive Einstellung zur Teamarbeit
+psychologische sicherheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Reduzierung von Fehlern
+reduzierung von fehlern
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Effektivität auf Teamebene
+effektivität auf teamebene
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sum
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedleft
+\begin{minipage}[b]{\linewidth}\raggedright
 act\_no
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Gelassenheit
+bewusstsein der bedeutung von gelassenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Konzentration
+bewusstsein der bedeutung von gewissenhaftem, sorgfältigen arbeiten
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von gewissenhaftem, sorgfältigen Arbeiten
+bewusstsein der bedeutung von konzentration
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Emotionale Erschöpfung
+emotionale erschöpfung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Emotionsregulation
+emotionsregulation
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Festigung der eigenen Routine
+festigung der eigenen routine
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Festigung von Kernkompetenzen
+festigung von kernkompetenzen
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Fähigkeit zur Selbstreflexion
+fähigkeit zur selbstreflexion
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gegenseitige Unterstützung
+gegenseitige unterstützung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gelassenheit
+gelassenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gemeinsame Planung und Problemlösung
+gemeinsame planung und problemlösung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Gewissenhaftes, sorgfältiges Arbeiten
+gewissenhaftes, sorgfältiges arbeiten
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Jobunzufriedenheit/Frustration
+jobunzufriedenheit/frustration
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Jobzufriedenheit
+jobzufriedenheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Lernen neuer Arbeitsmethoden
+keine angabe
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Motivation
+lernen neuer arbeitsmethoden
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Nichts
+motivation
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Pausenbewusstsein und Ressourcenschonung
+nichts
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Positive Einstellung zur Teamarbeit
+pausenbewusstsein und ressourcenschonung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Situationsdiagnostik
+positive einstellung zur teamarbeit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Sonstiges
+situationsdiagnostik
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Vermutliche Falscheingabe
+sonstiges
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Wissenserweiterung
+vermutliche falscheingabe
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Effektivität
+wissenserweiterung
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Bewusstsein der Bedeutung von Selbstreflexion
+effektivität
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Psychologische Sicherheit
+bewusstsein der bedeutung von selbstreflexion
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-positive Einstellung zur Teamarbeit
+psychologische sicherheit
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Reduzierung von Fehlern
+reduzierung von fehlern
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Effektivität auf Teamebene
+effektivität auf teamebene
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sum
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-1 & 4 & 1 & 11 & 5 & 2 & 1 & 22 & 20 & 1 & 9 & 1 & 10 & 2 & 5 & 8 & 2 &
-314 & 2 & 8 & 288 & 4 & 1 & 51 & 0 & 0 & 0 & 0 & 0 & 0 \\
-2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 21 &
-0 & 0 & 9 & 1 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
-3 & 1 & 1 & 18 & 3 & 0 & 4 & 22 & 18 & 1 & 2 & 0 & 17 & 5 & 1 & 6 & 0 &
-397 & 3 & 4 & 141 & 3 & 9 & 138 & 2 & 0 & 0 & 0 & 0 & 0 \\
-4 & 0 & 0 & 8 & 1 & 0 & 0 & 6 & 3 & 0 & 0 & 0 & 2 & 2 & 0 & 0 & 0 & 100
-& 0 & 2 & 24 & 1 & 1 & 12 & 0 & 0 & 0 & 0 & 0 & 0 \\
-5 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 4 & 0 & 0 & 0 & 4 & 0 & 1 & 1 & 0 & 83 &
-0 & 2 & 48 & 2 & 0 & 15 & 0 & 0 & 0 & 0 & 0 & 0 \\
-6 & 0 & 1 & 6 & 0 & 0 & 0 & 7 & 10 & 4 & 3 & 5 & 2 & 0 & 0 & 4 & 0 & 243
-& 4 & 29 & 63 & 5 & 1 & 75 & 0 & 2 & 6 & 0 & 0 & 0 \\
-7 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 44 &
-0 & 7 & 12 & 1 & 1 & 18 & 0 & 0 & 0 & 1 & 0 & 0 \\
-8 & 0 & 1 & 12 & 1 & 0 & 2 & 2 & 3 & 0 & 0 & 0 & 13 & 1 & 0 & 0 & 0 & 99
-& 0 & 1 & 12 & 0 & 2 & 18 & 0 & 0 & 0 & 0 & 0 & 0 \\
-9 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 28 &
-0 & 0 & 5 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 \\
-10 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 78
-& 13 & 2 & 9 & 0 & 1 & 5 & 0 & 0 & 0 & 0 & 0 & 0 \\
-11 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 16
-& 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-12 & 0 & 1 & 0 & 0 & 0 & 0 & 9 & 4 & 0 & 2 & 0 & 0 & 0 & 0 & 4 & 0 & 50
-& 0 & 5 & 21 & 5 & 0 & 57 & 0 & 0 & 0 & 0 & 0 & 0 \\
-13 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 2 & 0 & 0 & 2 & 0 & 0 & 0 & 1 & 0 & 30
-& 0 & 0 & 7 & 0 & 0 & 60 & 0 & 0 & 0 & 0 & 0 & 0 \\
-14 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 32
-& 0 & 2 & 4 & 1 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
-15 & 0 & 0 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 30
-& 0 & 0 & 2 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 \\
-16 & 0 & 0 & 1 & 0 & 1 & 0 & 11 & 2 & 0 & 0 & 1 & 2 & 1 & 0 & 0 & 0 & 49
-& 0 & 14 & 5 & 0 & 1 & 25 & 0 & 0 & 1 & 0 & 0 & 0 \\
-17 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 20
-& 0 & 1 & 7 & 0 & 0 & 17 & 0 & 0 & 0 & 0 & 0 & 0 \\
-18 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 3 & 1 & 1 & 0 & 0 & 0 & 37
-& 1 & 4 & 9 & 1 & 1 & 16 & 0 & 1 & 1 & 0 & 1 & 0 \\
-19 & 0 & 2 & 3 & 0 & 0 & 0 & 5 & 3 & 1 & 0 & 2 & 1 & 4 & 1 & 0 & 0 & 111
-& 0 & 5 & 37 & 3 & 0 & 28 & 0 & 0 & 0 & 0 & 0 & 0 \\
-20 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 &
-0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-21 & 0 & 1 & 3 & 0 & 1 & 0 & 8 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 2 & 0 & 70
-& 1 & 7 & 31 & 1 & 1 & 29 & 0 & 1 & 0 & 0 & 0 & 0 \\
-22 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 3 & 1 & 1 & 1 & 0 & 0 & 45
-& 0 & 5 & 9 & 0 & 0 & 6 & 0 & 1 & 0 & 0 & 0 & 1 \\
-23 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 23
-& 0 & 1 & 5 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
-24 & 0 & 1 & 2 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 2 & 0 & 0 & 0 & 0 & 31
-& 0 & 1 & 7 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
-25 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 2 & 0 & 0 & 1 & 2 & 1 & 0 & 0 & 0 & 45
-& 0 & 3 & 13 & 2 & 0 & 9 & 0 & 1 & 0 & 0 & 0 & 0 \\
-26 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 32
-& 0 & 1 & 15 & 0 & 0 & 10 & 0 & 0 & 0 & 0 & 0 & 0 \\
-27 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 8 &
-0 & 1 & 3 & 1 & 1 & 2 & 0 & 0 & 0 & 0 & 0 & 0 \\
-28 & 0 & 0 & 2 & 0 & 0 & 0 & 2 & 0 & 0 & 1 & 0 & 2 & 1 & 0 & 0 & 0 & 44
-& 0 & 5 & 8 & 1 & 0 & 9 & 0 & 0 & 0 & 0 & 0 & 0 \\
-29 & 1 & 0 & 2 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 13
-& 1 & 2 & 9 & 2 & 0 & 6 & 0 & 0 & 1 & 0 & 0 & 0 \\
+Total & 9 & 78 & 10 & 13 & 5 & 12 & 107 & 81 & 9 & 22 & 18 & 63 & 24 & 9
+& 36386 & 27 & 2 & 2512 & 25 & 113 & 803 & 36 & 20 & 624 & 2 & 6 & 9 & 1
+& 1 & NA \\
+\end{longtable}
+
+\subsubsection{RQ 2b: Learning Outcomes across Vocational Teachers'
+Daily Work
+Activities}\label{rq-2b-learning-outcomes-across-vocational-teachers-daily-work-activities}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0091}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0561}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0888}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0574}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0300}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0248}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0392}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0392}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0392}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0352}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0170}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0483}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0496}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0418}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0222}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0379}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0144}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0548}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0470}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0274}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0131}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0248}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0170}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0601}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0339}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0313}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0352}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 54\tabcolsep) * \real{0.0052}}@{}}
+\caption{Learning Categories across Vocational Teachers' Daily Work
+Activities (RQ2)}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+act\_no
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von gelassenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von gewissenhaftem, sorgfältigen arbeiten
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von konzentration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+emotionale erschöpfung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+emotionsregulation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+festigung der eigenen routine
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+festigung von kernkompetenzen
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+fähigkeit zur selbstreflexion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gegenseitige unterstützung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gelassenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gemeinsame planung und problemlösung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gewissenhaftes, sorgfältiges arbeiten
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+jobunzufriedenheit/frustration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+jobzufriedenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+lernen neuer arbeitsmethoden
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+motivation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+pausenbewusstsein und ressourcenschonung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+positive einstellung zur teamarbeit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+situationsdiagnostik
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sonstiges
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+wissenserweiterung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+effektivität
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von selbstreflexion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+psychologische sicherheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+reduzierung von fehlern
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+effektivität auf teamebene
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sum
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+act\_no
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von gelassenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von gewissenhaftem, sorgfältigen arbeiten
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von konzentration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+emotionale erschöpfung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+emotionsregulation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+festigung der eigenen routine
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+festigung von kernkompetenzen
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+fähigkeit zur selbstreflexion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gegenseitige unterstützung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gelassenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gemeinsame planung und problemlösung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gewissenhaftes, sorgfältiges arbeiten
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+jobunzufriedenheit/frustration
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+jobzufriedenheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+lernen neuer arbeitsmethoden
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+motivation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+pausenbewusstsein und ressourcenschonung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+positive einstellung zur teamarbeit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+situationsdiagnostik
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sonstiges
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+wissenserweiterung
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+effektivität
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+bewusstsein der bedeutung von selbstreflexion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+psychologische sicherheit
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+reduzierung von fehlern
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+effektivität auf teamebene
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sum
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 4 & 11 & 1 & 5 & 2 & 1 & 22 & 20 & 1 & 9 & 1 & 10 & 2 & 5 & 8 & 2 &
+2 & 8 & 288 & 5 & 51 & 0 & 0 & 0 & 0 & 0 & 458 \\
+2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+0 & 9 & 1 & 3 & 0 & 0 & 0 & 0 & 0 & 13 \\
+3 & 1 & 18 & 1 & 3 & 0 & 4 & 22 & 18 & 1 & 2 & 0 & 17 & 5 & 1 & 6 & 0 &
+3 & 4 & 141 & 3 & 138 & 2 & 0 & 0 & 0 & 0 & 390 \\
+4 & 0 & 8 & 0 & 1 & 0 & 0 & 6 & 3 & 0 & 0 & 0 & 2 & 2 & 0 & 0 & 0 & 0 &
+2 & 24 & 1 & 12 & 0 & 0 & 0 & 0 & 0 & 61 \\
+5 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 4 & 0 & 0 & 0 & 4 & 0 & 1 & 1 & 0 & 0 &
+2 & 48 & 2 & 15 & 0 & 0 & 0 & 0 & 0 & 80 \\
+6 & 0 & 6 & 1 & 0 & 0 & 0 & 7 & 10 & 4 & 3 & 5 & 2 & 0 & 0 & 4 & 0 & 4 &
+29 & 63 & 5 & 75 & 0 & 2 & 6 & 0 & 0 & 226 \\
+7 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+8 & 12 & 1 & 18 & 0 & 0 & 0 & 0 & 0 & 41 \\
+8 & 0 & 12 & 1 & 1 & 0 & 2 & 2 & 3 & 0 & 0 & 0 & 13 & 1 & 0 & 0 & 0 & 0
+& 1 & 12 & 0 & 18 & 0 & 0 & 0 & 0 & 0 & 66 \\
+9 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+0 & 5 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 9 \\
+10 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 13
+& 2 & 9 & 0 & 5 & 0 & 0 & 0 & 0 & 0 & 36 \\
+11 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 &
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 5 \\
+12 & 0 & 0 & 1 & 0 & 0 & 0 & 9 & 4 & 0 & 2 & 0 & 0 & 0 & 0 & 4 & 0 & 0 &
+5 & 21 & 5 & 57 & 0 & 0 & 0 & 0 & 0 & 108 \\
+13 & 1 & 0 & 0 & 0 & 1 & 0 & 1 & 2 & 0 & 0 & 2 & 0 & 0 & 0 & 1 & 0 & 0 &
+0 & 7 & 0 & 60 & 0 & 0 & 0 & 0 & 0 & 75 \\
+14 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+2 & 4 & 1 & 3 & 0 & 0 & 0 & 0 & 0 & 12 \\
+15 & 0 & 0 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 &
+0 & 2 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 11 \\
+16 & 0 & 1 & 0 & 0 & 1 & 0 & 11 & 2 & 0 & 0 & 1 & 2 & 1 & 0 & 0 & 0 & 0
+& 14 & 5 & 0 & 25 & 0 & 0 & 1 & 0 & 0 & 64 \\
+17 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+1 & 7 & 0 & 17 & 0 & 0 & 0 & 0 & 0 & 29 \\
+18 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 3 & 1 & 1 & 0 & 0 & 0 & 1 &
+4 & 9 & 1 & 16 & 0 & 1 & 1 & 1 & 0 & 42 \\
+19 & 0 & 3 & 2 & 0 & 0 & 0 & 5 & 3 & 1 & 0 & 2 & 1 & 4 & 1 & 0 & 0 & 0 &
+5 & 37 & 3 & 28 & 0 & 0 & 0 & 0 & 0 & 95 \\
+20 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 2 \\
+21 & 0 & 3 & 1 & 0 & 1 & 0 & 8 & 1 & 0 & 0 & 0 & 1 & 1 & 0 & 2 & 0 & 1 &
+7 & 31 & 1 & 29 & 0 & 1 & 0 & 0 & 0 & 88 \\
+22 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 3 & 1 & 1 & 1 & 0 & 0 & 0 &
+5 & 9 & 1 & 6 & 0 & 1 & 0 & 0 & 1 & 33 \\
+23 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 &
+1 & 5 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 13 \\
+24 & 0 & 2 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 2 & 0 & 0 & 0 & 0 & 0 &
+1 & 7 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 18 \\
+25 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 2 & 0 & 0 & 1 & 2 & 1 & 0 & 0 & 0 & 0 &
+3 & 13 & 2 & 9 & 0 & 1 & 0 & 0 & 0 & 37 \\
+26 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+1 & 15 & 0 & 10 & 0 & 0 & 0 & 0 & 0 & 28 \\
+27 & 0 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+1 & 3 & 1 & 2 & 0 & 0 & 0 & 0 & 0 & 10 \\
+28 & 0 & 2 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 1 & 0 & 2 & 1 & 0 & 0 & 0 & 0 &
+5 & 8 & 1 & 9 & 0 & 0 & 0 & 0 & 0 & 31 \\
+29 & 1 & 2 & 0 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 &
+2 & 9 & 2 & 6 & 0 & 0 & 1 & 0 & 0 & 28 \\
+Total & 9 & 78 & 10 & 13 & 5 & 12 & 107 & 81 & 9 & 22 & 18 & 63 & 24 & 9
+& 27 & 2 & 25 & 113 & 803 & 36 & 624 & 2 & 6 & 9 & 1 & 1 & NA \\
 \end{longtable}
 
 \subsection{RQ3: Predicting Vocational Teachers' Informal Learning Using
@@ -919,10 +1112,10 @@ coping\_z &  & \num{0.079}***\\
  &  & (\num{0.007})\\
  &  & \vphantom{17} (\num{<0.001})\\
  &  & {}[\num{0.065}, \num{0.094}]\\
-n\_entry &  & \num{0.000}\\
+n\_entry &  & \num{-0.000}\\
  &  & (\num{0.000})\\
  &  & (\num{0.113})\\
- &  & {}[\num{0.000}, \num{0.000}]\\
+ &  & {}[\num{-0.000}, \num{0.000}]\\
 act\_no\_1 &  & \num{-0.312}***\\
  &  & \vphantom{1} (\num{0.067})\\
  &  & \vphantom{16} (\num{<0.001})\\
@@ -1049,7 +1242,7 @@ AIC & \num{134670.8} & \num{128805.2}\\
 BIC & \num{134696.7} & \num{129133.4}\\
 RMSE & \num{1.19} & \num{1.11}\\
 \bottomrule
-\multicolumn{3}{l}{\rule{0pt}{1em}+ p \textbackslash{}num\{< 0.1\}, * p \textbackslash{}num\{< 0.05\}, ** p \textbackslash{}num\{< 0.01\}, *** p \textbackslash{}num\{< 0.001\}}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}+ p $<$ 0.1, * p $<$ 0.05, ** p $<$ 0.01, *** p $<$ 0.001}\\
 \end{tabular}
 \end{table}
 
@@ -1067,6 +1260,14 @@ under the following link: \ldots{}\\
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-boehmWorkingHoursWork2024}
+Böhm, M., Nina Marlene, S., Rausch, A., \& Aprea, C. (2024). Working
+Hours, Work Activities, Work Experience and Job Satisfaction of Teachers
+at Vocational Schools: Conclusions for the (Un)Attractiveness of the
+Teaching Profession. \emph{bwp@ Berufs- und Wirtschaftspädagogik --
+online}, \emph{47}, 1--21.
+\url{https://www.bwpat.de/ausgabe/47/boehm-etal}
+
 \bibitem[\citeproctext]{ref-rauschUsingDiariesResearch2014}
 Rausch, A. (2014). Using {Diaries} in {Research} on {Work} and
 {Learning}. In C. Harteis, A. Rausch, \& J. Seifried (Eds.),

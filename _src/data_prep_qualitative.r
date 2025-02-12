@@ -25,7 +25,7 @@ jobscope$jobscope_correction <- NA
 jobscope$jobscope_correction <- jobscope_correction$jobscope[match(jobscope$code, jobscope_correction$code)]
 jobscope$jobscope_ <- ifelse(is.na(jobscope$jobscope_correction), jobscope$jobscope, jobscope$jobscope_correction)
 
-# Vertauschen der Spaltennamen von von jobscope und jobscope_
+# Vertauschen der Spaltennamen von jobscope und jobscope_
 names(jobscope)[names(jobscope) == "jobscope"] <- "jobscope_temp"
 names(jobscope)[names(jobscope) == "jobscope_"] <- "jobscope"
 names(jobscope)[names(jobscope) == "jobscope_temp"] <- "jobscope_"
@@ -110,7 +110,8 @@ df$fbs_wt_short_holid <- fbs_data$AZF_04[match(df$code, fbs_data$SERIAL)]
 # Ersetze das Dezimaltrennzeichen von , zu .
 df$fbs_wt_short_holid <- gsub(",", ".", df$fbs_wt_short_holid)
 # Führe die Umwandlung von character in numeric durch
-df$fbs_wt_short_holid <- as.numeric(df$fbs_wt_short_holid)
+df$fbs_wt_short_holid <- as.numeric(df$fbs_wt_short_holid) # Erzeugung von NAs aus #NULL!
+
 df$fbs_wt_short_holid <- replace(df$fbs_wt_short_holid, df$fbs_wt_short_holid %in% c(-8, -9), NA)
 
 # Gruppen für die Stichprobe und Gewichtung
@@ -191,7 +192,7 @@ df <- df %>%
   mutate(end_time = format(as.POSIXct(`end_date+time`, format = "%Y-%m-%d %H:%M"), "%H:%M"))
 
 
-
 # prepare variable names in df
 df <- df %>%
   rename(sex = gender, act_no = task, activity = task_name)
+

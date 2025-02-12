@@ -99,15 +99,12 @@ welcome_test <- welcome %>%
   filter(max(row_number()) > 1) %>% 
   ungroup()
 
-# check age for differences in one person
-# ...
-# ...
-
 # remove duplicate rows
 welcome_unique <- distinct(welcome, code, .keep_all = TRUE) 
 welcome <- welcome_unique
 
-# rm(welcome_raw)
+rm(welcome_raw)
+rm(welcome_anonymous)
 rm(welcome_test)
 rm(welcome_unique)
 

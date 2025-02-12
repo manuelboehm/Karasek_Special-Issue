@@ -79,3 +79,6 @@ combined_df <- combined_df %>%
   mutate(n_entry = seq_along(id))
 
 
+rm(activities_raw)
+rm(activities_anonymous)
+rm(activities_prep)

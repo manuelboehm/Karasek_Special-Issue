@@ -43,6 +43,18 @@ Keywords: workplace learning, teacher training, informal learning, experience sa
 
 # Introduction
 
+[Schools as learning venues for teachers in the sense of workplace learning]
+While schools are learning venues for teachers, they also are teachers' workplaces (https://www.tandfonline.com/doi/epdf/10.1080/0158037X.2024.2314128?needAccess=true) and therefore serve as context for teachers' workplace learning (Billett, 2001; workplace affordances, ...). 
+
+[highlighted under todays' current conditions]
+
+[Importance and relevance of professional learning]
+
+[Comparison informal and formal workplace learning]
+
+
+Professional learning is 
+
 According to @rauschUsingDiariesResearch2014, ...
 
 -   teacher shortage and difficult working conditions of teachers
@@ -63,15 +75,17 @@ According to @rauschUsingDiariesResearch2014, ...
 
     -   experience sampling
 
-Thus, the following research questions will be tackled in this paper:
+In @@boehmWorkingHoursWork2024, results from the study were described with a focus on teachers' working hours and the distribution of working hours between different tasks. 
+Building on this article, this paper will focus on teachers' workplace learning. 
+Thus, the following research questions will be tackled:
 
-1.  RQ (Stress, coping and learning across activities, control for age, sex, jobscope + data from the FBS) - MLM
+1.  RQ (Stress, coping and learning across activities, control for age, sex, jobscope + data from the questionnaire study) - MLM
 
     Which of teachers' daily work activities are perceived as (a) the most stressful and (b) with which of the stressful activities could the teachers cope the best? (c) Which of teachers' daily activities are perceived as the most conducive to learning?
 
-2.  [Desription of the Learning (freetext fields, qualitative analysis)]
+2.  [Description of the Learning (freetext fields, qualitative analysis)]
 
-3.  RQ (Karasek, control for age, sex, jobscope + data from the FBS) - MLM
+3.  RQ (Karasek, control for age, sex, jobscope + data from the questionnaire study) - MLM
 
     Do stress and coping predict informal learning in teachers' daily work activities, as stated in Karasek's learning hypothesis?
 
@@ -197,7 +211,7 @@ Performanzebene
 
 ## Data Analysis (still from bwpat)
 
-Descriptive statistics were calculated to address RQ1 to RQ3. Regarding RQ4, a multiple linear regression analysis was conducted to investigate the statistical prediction of job satisfaction based on working hours, management function, stress, coping, and learning. Interaction terms were checked. However, moderators showed no significant effects, so no interactions were included in the final analysis.
+Descriptive statistics were calculated to address RQ1 and RQ2. Regarding RQ3, a multiple level model was calculated to investigate the statistical prediction of vocational teachers' informal learning based on their stress and coping during their daily work activities, following Karasek's learning hypothesis. *Interaction terms were checked. However, moderators showed no significant effects, so no interactions were included in the final analysis.*
 
 ```{r maintenance, eval=FALSE, include=FALSE}
 source("_src/maintenance.R", local = knitr::knit_global())
@@ -213,7 +227,7 @@ pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
                modelsummary, performance, stats, lmerTest, ggplot2, corrr,
                parameters, car, psych, jtools, grateful, blockTools,
                robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
-               sjPlot, devtools, rmdwc, fastDummies, crosstable, fuzzyjoin) 
+               sjPlot, devtools, rmdwc, fastDummies, crosstable, fuzzyjoin, datawizard) 
 
 # install.packages("robustlmm", dependencies = TRUE)
 # install.packages("broom.mixed", dependencies = TRUE)
@@ -248,7 +262,7 @@ lo_framework <- lo_framework %>%
 ```{r data prep, include=FALSE}
 source("_src/data_prep_welcome.R", local = knitr::knit_global())
 source("_src/data_prep_activities.R", local = knitr::knit_global())
-source("_src/data_prep_manual_qualitative.R", local = knitr::knit_global())
+source("_src/data_prep_qualitative.R", local = knitr::knit_global())
 
 #####
 ### format all datatypes appropriately! (see previous code (data_prep)) #####
@@ -378,11 +392,11 @@ combined_df <- combined_df %>%
 combined_df <- combined_df %>%
   mutate(act_no = case_when(str_detect(activity, "onstige Tätigkeit") ~ 29, .default = act_no))
 
-combined_df_test <- combined_df %>%
-  filter(act_no == 29)
+# combined_df_test <- combined_df %>%
+#  filter(act_no == 29)
 
-combined_df_test <- combined_df %>%
-  filter(act_no == 9)
+# combined_df_test <- combined_df %>%
+#  filter(act_no == 9)
     
 # correct coping
 combined_df$coping <- ifelse(combined_df$stress == 0, 0, combined_df$coping)
@@ -414,24 +428,52 @@ table(combined_df$activity[combined_df$act_no == 9])
 
 
 
+
+```
+
+```{r remove unnecessary columns and dataframes, include=FALSE}
+rm(week_rv)
+rm(weights_20)
+rm(weights_fbs_20)
+rm(jobscope)
+rm(jobscope_correction)
+rm(holidays)
+rm(fbs_data)
+rm(df_old)
 ```
 
 # Results
 
 ## RQ1: Stress, Coping and Learning during Teachers' Daily Work Activities
 
--   maybe too similar to bwpat article
--   may cause problems in comparison with bwpat paper (different sample size...)
 -   same approach as in bwpat paper: simple comparison of mean values and SDs across the activities
--   29 activities?! --\> decision needed!
+-   numbers differ from results in bwpat article because of different sample size
+-   29 activities?! --\> decision needed! or 12 activities?!
 
 ```{r filter and prepare data, include=FALSE}
 df_rq1 <- combined_df
 ```
 
 ```{r correlations and data checks, include=FALSE}
+# correlations: stress, coping, learning
+cor_rq1 <- corrr::correlate(df_rq1 %>% select(stress, coping, pc_learn))
 
 ```
+
+
+```{r rq1 correlations kable table, echo=FALSE}
+cor_rq1 %>%
+  as.matrix() %>%
+  `colnames<-`(c("Term", "Stress", "Coping", "Learning")) %>%
+  as.data.frame() %>%
+  mutate(Term = c("Stress", "Coping", "Learning")) %>%
+  kable(caption = "Correlations between Stress, Coping and Learning during Teachers' Daily Work Activities", 
+        align = "lcccc", 
+        digits = 2) %>%
+  kable_styling(latex_options = c("HOLD_position"), 
+                font_size = 9)
+```
+
 
 ```{r rq1 analysis, include=FALSE}
 # make sure coping is given only for stress above 0 and never -1
@@ -457,7 +499,7 @@ rq1_stress_coping_learn <- df_rq1 %>%
             )
 ```
 
-```{r, rq1 kable table, echo=FALSE}
+```{r, rq1 kable table, echo=FALSE, warning=FALSE}
 rq1_stress_coping_learn %>%
 # mutate_if(is.numeric, ~ifelse(is.na(.), " ", format(round(., 2)))) %>%
 mutate(across(is.numeric & !act_no, ~ifelse(is.na(.x) , " ", sprintf("%.2f", .x)))) %>%
@@ -633,7 +675,7 @@ table_rq2a_trans_ <- table_rq2a_trans %>%
 ```
 
 
-```{r parent_cat}
+```{r parent_cat, include=FALSE}
 # Step 1: Join table_rq2a with lo_framework to get parent categories
 # We assume the categories in table_rq2a are in a column named `category` (replace it with the actual name).
 category_totals <- table_rq2a_ %>%
@@ -654,14 +696,14 @@ parent_category_totals <- category_totals %>%
 # Step 3: Construct the new table with parent categories
 new_table <- parent_category_totals %>%
   mutate(act_no = "Total") %>%
-  select(act_no, parent_cat, total) %s>%
+  select(act_no, parent_cat, total) %>%
   pivot_wider(names_from = parent_cat, values_from = total, values_fill = list(total = 0))  # Create the wide format
 
 ```
 
 ### RQ 2b: Learning Outcomes across Vocational Teachers' Daily Work Activities
 
-```{r}
+```{r, include=FALSE}
 # only consider learning outcomes specified (no "nothing", no "learning outcome not specified")
 
 # put the data into the long format
@@ -711,8 +753,10 @@ rm(total_row)
 ```
 
 
-```{r prepare the data, include=FALSE}
-table_rq2b 
+```{r rq2 prepare the data, include=FALSE}
+# table_rq2b 
+# 29 tables: a table for all activity depicting all categories
+
 
 
 ```

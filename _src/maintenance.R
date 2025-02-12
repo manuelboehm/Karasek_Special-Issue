@@ -25,11 +25,13 @@ update.packages()
 # remotes::install_github("ropensci/RefManageR")
 
 
+
+
 ################
 ##### problem tinytex #####
 ################
 
-update.packages(ask = FALSE, checkBuilt = TRUE)
+update.packages(ask = FALSE, checkBuilt = TRUE, dependencies = TRUE)
 tinytex::tlmgr_update()
 # update tinytex if problems occur
 tinytex::reinstall_tinytex()
@@ -44,6 +46,9 @@ use_git_config(user.name = "manuelboehm", user.email = "boehm.manuel@outlook.de"
 use_git()
 
 # github config
+# install.packages("gitcreds")
+# library(gitcreds)
+
 create_github_token()
 gitcreds_set()
 use_github()
