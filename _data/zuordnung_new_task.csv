@@ -1,0 +1,30 @@
+﻿alte_kategorie;task_name;neue_kategorie;taskname_new;category_three;taskname_three
+1;Unterricht: Eigenen Unterricht halten;1;Durchführung von Unterricht;1;Unterrichten
+2;Unterricht: Vertretung halten;1;Durchführung von Unterricht;1;Unterrichten
+3;Unterricht: Vor- und Nachbereitung und Leistungsfeststellung;2;Vor- und Nachbereitung und Leistungsfeststellung;2;Unterrichtsnahe Tätigkeiten
+4;Tätigkeiten als Klassenlehrer:in außerhalb der Unterrichtszeit;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+5;Interaktion mit Lernenden außerhalb der Unterrichtszeit;3;Interaktion mit Lernenden außerhalb des Unterrichts;3;Unterrichtsferne Tätigkeiten
+6;Interaktion mit Kollegen:innen;5;Dienstliche Interaktion mit Kollegen_innen;3;Unterrichtsferne Tätigkeiten
+7;Interaktion mit Externen;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+8;Organisation der eigenen Arbeitsumgebung;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+9;Aufsicht;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+10;Pause;;;;
+11;Wiederkehrende Dienstwege;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+12;Fortbildung: formal;6;Formelle Fortbildungen;3;Unterrichtsferne Tätigkeiten
+13;Fortbildung: non-formal;7;Non-formelle Fortbildungen;3;Unterrichtsferne Tätigkeiten
+14;Ausflüge, Studienfahrten;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+15;Corona-bezogene Tätigkeiten;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+16;Mitarbeit in Gremien und dauerhaften Teams;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+17;IT-Administration;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+18;Mitarbeit in Projekten;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+19;Prüfungsbezogene Tätigkeiten;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+20;Privatschule: Schulaufsicht;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+21;Zusatzfunktionen;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+22;Personaleinsatzplanung;9;Personalarbeit;3;Unterrichtsferne Tätigkeiten
+23;Personalverwaltung und -auswahl;9;Personalarbeit;3;Unterrichtsferne Tätigkeiten
+24;Prüfungsleitung (Prüfungsadministration);4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+25;Gremien- und Teamleitung intern;10;Leitung von Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+26;Schülerangelegenheiten;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+27;Interaktion mit dem Schulträger;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+28;Interaktion mit Externen;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+29;Sonstige Tätigkeiten ;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten

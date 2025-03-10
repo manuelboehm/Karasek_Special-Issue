@@ -1,0 +1,30 @@
+﻿alte_kategorie;task_name;task_name_en;neue_kategorie;taskname_new;category_three;taskname_three
+1;Unterricht: Eigenen Unterricht halten;Classroom teaching;1;Durchführung von Unterricht;1;Unterrichten
+2;Unterricht: Vertretung halten;Classroom teaching: substitute teaching;1;Durchführung von Unterricht;1;Unterrichten
+3;Unterricht: Vor- und Nachbereitung und Leistungsfeststellung;Classroom teaching: preparation and follow-up of lessons;2;Vor- und Nachbereitung und Leistungsfeststellung;2;Unterrichtsnahe Tätigkeiten
+4;Tätigkeiten als Klassenlehrer:in außerhalb der Unterrichtszeit;Tasks as a class teacher outside of classroom teaching;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+5;Interaktion mit Lernenden außerhalb der Unterrichtszeit;Interaction with students outside of lesson time;3;Interaktion mit Lernenden außerhalb des Unterrichts;3;Unterrichtsferne Tätigkeiten
+6;Interaktion mit Kollegen:innen;Interaction with colleagues;5;Dienstliche Interaktion mit Kollegen_innen;3;Unterrichtsferne Tätigkeiten
+7;Interaktion mit Externen;Interaction with external parties;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+8;Organisation der eigenen Arbeitsumgebung;Organization of the work environment;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+9;Aufsicht;Supervision;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+10;Pause;Break;;;;
+11;Wiederkehrende Dienstwege;Recurring service routes;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+12;Fortbildung: formal;Training: formal;6;Formelle Fortbildungen;3;Unterrichtsferne Tätigkeiten
+13;Fortbildung: non-formal;Training: non-formal;7;Non-formelle Fortbildungen;3;Unterrichtsferne Tätigkeiten
+14;Ausflüge, Studienfahrten;field trips, excursions;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+15;Corona-bezogene Tätigkeiten;COVID-related tasks;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+16;Mitarbeit in Gremien und dauerhaften Teams;Collaboration in committees and permanent teams;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+17;IT-Administration;IT administration;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+18;Mitarbeit in Projekten;Engagement in school projects;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+19;Prüfungsbezogene Tätigkeiten;Exam-related tasks;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+20;Privatschule: Schulaufsicht;Private school: supervision;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+21;Zusatzfunktionen;Additional functions;8;Mitarbeit in Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+22;Personaleinsatzplanung;Personal resource planning;9;Personalarbeit;3;Unterrichtsferne Tätigkeiten
+23;Personalverwaltung und -auswahl;Personnel management and selection;9;Personalarbeit;3;Unterrichtsferne Tätigkeiten
+24;Prüfungsleitung (Prüfungsadministration);Exam administration;4;Verwaltungstätigkeiten / Administrative Tätigkeiten;3;Unterrichtsferne Tätigkeiten
+25;Gremien- und Teamleitung intern;Management of internal school committees and teams;10;Leitung von Gremien und Teams;3;Unterrichtsferne Tätigkeiten
+26;Schülerangelegenheiten;Student affairs;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+27;Interaktion mit dem Schulträger;Interaction with the school board;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+28;Interaktion mit Externen;Interaction with external parties;11;Dienstliche Interaktion mit Externen / Verwaltungsstellen;3;Unterrichtsferne Tätigkeiten
+29;Sonstige Tätigkeiten ;Miscellaneous activities;12;Sonstige Tätigkeiten;3;Unterrichtsferne Tätigkeiten
