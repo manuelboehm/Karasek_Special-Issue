@@ -27,7 +27,7 @@ welcome_renamed$jobscope <- welcome_renamed$Stellenumfang
 welcome_renamed <- welcome_renamed %>%
   mutate(code = toupper(code))
 
-# remove codes used for test purposes (WEITERE?! - check notes!!!)
+# remove codes used for test purposes
 welcome_filtered <- welcome_renamed %>%
   filter(code != "112UAYBZQB", 
          code != "D3REDEZ6B1", 

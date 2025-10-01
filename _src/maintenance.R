@@ -8,8 +8,8 @@ library(installr)
 updateR() 
 
 # Check for Updates of packages
-update.packages()
-
+# update.packages()
+update.packages(ask = "graphics")
 
 ################
 # install packages from other resources

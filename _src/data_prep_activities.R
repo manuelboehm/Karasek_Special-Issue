@@ -78,7 +78,8 @@ combined_df <- combined_df %>%
   arrange((Begin)) %>%
   mutate(n_entry = seq_along(id))
 
-
 rm(activities_raw)
 rm(activities_anonymous)
 rm(activities_prep)
+
+n_distinct(combined_df$code) # number of distinct codes

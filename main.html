@@ -11,7 +11,7 @@
 
 <meta name="author" content="Manuel Böhm" />
 
-<meta name="date" content="2025-03-10" />
+<meta name="date" content="2025-08-20" />
 
 <title>Investigating Vocational Teachers’ Informal Workplace Learning Using Experience Sampling</title>
 
@@ -1871,7 +1871,7 @@ display: none;
 <h1 class="title toc-ignore">Investigating Vocational Teachers’ Informal
 Workplace Learning Using Experience Sampling</h1>
 <h4 class="author">Manuel Böhm</h4>
-<h4 class="date">2025-03-10</h4>
+<h4 class="date">2025-08-20</h4>
 
 </div>
 
@@ -1938,15 +1938,15 @@ the following research questions will be tackled:</p>
 <ol style="list-style-type: decimal">
 <li><p>RQ (Stress, coping and learning across activities, control for
 age, sex, jobscope + data from the questionnaire study) - MLM</p>
-<p>Which of teachers’ daily work activities are perceived as (a) the
+<p>Which of teachers’ everyday work activities are perceived as (a) the
 most stressful and (b) with which of the stressful activities could the
-teachers cope the best? (c) Which of teachers’ daily activities are
+teachers cope the best? (c) Which of teachers’ everyday activities are
 perceived as the most conducive to learning?</p></li>
 <li><p>[Description of the Learning (freetext fields, qualitative
 analysis)]</p></li>
 <li><p>RQ (Karasek, control for age, sex, jobscope + data from the
 questionnaire study) - MLM</p>
-<p>Do stress and coping predict informal learning in teachers’ daily
+<p>Do stress and coping predict informal learning in teachers’ everyday
 work activities, as stated in Karasek’s learning hypothesis?</p>
 <p>H: according to Karasek</p></li>
 </ol>
@@ -1957,9 +1957,9 @@ informal learning?</p>
 </div>
 <div id="research-on-teachers-workplace-learning" class="section level1">
 <h1>Research on Teachers’ Workplace Learning</h1>
-<div id="characteristics-of-the-teaching-profession-and-vocational-teachers-daily-work-activities" class="section level2">
+<div id="characteristics-of-the-teaching-profession-and-vocational-teachers-everyday-work-activities" class="section level2">
 <h2>Characteristics of the Teaching Profession and Vocational Teachers’
-Daily Work Activities</h2>
+Everyday Work Activities</h2>
 <div id="characteristics" class="section level3">
 <h3>Characteristics</h3>
 <ul>
@@ -2187,6 +2187,139 @@ However, moderators showed no significant effects, so no interactions
 were included in the final analysis.</em></p>
 <pre class="r"><code># if any objects are available in the global environment, remove them
 rm(list = ls())</code></pre>
+<pre class="r"><code># check combined_df for duplicates (in id)
+# combined_df_duplicates &lt;- combined_df %&gt;%
+#   group_by(id) %&gt;%
+#   mutate(n_entry = n()) %&gt;%
+#   ungroup() %&gt;%
+#   filter(n_entry &gt; 1)
+
+combined_df_pre &lt;- combined_df</code></pre>
+<pre class="r"><code>#####
+# Adjustments of data (format, corrections, ...)
+#####
+
+# remove all other activities (29) reporting illness
+# create the dataframe sickness
+df_sickness &lt;- df %&gt;%
+  filter(krank_ == 1) %&gt;%
+  select(id, code, krank_)
+
+combined_df$sickness &lt;- 0
+combined_df$sickness &lt;- df_sickness$krank_[match(combined_df$id, df_sickness$id)]
+
+# combined_df &lt;- combined_df %&gt;% 
+#   filter(is.na(sickness))
+
+# remove additional reportings of sickness and vacation
+# sickness
+# reporting of sickness as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;onstige&quot;) &amp; 
+           (str_detect(activity, &quot;krank&quot;) | str_detect(activity, &quot;Krank&quot;) | str_detect(activity, &quot;corona&quot;) | str_detect(activity, &quot;Corona&quot;)) &amp;
+           id != 20252 &amp; id != 19836  &amp; id != 48289 &amp; id != 28568 &amp; id != 4759))
+
+# vacation
+# reporting of vacation as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;urlaub&quot;) | str_detect(activity, &quot;Urlaub&quot;)))
+
+# school holidays 
+# reporting of school holiday as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;ferien&quot;) | str_detect(activity, &quot;oster&quot;) | str_detect(activity, &quot;Oster&quot;)  | str_detect(activity, &quot;Ferien&quot;) | str_detect(activity, &quot;schulfrei&quot;)))
+
+# weekend
+# reporting of weekend as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!str_detect(activity, &quot;ochenende&quot;))
+
+# free day
+# reporting of vacation as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;frei&quot;) | str_detect(activity, &quot;Freien Tag&quot;) | str_detect(activity, &quot;eiertag&quot;)))
+
+# commuting between home and school
+# reporting of commutes as activity -&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;rbeitsweg&quot;) | str_detect(activity, &quot;hause&quot;) | str_detect(activity, &quot;Hause&quot;) | str_detect(activity, &quot;zur Schule&quot;) | str_detect(activity, &quot;Anreise&quot;) | str_detect(activity, &quot;Heim&quot;)))
+
+# other invalid entries --&gt; remove these entries
+combined_df &lt;- combined_df %&gt;%
+  filter(!(str_detect(activity, &quot;keine&quot;) | str_detect(activity, &quot;Keine&quot;) | str_detect(activity, &quot;mQuest&quot;) | str_detect(activity, &quot;zeitstudie&quot;) | str_detect(activity, &quot;: Hausarbeit&quot;) | id == 36469 | id == 49189 | id == 5081 | id == 4356 | id == 5417 | id == 17552))</code></pre>
+<pre class="r"><code>##########
+# correct categories
+##########
+# some of 29 belong to Aufsicht (9)
+combined_df &lt;- combined_df %&gt;% 
+  mutate(
+    act_no = case_when(
+      id == &quot;35883&quot; ~ 9,  # id = 35883 is Aufsicht
+      str_detect(activity, &quot;onstige&quot;) &amp; 
+      (str_detect(activity, &quot;lausuraufsicht&quot;) | str_detect(activity, &quot;rüfungsaufsicht&quot;) | str_detect(activity, &quot;ufsicht Klassenarbeit&quot;)) ~ 9,
+      TRUE ~ act_no  # Behalte den Originalwert bei, wenn keine Bedingung zutrifft
+    ),
+    activity = case_when(
+      str_detect(activity, &quot;onstige&quot;) &amp; 
+      (str_detect(activity, &quot;lausuraufsicht&quot;) | str_detect(activity, &quot;rüfungsaufsicht&quot;) | str_detect(activity, &quot;ufsicht Klassenarbeit&quot;)) ~ &quot;Aufsicht&quot;,
+      TRUE ~ activity  # Behalte den Originalwert bei, wenn keine Bedingung zutrifft
+    )
+  )
+
+
+combined_df &lt;- combined_df %&gt;%
+  mutate(act_no = case_when(str_detect(activity, &quot;onstige Tätigkeit&quot;) ~ 29, .default = act_no))
+
+# combined_df_test &lt;- combined_df %&gt;%
+#  filter(act_no == 29)
+
+# combined_df_test &lt;- combined_df %&gt;%
+#  filter(act_no == 9)
+    
+# correct coping
+combined_df$coping &lt;- ifelse(combined_df$stress == 0, 0, combined_df$coping)
+
+# format data for analyses
+combined_df &lt;- combined_df %&gt;% # Before: 1=w, 2=m; NOW: 0=w, 1=m
+  mutate(sex = case_match(sex, 1 ~ 0, 2 ~ 1)
+         )
+
+# correct error: 
+# change value of column act_no to 3 for entry with id = &quot;45771&quot;
+combined_df$act_no[combined_df$id == &quot;45771&quot;] &lt;- 5
+
+# In combined_df in column activity, delete whitespace at the beginning and end of the string
+combined_df$activity &lt;- str_trim(combined_df$activity)
+
+# adjust name of activity 9
+combined_df &lt;- combined_df %&gt;%
+  mutate(activity = ifelse(act_no == 9, &quot;Aufsicht&quot;, activity))
+
+# test
+# table(combined_df$activity)
+# table(combined_df$activity [combined_df$act_no == 9])
+# table(combined_df$activity [combined_df$act_no != 29])
+# table(combined_df$activity [combined_df$act_no == 20])
+# table(combined_df$activity [combined_df$act_no == 9])
+
+# compare number of cases (which were deleted?!)
+
+# check other activity (29)
+#combined_df_other &lt;- combined_df %&gt;%
+#  filter(act_no == 29)
+
+
+# combined_df &lt;- combined_df %&gt;% # adjust act_no 29
+#  mutate(act_no = ifelse(category == 4, 29, act_no))
+
+
+# insert English activity names</code></pre>
+<pre class="r"><code># check combined_df for duplicates (in id)
+combined_df_duplicates &lt;- combined_df %&gt;%
+  group_by(id) %&gt;%
+  mutate(n_entry = n()) %&gt;%
+  ungroup() # %&gt;%
+#   filter(n_entry &gt; 1)</code></pre>
 </div>
 </div>
 <div id="results" class="section level1">
@@ -2231,10 +2364,10 @@ Stress
 NA
 </td>
 <td style="text-align:center;">
-0.5064154
+0.5052667
 </td>
 <td style="text-align:center;">
-0.2586342
+0.2573705
 </td>
 </tr>
 <tr>
@@ -2242,13 +2375,13 @@ NA
 Coping
 </td>
 <td style="text-align:center;">
-0.5064154
+0.5052667
 </td>
 <td style="text-align:center;">
 NA
 </td>
 <td style="text-align:center;">
-0.2284519
+0.2283775
 </td>
 </tr>
 <tr>
@@ -2256,10 +2389,10 @@ NA
 Learning
 </td>
 <td style="text-align:center;">
-0.2586342
+0.2573705
 </td>
 <td style="text-align:center;">
-0.2284519
+0.2283775
 </td>
 <td style="text-align:center;">
 NA
@@ -2354,10 +2487,10 @@ Classroom teaching: substitute teaching
 Classroom teaching: preparation and follow-up of lessons
 </td>
 <td style="text-align:center;">
-0.67
+0.66
 </td>
 <td style="text-align:center;">
-1.29
+1.28
 </td>
 <td style="text-align:center;">
 0.00
@@ -2493,7 +2626,7 @@ Recurring service routes
 0.10
 </td>
 <td style="text-align:center;">
-0.47
+0.49
 </td>
 <td style="text-align:center;">
 0.00
@@ -2524,7 +2657,7 @@ Training: formal
 Training: non-formal
 </td>
 <td style="text-align:center;">
-3.17
+3.18
 </td>
 <td style="text-align:center;">
 2.18
@@ -2558,10 +2691,10 @@ field trips, excursions
 COVID-related tasks
 </td>
 <td style="text-align:center;">
-0.23
+0.24
 </td>
 <td style="text-align:center;">
-0.92
+0.93
 </td>
 <td style="text-align:center;">
 0.00
@@ -2629,7 +2762,7 @@ Exam-related tasks
 0.85
 </td>
 <td style="text-align:center;">
-1.55
+1.56
 </td>
 <td style="text-align:center;">
 0.00
@@ -2748,7 +2881,7 @@ Student affairs
 0.78
 </td>
 <td style="text-align:center;">
-1.32
+1.33
 </td>
 <td style="text-align:center;">
 0.00
@@ -2799,7 +2932,7 @@ Miscellaneous activities
 0.93
 </td>
 <td style="text-align:center;">
-1.76
+1.75
 </td>
 <td style="text-align:center;">
 0.00
@@ -2811,18 +2944,169 @@ Miscellaneous activities
 <div id="rq2-description-of-the-learning-during-teachers-daily-work-activities" class="section level2">
 <h2>RQ2: Description of the Learning During Teachers’ Daily Work
 Activities</h2>
+<pre class="r"><code># add column cat_1
+combined_df_lo$cat_1 &lt;- NA
+
+# convert learn_descr to lower letters
+combined_df_lo$learn_descr &lt;- tolower(combined_df_lo$learn_descr)
+
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  mutate(cat_1 = case_when(
+    # NA values
+    is.na(learn_descr) ~ &quot;no learning outcome mentioned&quot;,
+    
+    # Empty or meaningless entries
+    str_detect(learn_descr, &quot;^\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;, # empty/whitespace
+    str_detect(learn_descr, &quot;^\\s*-\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*\\.\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;, 
+    str_detect(learn_descr, &quot;^\\s*./.\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*das\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*ferien\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*elternzeit\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*av\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    str_detect(learn_descr, &quot;^\\s*(abi korrektur|abi-korrektur|abi aufsicht|abiturprüfung|prüfungsaufsicht)\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;,
+    
+    # Single letters or repeated letters
+    str_detect(learn_descr, &quot;^\\s*[a-zäöüß]\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;, # single letter
+    str_detect(learn_descr, &quot;^\\s*([a-zäöüß])\\1+\\s*$&quot;) ~ &quot;no learning outcome mentioned&quot;, # repeated letter
+    
+    # Nothing learned
+    str_detect(learn_descr, &quot;^\\s*(keine|nein|kein|0)\\s*$&quot;) ~ &quot;nothing was learned&quot;,
+    
+    # Unspecified learning
+    str_detect(learn_descr, &quot;^\\s*(ja|s\\. oben)\\s*$&quot;) ~ &quot;other unspecified learning outcome&quot;,
+    
+    # Default: keep existing value or set to NA for manual coding
+    TRUE ~ NA_character_
+  ))</code></pre>
+<pre class="r"><code># column names tolower
+names(lo_framework) &lt;- tolower(names(lo_framework))
+names(lo_categorization) &lt;- tolower(names(lo_categorization))
+
+lo_framework &lt;- lo_framework %&gt;%
+  mutate(across(everything(), tolower))
+lo_categorization &lt;- lo_categorization %&gt;%
+  mutate(across(everything(), tolower))
+
+lo_framework &lt;- lo_framework %&gt;% rename(sub_category = sub.category)
+
+# remove leading and ending whitespaces
+lo_categorization &lt;- lo_categorization %&gt;%  mutate_all(str_trim)
+lo_framework &lt;- lo_framework %&gt;%  mutate_all(str_trim)
+
+# convert id into integer
+combined_df_lo$id &lt;- as.integer(combined_df_lo$id)
+lo_categorization$id &lt;- as.integer(lo_categorization$id)</code></pre>
+<pre class="r"><code># conduct left_join to add the categorization (lo_categorization) to df_rq2), also add the column learning_outcome
+
+# import cat_1 &amp; cat_2 via id 
+
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  left_join(lo_categorization %&gt;% select(id, cat_1, code_id_1, code_id_2), by = &quot;id&quot;)
+
+# empty columns into na
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  mutate(
+    cat_1 = na_if(cat_1, &quot;&quot;), 
+    code_id_1 = na_if(code_id_1, &quot;&quot;), 
+    code_id_2 = na_if(code_id_2, &quot;&quot;)
+  )
+
+# 9 in code_id_1 oder code_id_2 into na
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  mutate(
+    cat_1 = na_if(cat_1, &quot;no learning outcome mentioned&quot;), 
+    code_id_1 = na_if(code_id_1, &quot;9&quot; ), 
+    code_id_2 = na_if(code_id_2, &quot;9&quot;)
+  )
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  mutate(
+    cat_1 = na_if(cat_1, &quot;nothing was learned&quot;),
+    code_id_1 = na_if(code_id_1, &quot;4a&quot; ), 
+    code_id_2 = na_if(code_id_2, &quot;4a&quot;)
+  )
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  mutate(
+    code_id_1 = na_if(code_id_1, &quot;4b&quot; ), 
+    code_id_2 = na_if(code_id_2, &quot;4b&quot;)
+  )
+
+# remove data without learning outcomes
+# combined_df_lo &lt;- combined_df_lo %&gt;%
+#   filter(cat_1 == no learning outcome mentioned
+# )
+          
+# Final: cat_1, cat_2</code></pre>
+<pre class="r"><code># left_join 
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  left_join(lo_framework %&gt;% select(code, class, sub_category), 
+            by = c(&quot;code_id_1&quot; = &quot;code&quot;)) %&gt;%
+            rename(cat_1_en = sub_category, 
+                   cat_1_top = class)
+
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  left_join(lo_framework %&gt;% select(code, class, sub_category), 
+            by = c(&quot;code_id_2&quot; = &quot;code&quot;)) %&gt;%
+            rename(cat_2_en = sub_category, 
+                   cat_2_top = class)
+
+# cat_1_en
+# cat_2_en</code></pre>
+<pre class="r"><code># switch from wide to long format
+combined_df_lo_wide &lt;- combined_df_lo
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  pivot_longer(cols = c(code_id_1, code_id_2), 
+               names_to = &quot;code_type&quot;, 
+               values_to = &quot;code_id&quot;)
+
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  left_join(lo_framework %&gt;% select(code, class, sub_category), 
+            by = c(&quot;code_id&quot; = &quot;code&quot;)) %&gt;%
+            rename(code_category = sub_category, 
+                   code_top = class)
+
+df_rq2a &lt;- combined_df_lo</code></pre>
+<pre class="r"><code># delete duplicates in df_rq2_
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  distinct()
+
+# group for id in df_rq2_, then add column n_id as the number of rows for each id
+combined_df_lo &lt;- combined_df_lo %&gt;%
+  group_by(id) %&gt;%
+  mutate(n_id = n())</code></pre>
+<pre class="r"><code># check combined_df for duplicates (in id)
+# combined_df_lo_dupl &lt;- combined_df_lo %&gt;%
+#   group_by(id) %&gt;%
+#   mutate(n_entry = n()) %&gt;%
+#   ungroup() %&gt;%
+#   filter(n_entry &gt; 1)
+
+# filter: only entries with cat_1 = NA in combined_df_lo_code
+combined_df_lo_code &lt;- combined_df_lo %&gt;% #####
+  filter(is.na(cat_1))</code></pre>
+<div id="section" class="section level3">
+<h3></h3>
+</div>
+</div>
+</div>
+<div id="export-of-the-data-for-coding" class="section level1">
+<h1>Export of the data for Coding</h1>
+<div id="section-1" class="section level3">
+<h3></h3>
 <table>
-<caption>Outcomes of Vocational Teachers’ Daily Work Activities
+<caption>Outcomes of Vocational Teachers’ Everyday Work Activities
 (RQ2)</caption>
 <colgroup>
-<col width="66%" />
-<col width="15%" />
-<col width="5%" />
-<col width="12%" />
+<col width="26%" />
+<col width="49%" />
+<col width="10%" />
+<col width="4%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Activity</th>
+<th align="left">Learning Outcome (Parent-Category)</th>
+<th align="left">Learning Outcome (Detail)</th>
 <th align="right">Number of LOs</th>
 <th align="right">Sum</th>
 <th align="right">Percentage</th>
@@ -2830,167 +3114,202 @@ Activities</h2>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">expansion of knowledge</td>
-<td align="right">684</td>
-<td align="right">1986</td>
-<td align="right">34.4410876</td>
+<td align="left">1a1</td>
+<td align="left">content knowledge and skills</td>
+<td align="right">221</td>
+<td align="right">25232</td>
+<td align="right">0.8758719</td>
 </tr>
 <tr class="even">
-<td align="left">situational diagnostics</td>
-<td align="right">684</td>
-<td align="right">1986</td>
-<td align="right">34.4410876</td>
+<td align="left">1a2</td>
+<td align="left">pedagogical knowledge and skills</td>
+<td align="right">154</td>
+<td align="right">25232</td>
+<td align="right">0.6103361</td>
 </tr>
 <tr class="odd">
-<td align="left">consolidation of core competencies</td>
-<td align="right">121</td>
-<td align="right">1986</td>
-<td align="right">6.0926485</td>
+<td align="left">1a3</td>
+<td align="left">technological knowledge and skills</td>
+<td align="right">77</td>
+<td align="right">25232</td>
+<td align="right">0.3051680</td>
 </tr>
 <tr class="even">
-<td align="left">positive attitude towards teamwork</td>
-<td align="right">96</td>
-<td align="right">1986</td>
-<td align="right">4.8338369</td>
+<td align="left">1a8</td>
+<td align="left">other job-specific knowledge and skills</td>
+<td align="right">71</td>
+<td align="right">25232</td>
+<td align="right">0.2813887</td>
 </tr>
 <tr class="odd">
-<td align="left">ability to self-reflect</td>
-<td align="right">66</td>
-<td align="right">1986</td>
-<td align="right">3.3232628</td>
+<td align="left">2b4</td>
+<td align="left">importance of breaks and resource conservation</td>
+<td align="right">25</td>
+<td align="right">25232</td>
+<td align="right">0.0990805</td>
 </tr>
 <tr class="even">
-<td align="left">awareness of the importance of conscientious, careful
-work</td>
-<td align="right">65</td>
-<td align="right">1986</td>
-<td align="right">3.2729104</td>
+<td align="left">1a4</td>
+<td align="left">job-specific organisational knowledge and skills</td>
+<td align="right">24</td>
+<td align="right">25232</td>
+<td align="right">0.0951173</td>
 </tr>
 <tr class="odd">
-<td align="left">conscientious, careful work</td>
-<td align="right">60</td>
-<td align="right">1986</td>
-<td align="right">3.0211480</td>
+<td align="left">2a5</td>
+<td align="left">communication and collaboration skills</td>
+<td align="right">20</td>
+<td align="right">25232</td>
+<td align="right">0.0792644</td>
 </tr>
 <tr class="even">
-<td align="left">composure</td>
-<td align="right">29</td>
-<td align="right">1986</td>
-<td align="right">1.4602216</td>
+<td align="left">2a3</td>
+<td align="left">administrative and organisational skills</td>
+<td align="right">15</td>
+<td align="right">25232</td>
+<td align="right">0.0594483</td>
 </tr>
 <tr class="odd">
-<td align="left">learning new working methods</td>
-<td align="right">29</td>
-<td align="right">1986</td>
-<td align="right">1.4602216</td>
+<td align="left">3b</td>
+<td align="left">perception of work characteristics</td>
+<td align="right">13</td>
+<td align="right">25232</td>
+<td align="right">0.0515219</td>
 </tr>
 <tr class="even">
-<td align="left">joint planning and problem solving</td>
-<td align="right">19</td>
-<td align="right">1986</td>
-<td align="right">0.9566969</td>
-</tr>
-<tr class="odd">
-<td align="left">Break awareness and resource conservation</td>
-<td align="right">16</td>
-<td align="right">1986</td>
-<td align="right">0.8056395</td>
-</tr>
-<tr class="even">
-<td align="left">awareness of the importance of serenity</td>
+<td align="left">2a1</td>
+<td align="left">general socio-emotional knowledge and skills</td>
 <td align="right">10</td>
-<td align="right">1986</td>
-<td align="right">0.5035247</td>
+<td align="right">25232</td>
+<td align="right">0.0396322</td>
 </tr>
 <tr class="odd">
-<td align="left">consolidation of own routine</td>
-<td align="right">10</td>
-<td align="right">1986</td>
-<td align="right">0.5035247</td>
+<td align="left">1b3</td>
+<td align="left">importance of engaging with students &amp; relationship
+to students</td>
+<td align="right">9</td>
+<td align="right">25232</td>
+<td align="right">0.0356690</td>
 </tr>
 <tr class="even">
-<td align="left">job dissatisfaction / frustration</td>
-<td align="right">9</td>
-<td align="right">1986</td>
-<td align="right">0.4531722</td>
+<td align="left">2a2</td>
+<td align="left">time management</td>
+<td align="right">7</td>
+<td align="right">25232</td>
+<td align="right">0.0277425</td>
 </tr>
 <tr class="odd">
-<td align="left">job satisfaction</td>
-<td align="right">9</td>
-<td align="right">1986</td>
-<td align="right">0.4531722</td>
-</tr>
-<tr class="even">
-<td align="left">psychological safety</td>
-<td align="right">9</td>
-<td align="right">1986</td>
-<td align="right">0.4531722</td>
-</tr>
-<tr class="odd">
-<td align="left">awareness of the importance of concentration</td>
-<td align="right">8</td>
-<td align="right">1986</td>
-<td align="right">0.4028197</td>
-</tr>
-<tr class="even">
-<td align="left">mutual support</td>
+<td align="left">2b3</td>
+<td align="left">importance of conscientious, careful work</td>
 <td align="right">6</td>
-<td align="right">1986</td>
-<td align="right">0.3021148</td>
-</tr>
-<tr class="odd">
-<td align="left">awareness of the importance of self-reflection</td>
-<td align="right">5</td>
-<td align="right">1986</td>
-<td align="right">0.2517623</td>
+<td align="right">25232</td>
+<td align="right">0.0237793</td>
 </tr>
 <tr class="even">
-<td align="left">emotional exhaustion</td>
-<td align="right">5</td>
-<td align="right">1986</td>
-<td align="right">0.2517623</td>
+<td align="left">1a5</td>
+<td align="left">job-specific communication knowledge and skills</td>
+<td align="right">6</td>
+<td align="right">25232</td>
+<td align="right">0.0237793</td>
 </tr>
 <tr class="odd">
-<td align="left">emotional regulation</td>
-<td align="right">5</td>
-<td align="right">1986</td>
-<td align="right">0.2517623</td>
+<td align="left">2b9</td>
+<td align="left">other general attitudes</td>
+<td align="right">6</td>
+<td align="right">25232</td>
+<td align="right">0.0237793</td>
 </tr>
 <tr class="even">
-<td align="left">effectiveness</td>
+<td align="left">2b7</td>
+<td align="left">awareness of the importance of serenity</td>
+<td align="right">4</td>
+<td align="right">25232</td>
+<td align="right">0.0158529</td>
+</tr>
+<tr class="odd">
+<td align="left">1b4</td>
+<td align="left">importance of thorough preparation</td>
+<td align="right">4</td>
+<td align="right">25232</td>
+<td align="right">0.0158529</td>
+</tr>
+<tr class="even">
+<td align="left">1b2</td>
+<td align="left">job-specific socio-emotional values</td>
+<td align="right">4</td>
+<td align="right">25232</td>
+<td align="right">0.0158529</td>
+</tr>
+<tr class="odd">
+<td align="left">2a4</td>
+<td align="left">ability to self-reflect</td>
+<td align="right">3</td>
+<td align="right">25232</td>
+<td align="right">0.0118897</td>
+</tr>
+<tr class="even">
+<td align="left">2b6</td>
+<td align="left">importance of (early) organisation</td>
+<td align="right">3</td>
+<td align="right">25232</td>
+<td align="right">0.0118897</td>
+</tr>
+<tr class="odd">
+<td align="left">1b5</td>
+<td align="left">importance of classroom management</td>
+<td align="right">3</td>
+<td align="right">25232</td>
+<td align="right">0.0118897</td>
+</tr>
+<tr class="even">
+<td align="left">2a11</td>
+<td align="left">other general knowledge and skills</td>
 <td align="right">2</td>
-<td align="right">1986</td>
-<td align="right">0.1007049</td>
+<td align="right">25232</td>
+<td align="right">0.0079264</td>
 </tr>
 <tr class="odd">
-<td align="left">motivation</td>
+<td align="left">1b9</td>
+<td align="left">other job-specific attitudes</td>
 <td align="right">2</td>
-<td align="right">1986</td>
-<td align="right">0.1007049</td>
+<td align="right">25232</td>
+<td align="right">0.0079264</td>
 </tr>
 <tr class="even">
-<td align="left">ability to concentrate</td>
+<td align="left">2a6</td>
+<td align="left">conflict management and resolution</td>
 <td align="right">1</td>
-<td align="right">1986</td>
-<td align="right">0.0503525</td>
+<td align="right">25232</td>
+<td align="right">0.0039632</td>
 </tr>
 <tr class="odd">
-<td align="left">effectiveness at team level</td>
+<td align="left">2b5</td>
+<td align="left">importance of collaboration and communication with
+colleagues</td>
 <td align="right">1</td>
-<td align="right">1986</td>
-<td align="right">0.0503525</td>
+<td align="right">25232</td>
+<td align="right">0.0039632</td>
 </tr>
 <tr class="even">
-<td align="left">reduction of errors</td>
+<td align="left">1b6</td>
+<td align="left">importance of learning assessment</td>
 <td align="right">1</td>
-<td align="right">1986</td>
-<td align="right">0.0503525</td>
+<td align="right">25232</td>
+<td align="right">0.0039632</td>
 </tr>
 <tr class="odd">
-<td align="left">other</td>
-<td align="right">34</td>
-<td align="right">1986</td>
-<td align="right">1.7119839</td>
+<td align="left">1b1</td>
+<td align="left">professional identity</td>
+<td align="right">1</td>
+<td align="right">25232</td>
+<td align="right">0.0039632</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">24539</td>
+<td align="right">25232</td>
+<td align="right">97.2534876</td>
 </tr>
 </tbody>
 </table>
@@ -2998,25 +3317,25 @@ work</td>
 <div id="rq3-learning-outcomes-across-vocational-teachers-everyday-work-activities" class="section level2">
 <h2>RQ3: Learning Outcomes across Vocational Teachers’ Everyday Work
 Activities</h2>
-<table>
-<caption>Learning Categories across Vocational Teachers’ Daily Work
-Activities (RQ2 (1))</caption>
+<table style="width:100%;">
+<caption>Learning Categories across Vocational Teachers’ EverydayDaily
+Work Activities (RQ2 (1))</caption>
 <colgroup>
-<col width="54%" />
+<col width="50%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
 <col width="3%" />
 <col width="2%" />
 <col width="3%" />
-<col width="2%" />
-<col width="2%" />
 <col width="3%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
 <col width="3%" />
-<col width="2%" />
-<col width="2%" />
 <col width="2%" />
 </colgroup>
 <thead>
@@ -3041,17 +3360,17 @@ Activities (RQ2 (1))</caption>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Break awareness and resource conservation</td>
-<td align="left">2</td>
+<td align="left">ability to self-reflect</td>
+<td align="left">1</td>
 <td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">3</td>
+<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">7</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -3059,25 +3378,134 @@ Activities (RQ2 (1))</caption>
 <td align="left">0</td>
 </tr>
 <tr class="even">
-<td align="left">ability to self-reflect</td>
-<td align="left">18</td>
-<td align="left">0</td>
-<td align="left">13</td>
+<td align="left">communication and collaboration skills</td>
 <td align="left">1</td>
-<td align="left">5</td>
-<td align="left">9</td>
+<td align="left">0</td>
 <td align="left">1</td>
 <td align="left">2</td>
 <td align="left">0</td>
+<td align="left">4</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">3</td>
-<td align="left">2</td>
 <td align="left">0</td>
 <td align="left">0</td>
 </tr>
 <tr class="odd">
-<td align="left">awareness of the importance of concentration</td>
+<td align="left">content knowledge and skills</td>
+<td align="left">19</td>
+<td align="left">4</td>
+<td align="left">119</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">6</td>
+<td align="left">1</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">15</td>
+<td align="left">16</td>
+<td align="left">1</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of (early) organisation</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of breaks and resource conservation</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">10</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of classroom management</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of engaging with students &amp; relationship
+to students</td>
+<td align="left">5</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of thorough preparation</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific communication knowledge and skills</td>
 <td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -3085,8 +3513,26 @@ Activities (RQ2 (1))</caption>
 <td align="left">0</td>
 <td align="left">1</td>
 <td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">job-specific organisational knowledge and skills</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">6</td>
+<td align="left">0</td>
 <td align="left">1</td>
-<td align="left">1</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -3094,195 +3540,211 @@ Activities (RQ2 (1))</caption>
 <td align="left">0</td>
 <td align="left">0</td>
 </tr>
+<tr class="odd">
+<td align="left">job-specific socio-emotional values</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
 <tr class="even">
-<td align="left">awareness of the importance of conscientious, careful
-work</td>
-<td align="left">8</td>
+<td align="left">other general attitudes</td>
+<td align="left">1</td>
 <td align="left">0</td>
-<td align="left">14</td>
-<td align="left">6</td>
+<td align="left">1</td>
 <td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">other job-specific attitudes</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">other job-specific knowledge and skills</td>
 <td align="left">5</td>
 <td align="left">1</td>
+<td align="left">22</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">8</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">6</td>
+<td align="left">9</td>
+<td align="left">1</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">pedagogical knowledge and skills</td>
+<td align="left">42</td>
+<td align="left">4</td>
+<td align="left">51</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">14</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">1</td>
+<td align="left">6</td>
+<td align="left">3</td>
+<td align="left">1</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">perception of work characteristics</td>
+<td align="left">6</td>
+<td align="left">0</td>
+<td align="left">4</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">professional identity</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">technological knowledge and skills</td>
+<td align="left">11</td>
+<td align="left">0</td>
 <td align="left">10</td>
 <td align="left">2</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">3</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">9</td>
+<td align="left">8</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">time management</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
 <td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="even">
+<td align="left">administrative and organisational skills</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">1</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
 <td align="left">0</td>
 </tr>
 <tr class="odd">
 <td align="left">awareness of the importance of serenity</td>
-<td align="left">4</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
 <td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 </tr>
 <tr class="even">
-<td align="left">composure</td>
-<td align="left">13</td>
-<td align="left">0</td>
-<td align="left">2</td>
+<td align="left">general socio-emotional knowledge and skills</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">3</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
 <td align="left">2</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">conscientious, careful work</td>
-<td align="left">9</td>
-<td align="left">0</td>
-<td align="left">15</td>
-<td align="left">1</td>
-<td align="left">4</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">12</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">consolidation of core competencies</td>
-<td align="left">25</td>
-<td align="left">0</td>
-<td align="left">26</td>
-<td align="left">6</td>
-<td align="left">1</td>
-<td align="left">10</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">9</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">consolidation of own routine</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">5</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-</tr>
-<tr class="even">
-<td align="left">emotional exhaustion</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">emotional regulation</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">expansion of knowledge</td>
-<td align="left">58</td>
-<td align="left">4</td>
-<td align="left">159</td>
-<td align="left">11</td>
-<td align="left">15</td>
-<td align="left">77</td>
-<td align="left">16</td>
-<td align="left">19</td>
-<td align="left">2</td>
-<td align="left">4</td>
-<td align="left">1</td>
-<td align="left">66</td>
-<td align="left">67</td>
-<td align="left">5</td>
-<td align="left">2</td>
-</tr>
-<tr class="odd">
-<td align="left">job satisfaction</td>
-<td align="left">4</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">joint planning and problem solving</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -3292,99 +3754,28 @@ work</td>
 <td align="left">3</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">0</td>
 </tr>
 <tr class="odd">
-<td align="left">learning new working methods</td>
-<td align="left">9</td>
+<td align="left">importance of conscientious, careful work</td>
 <td align="left">0</td>
-<td align="left">6</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">4</td>
 <td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
 <td align="left">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 </tr>
 <tr class="even">
-<td align="left">motivation</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">other</td>
-<td align="left">3</td>
-<td align="left">1</td>
-<td align="left">3</td>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="left">5</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">positive attitude towards teamwork</td>
-<td align="left">8</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="left">25</td>
-<td align="left">5</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">5</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">situational diagnostics</td>
-<td align="left">246</td>
-<td align="left">9</td>
-<td align="left">108</td>
-<td align="left">21</td>
-<td align="left">41</td>
-<td align="left">53</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">2</td>
-<td align="left">7</td>
-<td align="left">0</td>
-<td align="left">20</td>
-<td align="left">6</td>
-<td align="left">4</td>
-<td align="left">1</td>
-</tr>
-<tr class="even">
-<td align="left">ability to concentrate</td>
+<td align="left">importance of learning assessment</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -3402,13 +3793,13 @@ work</td>
 <td align="left">0</td>
 </tr>
 <tr class="odd">
-<td align="left">effectiveness</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
+<td align="left">conflict management and resolution</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -3420,157 +3811,86 @@ work</td>
 <td align="left">0</td>
 </tr>
 <tr class="even">
-<td align="left">job dissatisfaction / frustration</td>
+<td align="left">importance of collaboration and communication with
+colleagues</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+</tr>
+<tr class="odd">
+<td align="left">other general knowledge and skills</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">2</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">mutual support</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">4</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">awareness of the importance of self-reflection</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">psychological safety</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">6</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="even">
-<td align="left">reduction of errors</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-</tr>
-<tr class="odd">
-<td align="left">effectiveness at team level</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
 </tr>
 <tr class="even">
 <td align="left">sum</td>
-<td align="left">416</td>
-<td align="left">14</td>
+<td align="left">4836</td>
+<td align="left">150</td>
+<td align="left">5680</td>
+<td align="left">714</td>
+<td align="left">796</td>
+<td align="left">2890</td>
 <td align="left">366</td>
-<td align="left">51</td>
-<td align="left">74</td>
-<td align="left">214</td>
-<td align="left">38</td>
-<td align="left">58</td>
-<td align="left">7</td>
-<td align="left">23</td>
-<td align="left">5</td>
+<td align="left">1304</td>
 <td align="left">116</td>
-<td align="left">84</td>
-<td align="left">14</td>
-<td align="left">4</td>
+<td align="left">642</td>
+<td align="left">88</td>
+<td align="left">636</td>
+<td align="left">502</td>
+<td align="left">172</td>
+<td align="left">60</td>
 </tr>
 </tbody>
 </table>
 <table>
-<caption>Learning Categories across Vocational Teachers’ Daily Work
+<caption>Learning Categories across Vocational Teachers’ Everyday Work
 Activities (RQ2 (2))</caption>
 <colgroup>
-<col width="55%" />
+<col width="50%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
 <col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="5%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">activity</th>
+<th align="left">lo</th>
 <th align="left">16</th>
 <th align="left">17</th>
 <th align="left">18</th>
@@ -3590,49 +3910,14 @@ Activities (RQ2 (2))</caption>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Break awareness and resource conservation</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">16</td>
-</tr>
-<tr class="even">
 <td align="left">ability to self-reflect</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">2</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">66</td>
-</tr>
-<tr class="odd">
-<td align="left">awareness of the importance of concentration</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
 <td align="left">0</td>
-<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -3640,360 +3925,395 @@ Activities (RQ2 (2))</caption>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">0</td>
-<td align="left">8</td>
+<td align="left">3</td>
 </tr>
 <tr class="even">
-<td align="left">awareness of the importance of conscientious, careful
-work</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">0</td>
+<td align="left">communication and collaboration skills</td>
 <td align="left">3</td>
 <td align="left">0</td>
 <td align="left">2</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">20</td>
+</tr>
+<tr class="odd">
+<td align="left">content knowledge and skills</td>
+<td align="left">6</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">9</td>
+<td align="left">1</td>
+<td align="left">11</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">221</td>
+</tr>
+<tr class="even">
+<td align="left">importance of (early) organisation</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of breaks and resource conservation</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">25</td>
+</tr>
+<tr class="even">
+<td align="left">importance of classroom management</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of engaging with students &amp; relationship
+to students</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">9</td>
+</tr>
+<tr class="even">
+<td align="left">importance of thorough preparation</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">4</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific communication knowledge and skills</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">6</td>
+</tr>
+<tr class="even">
+<td align="left">job-specific organisational knowledge and skills</td>
+<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">2</td>
 <td align="left">0</td>
 <td align="left">1</td>
+<td align="left">5</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">2</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
 <td align="left">2</td>
+<td align="left">24</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific socio-emotional values</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">other general attitudes</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">6</td>
+</tr>
+<tr class="odd">
+<td align="left">other job-specific attitudes</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">2</td>
-<td align="left">65</td>
+</tr>
+<tr class="even">
+<td align="left">other job-specific knowledge and skills</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">9</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">71</td>
+</tr>
+<tr class="odd">
+<td align="left">pedagogical knowledge and skills</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">9</td>
+<td align="left">0</td>
+<td align="left">9</td>
+<td align="left">0</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">154</td>
+</tr>
+<tr class="even">
+<td align="left">perception of work characteristics</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">13</td>
+</tr>
+<tr class="odd">
+<td align="left">professional identity</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">technological knowledge and skills</td>
+<td align="left">1</td>
+<td align="left">5</td>
+<td align="left">7</td>
+<td align="left">2</td>
+<td align="left">0</td>
+<td align="left">7</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">77</td>
+</tr>
+<tr class="odd">
+<td align="left">time management</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td align="left">administrative and organisational skills</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">3</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">15</td>
 </tr>
 <tr class="odd">
 <td align="left">awareness of the importance of serenity</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">10</td>
-</tr>
-<tr class="even">
-<td align="left">composure</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">2</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
 <td align="left">0</td>
-<td align="left">29</td>
-</tr>
-<tr class="odd">
-<td align="left">conscientious, careful work</td>
-<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">3</td>
-<td align="left">2</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">60</td>
-</tr>
-<tr class="even">
-<td align="left">consolidation of core competencies</td>
-<td align="left">11</td>
 <td align="left">0</td>
-<td align="left">1</td>
-<td align="left">6</td>
-<td align="left">1</td>
-<td align="left">8</td>
-<td align="left">1</td>
+<td align="left">0</td>
 <td align="left">4</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">121</td>
 </tr>
-<tr class="odd">
-<td align="left">consolidation of own routine</td>
+<tr class="even">
+<td align="left">general socio-emotional knowledge and skills</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left">1</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">10</td>
 </tr>
-<tr class="even">
-<td align="left">emotional exhaustion</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
-</tr>
 <tr class="odd">
-<td align="left">emotional regulation</td>
+<td align="left">importance of conscientious, careful work</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
-</tr>
-<tr class="even">
-<td align="left">expansion of knowledge</td>
-<td align="left">26</td>
-<td align="left">16</td>
-<td align="left">19</td>
-<td align="left">31</td>
-<td align="left">1</td>
-<td align="left">32</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">4</td>
-<td align="left">9</td>
-<td align="left">10</td>
-<td align="left">2</td>
-<td align="left">8</td>
-<td align="left">9</td>
-<td align="left">684</td>
-</tr>
-<tr class="odd">
-<td align="left">job satisfaction</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">9</td>
-</tr>
-<tr class="even">
-<td align="left">joint planning and problem solving</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">3</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">19</td>
-</tr>
-<tr class="odd">
-<td align="left">learning new working methods</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">29</td>
-</tr>
-<tr class="even">
-<td align="left">motivation</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
-</tr>
-<tr class="odd">
-<td align="left">other</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">3</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">2</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">34</td>
-</tr>
-<tr class="even">
-<td align="left">positive attitude towards teamwork</td>
-<td align="left">11</td>
-<td align="left">1</td>
-<td align="left">4</td>
-<td align="left">5</td>
-<td align="left">0</td>
-<td align="left">4</td>
-<td align="left">5</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">2</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">5</td>
-<td align="left">2</td>
-<td align="left">96</td>
-</tr>
-<tr class="odd">
-<td align="left">situational diagnostics</td>
-<td align="left">7</td>
-<td align="left">4</td>
-<td align="left">9</td>
-<td align="left">38</td>
-<td align="left">0</td>
-<td align="left">25</td>
-<td align="left">7</td>
-<td align="left">4</td>
-<td align="left">8</td>
-<td align="left">11</td>
-<td align="left">13</td>
-<td align="left">2</td>
-<td align="left">8</td>
-<td align="left">6</td>
-<td align="left">684</td>
-</tr>
-<tr class="even">
-<td align="left">ability to concentrate</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-</tr>
-<tr class="odd">
-<td align="left">effectiveness</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">2</td>
-</tr>
-<tr class="even">
-<td align="left">job dissatisfaction / frustration</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">9</td>
-</tr>
-<tr class="odd">
-<td align="left">mutual support</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -4005,46 +4325,47 @@ work</td>
 <td align="left">6</td>
 </tr>
 <tr class="even">
-<td align="left">awareness of the importance of self-reflection</td>
+<td align="left">importance of learning assessment</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">5</td>
 </tr>
 <tr class="odd">
-<td align="left">psychological safety</td>
-<td align="left">1</td>
+<td align="left">conflict management and resolution</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">1</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
-<td align="left">9</td>
 </tr>
 <tr class="even">
-<td align="left">reduction of errors</td>
+<td align="left">importance of collaboration and communication with
+colleagues</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
+<td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -4059,14 +4380,7 @@ work</td>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">effectiveness at team level</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">0</td>
-<td align="left">1</td>
+<td align="left">other general knowledge and skills</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
@@ -4074,28 +4388,1245 @@ work</td>
 <td align="left">0</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">1</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">2</td>
 </tr>
 <tr class="even">
 <td align="left">sum</td>
-<td align="left">63</td>
-<td align="left">24</td>
-<td align="left">43</td>
-<td align="left">97</td>
-<td align="left">2</td>
-<td align="left">82</td>
-<td align="left">31</td>
+<td align="left">744</td>
+<td align="left">296</td>
+<td align="left">426</td>
+<td align="left">1254</td>
 <td align="left">16</td>
-<td align="left">23</td>
-<td align="left">34</td>
-<td align="left">26</td>
-<td align="left">7</td>
-<td align="left">29</td>
-<td align="left">25</td>
+<td align="left">818</td>
+<td align="left">556</td>
+<td align="left">336</td>
+<td align="left">292</td>
+<td align="left">558</td>
+<td align="left">332</td>
+<td align="left">106</td>
+<td align="left">368</td>
+<td align="left">178</td>
 <td align="left">NA</td>
 </tr>
 </tbody>
 </table>
+<div id="rq3b-learning-outcomes-across-vocational-teachers-everyday-work-activities" class="section level3">
+<h3>RQ3b: Learning Outcomes across Vocational Teachers’ Everyday Work
+Activities</h3>
+<table>
+<caption>Learning Categories across Vocational Teachers’ Everyday Work
+Activities (RQ3 (1))</caption>
+<colgroup>
+<col width="1%" />
+<col width="9%" />
+<col width="3%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="7%" />
+<col width="5%" />
+<col width="10%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+<col width="3%" />
+<col width="4%" />
+<col width="6%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">act_no</th>
+<th align="left">activity</th>
+<th align="right">ability to self-reflect</th>
+<th align="right">communication and collaboration skills</th>
+<th align="right">content knowledge and skills</th>
+<th align="right">importance of (early) organisation</th>
+<th align="right">importance of breaks and resource conservation</th>
+<th align="right">importance of classroom management</th>
+<th align="right">importance of engaging with students &amp;
+relationship to students</th>
+<th align="right">importance of thorough preparation</th>
+<th align="right">job-specific communication knowledge and skills</th>
+<th align="right">job-specific organisational knowledge and skills</th>
+<th align="right">job-specific socio-emotional values</th>
+<th align="right">other general attitudes</th>
+<th align="right">other job-specific attitudes</th>
+<th align="right">other job-specific knowledge and skills</th>
+<th align="right">pedagogical knowledge and skills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Classroom teaching</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">19</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">42</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Classroom teaching: substitute teaching</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">Classroom teaching: preparation and follow-up of
+lessons</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">119</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">22</td>
+<td align="right">51</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">Tasks as a class teacher outside of classroom
+teaching</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">Interaction with students outside of lesson time</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">Interaction with colleagues</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">Interaction with external parties</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">Organization of the work environment</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="left">Supervision</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">Break</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left">Recurring service routes</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="left">Training: formal</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">15</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Training: non-formal</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">16</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">9</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">14</td>
+<td align="left">field trips, excursions</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">COVID-related tasks</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Collaboration in committees and permanent teams</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="left">IT administration</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">18</td>
+<td align="left">Engagement in school projects</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">19</td>
+<td align="left">Exam-related tasks</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">9</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="left">Private school: supervision</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">21</td>
+<td align="left">Additional functions</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
+<td align="left">Personal resource planning</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">Personnel management and selection</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">24</td>
+<td align="left">Exam administration</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">25</td>
+<td align="left">Management of internal school committees and teams</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">26</td>
+<td align="left">Student affairs</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="left">Interaction with the school board</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">28</td>
+<td align="left">Interaction with external parties</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">29</td>
+<td align="left">Miscellaneous activities</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="left">NA</td>
+<td align="right">3</td>
+<td align="right">20</td>
+<td align="right">221</td>
+<td align="right">3</td>
+<td align="right">25</td>
+<td align="right">3</td>
+<td align="right">9</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">24</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">2</td>
+<td align="right">71</td>
+<td align="right">154</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Learning Categories across Vocational Teachers’ Everyday Work
+Activities (RQ3 (2))</caption>
+<colgroup>
+<col width="1%" />
+<col width="10%" />
+<col width="6%" />
+<col width="6%" />
+<col width="4%" />
+<col width="6%" />
+<col width="2%" />
+<col width="1%" />
+<col width="7%" />
+<col width="7%" />
+<col width="8%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="11%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">act_no</th>
+<th align="left">activity</th>
+<th align="right">pedagogical knowledge and skills</th>
+<th align="right">perception of work characteristics</th>
+<th align="right">professional identity</th>
+<th align="right">technological knowledge and skills</th>
+<th align="right">time management</th>
+<th align="right">NA</th>
+<th align="right">administrative and organisational skills</th>
+<th align="right">awareness of the importance of serenity</th>
+<th align="right">general socio-emotional knowledge and skills</th>
+<th align="right">importance of conscientious, careful work</th>
+<th align="right">importance of learning assessment</th>
+<th align="right">conflict management and resolution</th>
+<th align="right">importance of collaboration and communication with
+colleagues</th>
+<th align="right">other general knowledge and skills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Classroom teaching</td>
+<td align="right">42</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">11</td>
+<td align="right">2</td>
+<td align="right">4725</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Classroom teaching: substitute teaching</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">141</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">Classroom teaching: preparation and follow-up of
+lessons</td>
+<td align="right">51</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">3</td>
+<td align="right">5455</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">Tasks as a class teacher outside of classroom
+teaching</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">703</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">Interaction with students outside of lesson time</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">787</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">Interaction with colleagues</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2840</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">Interaction with external parties</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">362</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">Organization of the work environment</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1290</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="left">Supervision</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">116</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">Break</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">620</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left">Recurring service routes</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">85</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="left">Training: formal</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">591</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left">Training: non-formal</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right">464</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">14</td>
+<td align="left">field trips, excursions</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">166</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">COVID-related tasks</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">56</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">16</td>
+<td align="left">Collaboration in committees and permanent teams</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">728</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="left">IT administration</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">289</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">18</td>
+<td align="left">Engagement in school projects</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">414</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">19</td>
+<td align="left">Exam-related tasks</td>
+<td align="right">9</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">1216</td>
+<td align="right">3</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="left">Private school: supervision</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">21</td>
+<td align="left">Additional functions</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">785</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">22</td>
+<td align="left">Personal resource planning</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">547</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">23</td>
+<td align="left">Personnel management and selection</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">331</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">24</td>
+<td align="left">Exam administration</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">289</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">25</td>
+<td align="left">Management of internal school committees and teams</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">552</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">26</td>
+<td align="left">Student affairs</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">332</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="left">Interaction with the school board</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">106</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">28</td>
+<td align="left">Interaction with external parties</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">364</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">29</td>
+<td align="left">Miscellaneous activities</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">171</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="left">NA</td>
+<td align="right">154</td>
+<td align="right">13</td>
+<td align="right">1</td>
+<td align="right">77</td>
+<td align="right">7</td>
+<td align="right">24539</td>
+<td align="right">15</td>
+<td align="right">4</td>
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="rq4-relation-of-extent-of-perceived-learning-to-coded-learning-outcomes" class="section level2">
 <h2>RQ4: Relation of extent of perceived learning to coded learning
@@ -4104,11 +5635,11 @@ outcomes</h2>
 <caption>Relation of Extent of Perceived Learning to Coded Learning
 Outcomes (RQ4)</caption>
 <colgroup>
-<col width="61%" />
-<col width="14%" />
+<col width="63%" />
+<col width="13%" />
+<col width="8%" />
 <col width="9%" />
-<col width="10%" />
-<col width="4%" />
+<col width="3%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4121,200 +5652,215 @@ Outcomes (RQ4)</caption>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">expansion of knowledge</td>
-<td align="right">684</td>
-<td align="right">3.423977</td>
-<td align="right">1.8624150</td>
-<td align="right">3.0</td>
-</tr>
-<tr class="even">
-<td align="left">situational diagnostics</td>
-<td align="right">684</td>
-<td align="right">2.682749</td>
-<td align="right">1.6369437</td>
+<td align="left">NA</td>
+<td align="right">24539</td>
+<td align="right">2.315905</td>
+<td align="right">1.5802120</td>
 <td align="right">2.0</td>
 </tr>
-<tr class="odd">
-<td align="left">consolidation of core competencies</td>
-<td align="right">121</td>
-<td align="right">2.983471</td>
-<td align="right">1.5967857</td>
-<td align="right">3.0</td>
-</tr>
 <tr class="even">
-<td align="left">positive attitude towards teamwork</td>
-<td align="right">96</td>
-<td align="right">3.312500</td>
-<td align="right">1.9483461</td>
+<td align="left">content knowledge and skills</td>
+<td align="right">221</td>
+<td align="right">3.339367</td>
+<td align="right">1.6754206</td>
 <td align="right">3.0</td>
 </tr>
 <tr class="odd">
-<td align="left">ability to self-reflect</td>
-<td align="right">66</td>
-<td align="right">2.818182</td>
-<td align="right">1.7445219</td>
-<td align="right">2.0</td>
+<td align="left">pedagogical knowledge and skills</td>
+<td align="right">154</td>
+<td align="right">3.045454</td>
+<td align="right">1.7200886</td>
+<td align="right">3.0</td>
 </tr>
 <tr class="even">
-<td align="left">awareness of the importance of conscientious, careful
-work</td>
-<td align="right">65</td>
-<td align="right">2.430769</td>
-<td align="right">1.6004807</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="odd">
-<td align="left">conscientious, careful work</td>
-<td align="right">60</td>
-<td align="right">2.183333</td>
-<td align="right">1.2001648</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="even">
-<td align="left">other</td>
-<td align="right">34</td>
-<td align="right">4.029412</td>
-<td align="right">1.8171789</td>
+<td align="left">technological knowledge and skills</td>
+<td align="right">77</td>
+<td align="right">3.948052</td>
+<td align="right">1.8345809</td>
 <td align="right">4.0</td>
 </tr>
 <tr class="odd">
-<td align="left">composure</td>
-<td align="right">29</td>
-<td align="right">2.413793</td>
-<td align="right">1.5472843</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="even">
-<td align="left">learning new working methods</td>
-<td align="right">29</td>
-<td align="right">4.103448</td>
-<td align="right">1.8194353</td>
-<td align="right">4.0</td>
-</tr>
-<tr class="odd">
-<td align="left">joint planning and problem solving</td>
-<td align="right">19</td>
-<td align="right">3.263158</td>
-<td align="right">1.4848159</td>
+<td align="left">other job-specific knowledge and skills</td>
+<td align="right">71</td>
+<td align="right">3.676056</td>
+<td align="right">1.9912282</td>
 <td align="right">3.0</td>
 </tr>
 <tr class="even">
-<td align="left">Break awareness and resource conservation</td>
-<td align="right">16</td>
-<td align="right">2.812500</td>
-<td align="right">1.6418993</td>
+<td align="left">importance of breaks and resource conservation</td>
+<td align="right">25</td>
+<td align="right">2.680000</td>
+<td align="right">1.7962925</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific organisational knowledge and skills</td>
+<td align="right">24</td>
+<td align="right">3.041667</td>
+<td align="right">1.8528278</td>
 <td align="right">2.5</td>
+</tr>
+<tr class="even">
+<td align="left">communication and collaboration skills</td>
+<td align="right">20</td>
+<td align="right">2.500000</td>
+<td align="right">1.2773327</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="odd">
+<td align="left">administrative and organisational skills</td>
+<td align="right">15</td>
+<td align="right">3.466667</td>
+<td align="right">1.8464896</td>
+<td align="right">3.0</td>
+</tr>
+<tr class="even">
+<td align="left">perception of work characteristics</td>
+<td align="right">13</td>
+<td align="right">2.461539</td>
+<td align="right">1.5063966</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="odd">
+<td align="left">general socio-emotional knowledge and skills</td>
+<td align="right">10</td>
+<td align="right">3.000000</td>
+<td align="right">2.2110832</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of engaging with students &amp; relationship
+to students</td>
+<td align="right">9</td>
+<td align="right">3.555556</td>
+<td align="right">1.8782379</td>
+<td align="right">4.0</td>
+</tr>
+<tr class="odd">
+<td align="left">time management</td>
+<td align="right">7</td>
+<td align="right">2.000000</td>
+<td align="right">1.5275252</td>
+<td align="right">1.0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of conscientious, careful work</td>
+<td align="right">6</td>
+<td align="right">1.833333</td>
+<td align="right">1.1690452</td>
+<td align="right">1.5</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific communication knowledge and skills</td>
+<td align="right">6</td>
+<td align="right">2.833333</td>
+<td align="right">1.3291601</td>
+<td align="right">3.0</td>
+</tr>
+<tr class="even">
+<td align="left">other general attitudes</td>
+<td align="right">6</td>
+<td align="right">1.833333</td>
+<td align="right">0.4082483</td>
+<td align="right">2.0</td>
 </tr>
 <tr class="odd">
 <td align="left">awareness of the importance of serenity</td>
-<td align="right">10</td>
-<td align="right">3.400000</td>
-<td align="right">1.7126977</td>
-<td align="right">3.0</td>
+<td align="right">4</td>
+<td align="right">2.500000</td>
+<td align="right">1.7320508</td>
+<td align="right">2.0</td>
 </tr>
 <tr class="even">
-<td align="left">consolidation of own routine</td>
-<td align="right">10</td>
+<td align="left">importance of thorough preparation</td>
+<td align="right">4</td>
+<td align="right">2.250000</td>
+<td align="right">0.9574271</td>
+<td align="right">2.5</td>
+</tr>
+<tr class="odd">
+<td align="left">job-specific socio-emotional values</td>
+<td align="right">4</td>
 <td align="right">3.500000</td>
-<td align="right">2.3687784</td>
-<td align="right">3.0</td>
-</tr>
-<tr class="odd">
-<td align="left">job dissatisfaction / frustration</td>
-<td align="right">9</td>
-<td align="right">3.000000</td>
-<td align="right">2.7838822</td>
-<td align="right">1.0</td>
+<td align="right">2.3804761</td>
+<td align="right">2.5</td>
 </tr>
 <tr class="even">
-<td align="left">job satisfaction</td>
-<td align="right">9</td>
+<td align="left">ability to self-reflect</td>
+<td align="right">3</td>
+<td align="right">2.000000</td>
+<td align="right">1.0000000</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of (early) organisation</td>
+<td align="right">3</td>
 <td align="right">4.000000</td>
-<td align="right">2.5495098</td>
-<td align="right">3.0</td>
-</tr>
-<tr class="odd">
-<td align="left">psychological safety</td>
-<td align="right">9</td>
-<td align="right">2.888889</td>
-<td align="right">1.6914819</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="even">
-<td align="left">awareness of the importance of concentration</td>
-<td align="right">8</td>
-<td align="right">3.250000</td>
-<td align="right">2.0528726</td>
-<td align="right">3.0</td>
-</tr>
-<tr class="odd">
-<td align="left">mutual support</td>
-<td align="right">6</td>
-<td align="right">3.166667</td>
-<td align="right">2.6394444</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="even">
-<td align="left">awareness of the importance of self-reflection</td>
-<td align="right">5</td>
-<td align="right">4.400000</td>
-<td align="right">2.1908902</td>
+<td align="right">2.6457513</td>
 <td align="right">5.0</td>
 </tr>
-<tr class="odd">
-<td align="left">emotional exhaustion</td>
-<td align="right">5</td>
-<td align="right">1.400000</td>
-<td align="right">0.5477226</td>
+<tr class="even">
+<td align="left">importance of classroom management</td>
+<td align="right">3</td>
+<td align="right">1.666667</td>
+<td align="right">1.1547005</td>
 <td align="right">1.0</td>
 </tr>
-<tr class="even">
-<td align="left">emotional regulation</td>
-<td align="right">5</td>
-<td align="right">3.000000</td>
-<td align="right">2.3452079</td>
-<td align="right">2.0</td>
-</tr>
 <tr class="odd">
-<td align="left">effectiveness</td>
+<td align="left">other general knowledge and skills</td>
 <td align="right">2</td>
-<td align="right">2.000000</td>
-<td align="right">1.4142136</td>
-<td align="right">2.0</td>
+<td align="right">2.500000</td>
+<td align="right">0.7071068</td>
+<td align="right">2.5</td>
 </tr>
 <tr class="even">
-<td align="left">motivation</td>
+<td align="left">other job-specific attitudes</td>
 <td align="right">2</td>
-<td align="right">2.000000</td>
-<td align="right">1.4142136</td>
-<td align="right">2.0</td>
-</tr>
-<tr class="odd">
-<td align="left">ability to concentrate</td>
-<td align="right">1</td>
-<td align="right">5.000000</td>
-<td align="right">NA</td>
-<td align="right">5.0</td>
-</tr>
-<tr class="even">
-<td align="left">effectiveness at team level</td>
-<td align="right">1</td>
 <td align="right">1.000000</td>
-<td align="right">NA</td>
+<td align="right">0.0000000</td>
 <td align="right">1.0</td>
 </tr>
 <tr class="odd">
-<td align="left">reduction of errors</td>
+<td align="left">conflict management and resolution</td>
 <td align="right">1</td>
-<td align="right">7.000000</td>
+<td align="right">3.000000</td>
 <td align="right">NA</td>
-<td align="right">7.0</td>
+<td align="right">3.0</td>
+</tr>
+<tr class="even">
+<td align="left">importance of collaboration and communication with
+colleagues</td>
+<td align="right">1</td>
+<td align="right">2.000000</td>
+<td align="right">NA</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="odd">
+<td align="left">importance of learning assessment</td>
+<td align="right">1</td>
+<td align="right">2.000000</td>
+<td align="right">NA</td>
+<td align="right">2.0</td>
+</tr>
+<tr class="even">
+<td align="left">professional identity</td>
+<td align="right">1</td>
+<td align="right">3.000000</td>
+<td align="right">NA</td>
+<td align="right">3.0</td>
 </tr>
 </tbody>
 </table>
 <table>
 <caption>Relation of Extent of Perceived Learning to Coded Learning
 Outcomes (RQ4)</caption>
+<colgroup>
+<col width="50%" />
+<col width="19%" />
+<col width="12%" />
+<col width="12%" />
+<col width="5%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">LO category</th>
@@ -4326,32 +5872,53 @@ Outcomes (RQ4)</caption>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">competence</td>
-<td align="right">1923</td>
-<td align="right">3.017161</td>
-<td align="right">1.789150</td>
+<td align="left">job-specific knowledge and skills</td>
+<td align="right">553</td>
+<td align="right">3.367089</td>
+<td align="right">1.777721</td>
 <td align="right">3</td>
 </tr>
 <tr class="even">
-<td align="left">performance</td>
-<td align="right">29</td>
-<td align="right">3.206897</td>
-<td align="right">1.878056</td>
+<td align="left">general knowledge and skills</td>
+<td align="right">58</td>
+<td align="right">2.758621</td>
+<td align="right">1.647010</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">general attitudes and identity</td>
+<td align="right">45</td>
+<td align="right">2.511111</td>
+<td align="right">1.659987</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">job-specific attitudes and identity</td>
+<td align="right">24</td>
+<td align="right">2.791667</td>
+<td align="right">1.744037</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">other</td>
-<td align="right">34</td>
-<td align="right">4.029412</td>
-<td align="right">1.817179</td>
-<td align="right">4</td>
+<td align="left">perception of work characteristics</td>
+<td align="right">13</td>
+<td align="right">2.461539</td>
+<td align="right">1.506397</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">24539</td>
+<td align="right">2.315905</td>
+<td align="right">1.580212</td>
+<td align="right">2</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="rq5-predicting-vocational-teachers-informal-learning-using-stress-and-coping-during-their-daily-work-activities-as-stated-in-karaseks-learning-hypothesis" class="section level2">
+<div id="rq5-predicting-vocational-teachers-informal-learning-using-stress-and-coping-during-their-everyday-work-activities-as-stated-in-karaseks-learning-hypothesis" class="section level2">
 <h2>RQ5: Predicting Vocational Teachers’ Informal Learning Using Stress
-and Coping during their Daily Work Activities (as stated in Karasek’s
+and Coping during their Everyday Work Activities (as stated in Karasek’s
 Learning Hypothesis)</h2>
 <ul>
 <li>interaction effect</li>
@@ -4495,9 +6062,9 @@ Learning Hypothesis)</h2>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">0.2865</td>
-<td align="left">0.2865</td>
-<td align="left">0.2865</td>
+<td align="left">0.2863</td>
+<td align="left">0.2863</td>
+<td align="left">0.2863</td>
 <td align="right">1</td>
 </tr>
 </tbody>
@@ -4527,7 +6094,7 @@ Model 1
 0.829***
 </td>
 <td style="text-align:center;">
-1.645***
+1.637***
 </td>
 </tr>
 <tr>
@@ -4557,7 +6124,7 @@ Model 1
 [0.757, 0.901]
 </td>
 <td style="text-align:center;">
-[1.122, 2.169]
+[1.114, 2.160]
 </td>
 </tr>
 <tr>
@@ -4567,7 +6134,7 @@ sex
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.073
+0.075
 </td>
 </tr>
 <tr>
@@ -4585,7 +6152,7 @@ sex
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.299)
+(0.291)
 </td>
 </tr>
 <tr>
@@ -4594,7 +6161,7 @@ sex
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.065, 0.212]
+[-0.064, 0.213]
 </td>
 </tr>
 <tr>
@@ -4622,7 +6189,7 @@ age
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.034)
+(0.037)
 </td>
 </tr>
 <tr>
@@ -4631,7 +6198,7 @@ age
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.014, -0.001]
+[-0.014, -0.000]
 </td>
 </tr>
 <tr>
@@ -4659,7 +6226,7 @@ jobscope
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.111)
+(0.107)
 </td>
 </tr>
 <tr>
@@ -4678,7 +6245,7 @@ stress_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.171***
+0.169***
 </td>
 </tr>
 <tr>
@@ -4705,7 +6272,7 @@ stress_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.156, 0.185]
+[0.154, 0.183]
 </td>
 </tr>
 <tr>
@@ -4715,7 +6282,7 @@ coping_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.079***
+0.081***
 </td>
 </tr>
 <tr>
@@ -4742,7 +6309,7 @@ coping_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.065, 0.094]
+[0.066, 0.095]
 </td>
 </tr>
 <tr>
@@ -4770,7 +6337,7 @@ n_entry
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.113)
+(0.112)
 </td>
 </tr>
 <tr>
@@ -4789,7 +6356,7 @@ act_no_1
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.312***
+-0.303***
 </td>
 </tr>
 <tr>
@@ -4816,7 +6383,7 @@ act_no_1
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.443, -0.180]
+[-0.435, -0.172]
 </td>
 </tr>
 <tr>
@@ -4826,7 +6393,7 @@ act_no_2
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.311**
+-0.304**
 </td>
 </tr>
 <tr>
@@ -4844,7 +6411,7 @@ act_no_2
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.001)
+(0.002)
 </td>
 </tr>
 <tr>
@@ -4853,7 +6420,7 @@ act_no_2
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.501, -0.121]
+[-0.493, -0.114]
 </td>
 </tr>
 <tr>
@@ -4863,7 +6430,7 @@ act_no_3
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.337***
+-0.332***
 </td>
 </tr>
 <tr>
@@ -4890,7 +6457,7 @@ act_no_3
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.468, -0.206]
+[-0.463, -0.201]
 </td>
 </tr>
 <tr>
@@ -4900,7 +6467,7 @@ act_no_4
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.508***
+-0.501***
 </td>
 </tr>
 <tr>
@@ -4927,7 +6494,7 @@ act_no_4
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.648, -0.369]
+[-0.640, -0.362]
 </td>
 </tr>
 <tr>
@@ -4937,7 +6504,7 @@ act_no_5
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.411***
+-0.406***
 </td>
 </tr>
 <tr>
@@ -4946,7 +6513,7 @@ act_no_5
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.072)
+(0.071)
 </td>
 </tr>
 <tr>
@@ -4964,7 +6531,7 @@ act_no_5
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.552, -0.271]
+[-0.546, -0.266]
 </td>
 </tr>
 <tr>
@@ -4974,7 +6541,7 @@ act_no_6
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.126+
+-0.119+
 </td>
 </tr>
 <tr>
@@ -4992,7 +6559,7 @@ act_no_6
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.065)
+(0.078)
 </td>
 </tr>
 <tr>
@@ -5001,7 +6568,7 @@ act_no_6
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.259, 0.008]
+[-0.253, 0.014]
 </td>
 </tr>
 <tr>
@@ -5011,7 +6578,7 @@ act_no_7
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.174*
+-0.170*
 </td>
 </tr>
 <tr>
@@ -5029,7 +6596,7 @@ act_no_7
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.036)
+(0.040)
 </td>
 </tr>
 <tr>
@@ -5038,7 +6605,7 @@ act_no_7
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.337, -0.012]
+[-0.332, -0.007]
 </td>
 </tr>
 <tr>
@@ -5048,7 +6615,7 @@ act_no_8
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.487***
+-0.480***
 </td>
 </tr>
 <tr>
@@ -5075,7 +6642,7 @@ act_no_8
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.623, -0.351]
+[-0.615, -0.344]
 </td>
 </tr>
 <tr>
@@ -5085,7 +6652,7 @@ act_no_9
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.760***
+-0.753***
 </td>
 </tr>
 <tr>
@@ -5112,7 +6679,7 @@ act_no_9
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.919, -0.600]
+[-0.912, -0.594]
 </td>
 </tr>
 <tr>
@@ -5122,7 +6689,7 @@ act_no_10
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.556***
+-0.549***
 </td>
 </tr>
 <tr>
@@ -5149,7 +6716,7 @@ act_no_10
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.692, -0.420]
+[-0.684, -0.413]
 </td>
 </tr>
 <tr>
@@ -5159,7 +6726,7 @@ act_no_11
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.769***
+-0.763***
 </td>
 </tr>
 <tr>
@@ -5186,7 +6753,7 @@ act_no_11
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.927, -0.612]
+[-0.920, -0.606]
 </td>
 </tr>
 <tr>
@@ -5196,7 +6763,7 @@ act_no_12
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-2.279***
+2.286***
 </td>
 </tr>
 <tr>
@@ -5223,7 +6790,7 @@ act_no_12
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[2.109, 2.448]
+[2.117, 2.455]
 </td>
 </tr>
 <tr>
@@ -5233,7 +6800,7 @@ act_no_13
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-2.203***
+2.217***
 </td>
 </tr>
 <tr>
@@ -5260,7 +6827,7 @@ act_no_13
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[2.023, 2.382]
+[2.038, 2.397]
 </td>
 </tr>
 <tr>
@@ -5270,7 +6837,7 @@ act_no_14
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.351***
+0.354***
 </td>
 </tr>
 <tr>
@@ -5279,7 +6846,7 @@ act_no_14
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.107)
+(0.106)
 </td>
 </tr>
 <tr>
@@ -5297,7 +6864,7 @@ act_no_14
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.142, 0.560]
+[0.145, 0.562]
 </td>
 </tr>
 <tr>
@@ -5307,7 +6874,7 @@ act_no_15
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.761***
+-0.743***
 </td>
 </tr>
 <tr>
@@ -5334,7 +6901,7 @@ act_no_15
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.945, -0.577]
+[-0.927, -0.560]
 </td>
 </tr>
 <tr>
@@ -5344,7 +6911,7 @@ act_no_16
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.306***
+0.313***
 </td>
 </tr>
 <tr>
@@ -5371,7 +6938,7 @@ act_no_16
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.150, 0.461]
+[0.157, 0.468]
 </td>
 </tr>
 <tr>
@@ -5381,7 +6948,7 @@ act_no_17
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.012
+-0.005
 </td>
 </tr>
 <tr>
@@ -5399,7 +6966,7 @@ act_no_17
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.894)
+(0.958)
 </td>
 </tr>
 <tr>
@@ -5408,7 +6975,7 @@ act_no_17
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.189, 0.165]
+[-0.181, 0.172]
 </td>
 </tr>
 <tr>
@@ -5418,7 +6985,7 @@ act_no_18
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.437***
+0.444***
 </td>
 </tr>
 <tr>
@@ -5445,7 +7012,7 @@ act_no_18
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.264, 0.610]
+[0.272, 0.617]
 </td>
 </tr>
 <tr>
@@ -5455,7 +7022,7 @@ act_no_19
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.211**
+-0.202**
 </td>
 </tr>
 <tr>
@@ -5473,7 +7040,7 @@ act_no_19
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.003)
+(0.004)
 </td>
 </tr>
 <tr>
@@ -5482,7 +7049,7 @@ act_no_19
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.350, -0.072]
+[-0.340, -0.064]
 </td>
 </tr>
 <tr>
@@ -5492,7 +7059,7 @@ act_no_20
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.679**
+-0.673**
 </td>
 </tr>
 <tr>
@@ -5510,7 +7077,7 @@ act_no_20
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.002)
+(0.003)
 </td>
 </tr>
 <tr>
@@ -5519,7 +7086,7 @@ act_no_20
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-1.117, -0.241]
+[-1.111, -0.235]
 </td>
 </tr>
 <tr>
@@ -5529,7 +7096,44 @@ act_no_21
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.019
+0.023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+(0.074)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+(0.758)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+[-0.123, 0.169]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+act_no_22
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+-0.383***
 </td>
 </tr>
 <tr>
@@ -5547,43 +7151,6 @@ act_no_21
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.794)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-[-0.127, 0.166]
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-act_no_22
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--0.390***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(0.076)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
 (&amp;lt;0.001)
 </td>
 </tr>
@@ -5593,7 +7160,7 @@ act_no_22
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.538, -0.242]
+[-0.531, -0.235]
 </td>
 </tr>
 <tr>
@@ -5603,7 +7170,7 @@ act_no_23
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.070
+0.077
 </td>
 </tr>
 <tr>
@@ -5621,7 +7188,7 @@ act_no_23
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.434)
+(0.385)
 </td>
 </tr>
 <tr>
@@ -5630,7 +7197,7 @@ act_no_23
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.105, 0.244]
+[-0.097, 0.252]
 </td>
 </tr>
 <tr>
@@ -5640,7 +7207,7 @@ act_no_24
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.302***
+-0.297***
 </td>
 </tr>
 <tr>
@@ -5667,7 +7234,7 @@ act_no_24
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.467, -0.137]
+[-0.461, -0.132]
 </td>
 </tr>
 <tr>
@@ -5677,7 +7244,7 @@ act_no_25
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.018
+0.026
 </td>
 </tr>
 <tr>
@@ -5695,7 +7262,7 @@ act_no_25
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.820)
+(0.751)
 </td>
 </tr>
 <tr>
@@ -5704,7 +7271,7 @@ act_no_25
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.140, 0.177]
+[-0.132, 0.183]
 </td>
 </tr>
 <tr>
@@ -5714,7 +7281,7 @@ act_no_26
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.218*
+-0.205*
 </td>
 </tr>
 <tr>
@@ -5732,7 +7299,7 @@ act_no_26
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.011)
+(0.016)
 </td>
 </tr>
 <tr>
@@ -5741,7 +7308,7 @@ act_no_26
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.387, -0.050]
+[-0.373, -0.038]
 </td>
 </tr>
 <tr>
@@ -5751,7 +7318,7 @@ act_no_27
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
--0.114
+-0.106
 </td>
 </tr>
 <tr>
@@ -5769,7 +7336,7 @@ act_no_27
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.358)
+(0.391)
 </td>
 </tr>
 <tr>
@@ -5778,7 +7345,7 @@ act_no_27
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[-0.357, 0.129]
+[-0.349, 0.137]
 </td>
 </tr>
 <tr>
@@ -5788,7 +7355,7 @@ act_no_28
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.229**
+0.237**
 </td>
 </tr>
 <tr>
@@ -5806,7 +7373,7 @@ act_no_28
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-(0.009)
+(0.007)
 </td>
 </tr>
 <tr>
@@ -5815,7 +7382,7 @@ act_no_28
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.058, 0.401]
+[0.066, 0.407]
 </td>
 </tr>
 <tr>
@@ -5825,7 +7392,7 @@ stress_z × coping_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-0.094***
+0.095***
 </td>
 </tr>
 <tr>
@@ -5852,7 +7419,7 @@ stress_z × coping_z
 <td style="text-align:center;">
 </td>
 <td style="text-align:center;">
-[0.077, 0.110]
+[0.078, 0.111]
 </td>
 </tr>
 <tr>
@@ -5882,10 +7449,10 @@ SD (Observations)
 Num.Obs.
 </td>
 <td style="text-align:center;">
-41598
+41704
 </td>
 <td style="text-align:center;">
-41598
+41704
 </td>
 </tr>
 <tr>
@@ -5915,10 +7482,10 @@ R2 Cond.
 AIC
 </td>
 <td style="text-align:center;">
-134670.8
+135002.3
 </td>
 <td style="text-align:center;">
-128805.8
+129129.7
 </td>
 </tr>
 <tr>
@@ -5926,10 +7493,10 @@ AIC
 BIC
 </td>
 <td style="text-align:center;">
-134696.7
+135028.2
 </td>
 <td style="text-align:center;">
-129133.9
+129458.0
 </td>
 </tr>
 <tr>
@@ -5979,7 +7546,7 @@ online</em>, <em>47</em>, 1–21. <a href="https://www.bwpat.de/ausgabe/47/boehm
 Rausch, A. (2014). Using <span>Diaries</span> in <span>Research</span>
 on <span>Work</span> and <span>Learning</span>. In C. Harteis, A.
 Rausch, &amp; J. Seifried (Eds.), <em>Discourses on <span>Professional
-Learning</span></em> (Vol. 9, pp. 341–366). Springer Netherlands. <a href="https://doi.org/10.1007/978-94-007-7012-6‗ 17">https://doi.org/10.1007/978-94-007-7012-6‗
+Learning</span></em> (Vol. 9, pp. 341–366). Springer Netherlands. <a href="https://doi.org/10.1007/978-94-007-7012-6%E2%80%97%2017">https://doi.org/10.1007/978-94-007-7012-6‗
 17</a>
 </div>
 </div>
@@ -6013,7 +7580,110 @@ fitting…</p></li>
 1.6)</p></li>
 <li><p>Learning and Instruction (IF: 4.7) - not that fitting…</p></li>
 </ul>
+<pre class="r"><code># show number of entries in combined_df with value &quot;1&quot; in column act_no
+combined_df %&gt;%
+  filter(act_no == 13) %&gt;%
+  nrow()</code></pre>
+<pre><code>## [1] 316</code></pre>
+<pre class="r"><code># show number of entries in combined_df with value &quot;1&quot; in column act_no
+combined_df_lo %&gt;%
+  filter(act_no == 1) %&gt;%
+  nrow()</code></pre>
+<pre><code>## [1] 4836</code></pre>
+<pre class="r"><code># create a sub-table of column learn_descr from combined_df_lo for all entries with value &quot;situational diagnostics&quot; in column cat_1_en
+prep_wordcloud &lt;- combined_df_lo %&gt;%
+  filter(cat_1_en == &quot;situational diagnostics&quot;) %&gt;%
+  ungroup %&gt;%
+  select(learn_descr)
+
+# save as csv but separator = &quot;;&quot;
+# write.csv2(prep_wordcloud, &quot;_data/prep_wordcloud_sit_diag.csv&quot;, row.names = FALSE, fileEncoding = &quot;latin1&quot;)
+
+# substitute &quot;neuen&quot;, &quot;neuer&quot;, neue&quot; with neu in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud_sit_diag &lt;- prep_wordcloud %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neuen&quot;, &quot;neu&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neuer&quot;, &quot;neu&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neue&quot;, &quot;neu&quot;))
+
+# substitute &quot;sus&quot;, &quot;schülerinnen&quot;, &quot;schülern&quot; with &quot;schüler&quot; in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud &lt;- prep_wordcloud %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;sus&quot;, &quot;schüler&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;schülerinnen&quot;, &quot;schüler&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;schülern&quot;, &quot;schüler&quot;))
+
+# to lower: prep_wordcloud_sit_diag$learn_descr
+prep_wordcloud$learn_descr &lt;- tolower(prep_wordcloud$learn_descr)
+
+# use tm package, create a corpus
+docs &lt;- Corpus(VectorSource(prep_wordcloud$learn_descr))
+
+# use tm to remove punctuation, stopwords, case, etc.
+docs &lt;- docs %&gt;%
+  tm_map(removeNumbers) %&gt;%
+  tm_map(removePunctuation) %&gt;%
+  tm_map(stripWhitespace)
+docs &lt;- tm_map(docs, content_transformer(tolower))
+docs &lt;- tm_map(docs, removeWords, stopwords(&quot;german&quot;))
+
+# create table of word counts
+dtm &lt;- TermDocumentMatrix(docs)
+matrix &lt;- as.matrix(dtm)
+words &lt;- sort(rowSums(matrix), decreasing = TRUE)
+df_wordcloud &lt;- data.frame(word = names(words), freq = words)
+
+# remove the column with the entry schüler from df_wordcloud
+# df_wordcloud &lt;- df_wordcloud %&gt;%
+#   filter(word != &quot;schüler&quot;)
+
+# make wordcloud
+wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 150), size = 0.4, color = &quot;random-dark&quot;)</code></pre>
+<pre class="r"><code># create a sub-table of column learn_descr from combined_df_lo for all entries with value &quot;situational diagnostics&quot; in column cat_1_en
+prep_wordcloud &lt;- combined_df_lo %&gt;%
+  filter(cat_1_en == &quot;expansion of knowledge&quot;) %&gt;%
+  ungroup %&gt;%
+  select(learn_descr)
+
+# save as csv but separator = &quot;;&quot;
+# write.csv(prep_wordcloud_sit_diag, &quot;_data/prep_wordcloud_sit_diag.csv&quot;, row.names = FALSE)
+
+# substitute &quot;neuen&quot;, &quot;neuer&quot;, neue&quot; with neu in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud &lt;- prep_wordcloud %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neuen&quot;, &quot;neu&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neuer&quot;, &quot;neu&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neue&quot;, &quot;neu&quot;)) %&gt;%
+#   mutate(learn_descr = str_replace_all(learn_descr, &quot;neus&quot;, &quot;neu&quot;))
+
+# use tm package, create a corpus
+docs &lt;- Corpus(VectorSource(prep_wordcloud$learn_descr))
+
+# use tm to remove punctuation, stopwords, case, etc.
+docs &lt;- docs %&gt;%
+  tm_map(removeNumbers) %&gt;%
+  tm_map(removePunctuation) %&gt;%
+  tm_map(stripWhitespace)
+docs &lt;- tm_map(docs, content_transformer(tolower))
+docs &lt;- tm_map(docs, removeWords, stopwords(&quot;german&quot;))
+
+# create table of word counts
+dtm &lt;- TermDocumentMatrix(docs)
+matrix &lt;- as.matrix(dtm)
+words &lt;- sort(rowSums(matrix), decreasing = TRUE)
+df_wordcloud &lt;- data.frame(word = names(words), freq = words)
+
+# make wordcloud
+wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 200), size = 1, color = &quot;random-dark&quot;)</code></pre>
+<pre class="r"><code>wordcloud2(data = demoFreq, shape = &quot;star&quot;)
+head(demoFreq)
+
+wordcloud2(data = prep_wordcloud_sit_diag)</code></pre>
 </div>
+</div>
+<div id="combined_df-from-informal-learning-activities" class="section level1">
+<h1>combined_df from informal learning activities</h1>
+<pre class="r"><code># filter: combined_df for entries with act_no =! 12, 13
+combined_df_lo_informal &lt;- combined_df_lo %&gt;%
+  filter(act_no != 12 &amp; act_no != 13)
+  # select(id, code, act_no, learn_descr, cat_1, cat_2, cat_1_en, cat_2_en, pc_learn)</code></pre>
 </div>
 
 

@@ -110,7 +110,7 @@ df$fbs_wt_short_holid <- fbs_data$AZF_04[match(df$code, fbs_data$SERIAL)]
 # Ersetze das Dezimaltrennzeichen von , zu .
 df$fbs_wt_short_holid <- gsub(",", ".", df$fbs_wt_short_holid)
 # Führe die Umwandlung von character in numeric durch
-df$fbs_wt_short_holid <- as.numeric(df$fbs_wt_short_holid) # Erzeugung von NAs aus #NULL!
+df$fbs_wt_short_holid <- suppressWarnings(as.numeric(df$fbs_wt_short_holid)) # Erzeugung von NAs aus #NULL!
 
 df$fbs_wt_short_holid <- replace(df$fbs_wt_short_holid, df$fbs_wt_short_holid %in% c(-8, -9), NA)
 
