@@ -1,0 +1,384 @@
+# Acknowledgement {.unnumbered}
+
+\newpage
+
+# Abstract {.unnumbered}
+
+...
+
+Keywords: workplace learning, teacher training, informal learning, experience sampling, multilevel modelling
+
+\newpage
+
+# Introduction
+
+[Schools as learning venues for teachers in the sense of workplace learning]
+While schools are learning venues for teachers, they also are teachers' workplaces (https://www.tandfonline.com/doi/epdf/10.1080/0158037X.2024.2314128?needAccess=true) and therefore serve as context for teachers' workplace learning (Billett, 2001; workplace affordances, ...). 
+
+[highlighted under todays' current conditions]
+
+[Importance and relevance of professional learning]
+
+[Comparison informal and formal workplace learning]
+
+
+Professional learning is 
+
+According to @rauschUsingDiariesResearch2014, ...
+
+-   teacher shortage and difficult working conditions of teachers
+
+    -   stress, coping are important
+
+    -   learning of teachers has a particular important role
+
+        -   teachers have to prepare their lessons and
+
+        -   furthermore, teachers need to stay up to date
+
+        -   The teaching profession has a particular set of characteristics and job demands. At the same time, teachers are provided with a high degree of freedom or job decision latitude. –\> Karasek: learning hypothesis
+
+    -   vocational schools are under-represented in studies (). while there is research tackling other schools, still very little research on vocational schools.
+
+-   lack of research on teachers at vocational schools ()
+
+    -   experience sampling
+
+In @@boehmWorkingHoursWork2024, results from the study were described with a focus on teachers' working hours and the distribution of working hours between different tasks. 
+  Building on this article, this paper will focus on teachers' workplace learning. 
+Thus, the following research questions will be tackled:
+
+1.  RQ (Stress, coping and learning across activities, control for age, sex, jobscope + data from the questionnaire study) - MLM
+
+    Which of teachers' everyday work activities are perceived as (a) the most stressful and (b) with which of the stressful activities could the teachers cope the best? (c) Which of teachers' everyday activities are perceived as the most conducive to learning?
+
+2.  [Description of the Learning (freetext fields, qualitative analysis)]
+
+3.  RQ (Karasek, control for age, sex, jobscope + data from the questionnaire study) - MLM
+
+    Do stress and coping predict informal learning in teachers' everyday work activities, as stated in Karasek's learning hypothesis?
+
+    H: according to Karasek
+
+include a participation effect (control for a bias) H: higher participation -\> bigger pc_learn Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
+
+# Research on Teachers' Workplace Learning
+  
+  ## Characteristics of the Teaching Profession and Vocational Teachers' Everyday Work Activities
+  
+  ### Characteristics
+  
+  -   High degree of freedom in the profession
+  
+  -   subject (especially in vocational schools).
+  
+  -   --\> high demand to learn
+  
+  -   Needed: Alternative to Rothland (2013)???
+    
+    -   Multiple sources that describe the characteristics
+  
+  -   teacher stressors and coping (briefly): outline from research on teacher stress
+  
+  -   –\> Lazarus & Folkman (for Stress)
+  
+  ### Teachers' Daily Work Activities
+  
+  -   Overview teachers' work activities (framework from the literature)
+
+## Workplace Learning and Vocational Teachers' Learning Activities
+  
+  -   formal, non-formal vs. informal WPL (so far from bwpat!!!)
+  - how do teachers learn?
+    - include selected frameworks from literature (NK, MA)
+  
+  In workplace learning, researchers typically differentiate between formal, non-formal and informal learning (e.g., Coombs & Ahmed, 1974; Imants & van Veen, 2010). Formal learning is typically defined as structured learning in pedagogical settings such as university teacher training. In these settings, learning occurs intentionally and is planned (Marsick & Watkins, 2015; UNESCO Institute for Statistics, 2012). Non-formal learning is “institutionalized, intentional and planned” as well (UNESCO Institute for Statistics, 2012, p. 11) but in contrast to formal learning, it is not part of the national qualifications framework but includes training and development in companies (Bilger et al., 2013, p. 20) such as information resources for further teacher training. In contrast, informal learning is unintentional and experiential. It occurs as a by-product of other activities such as working (e.g., Marsick & Watkins, 2015, p. 6; UNESCO Institute for Statistics, 2012, p. 19). This learning is also referred to as implicit learning (Eraut, 2004) or incidental learning (Marsick & Watkins, 2015). Though less conscious, this informal learning is considered as a vital source of teachers’ professional development. Work task characteristics that foster informal workplace learning include newness, complexity, collaboration and so forth (Hoekstra, 2007; Lohman, 2003; Rausch, 2013; Kwakman, 2003) many of which, as discussed above, are also likely to cause stress (Karasek, 1979).
+  
+  -   Billett?!
+    -   Karasek
+  -   Studies on Karasek
+  -   The Job Demand-Control (-Support) Model and psychological well-being: A review of 20 years of empirical research (<https://doi.org/10.1080/026783799296084>)
+  -   
+    
+    1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
+  
+  2.  Consideration of stress (Karasek, ...)
+  
+  use stress as a characteristic of activities to introduce Karasek (and briefly talk about negative consequences: Lazarus & Folkman)
+  
+  get concrete: Teachers' Learning Activities
+
+## Learning Outomes from Vocational Teachers' Workplace Learning
+  
+  -   Goal: categorizing learning outcomes that stem from teachers' informal workplace learning
+-   For this, existing frameworks from workplace learning literature are analyzed and compared
+-   Then, a category framework is developed deductively from existing frameworks and then adjusted inductively from the results from this study.
+
+### Eraut (2004)
+
+8 categories:
+
+-   
+
+-   
+
+### Tynjälä (2013, 3-P model)
+
+### Kyndt et al. (2013)
+
+### Cerasoli et al. (2018)
+
+### Park (2020)
+
+### Smet et al. (2022)
+
+--\> also consider additional frameworks from teacher professional development
+
+## Job Demands and Job Resources in the Teaching Profession
+
+### Job Demands / Stress
+
+### Job Resources / Coping
+
+### The Effect of Job Demands / Stress and Job Resources / Coping on Vocational Teachers' Workplace Learning
+  
+  # Description of the Longitudinal Study
+  
+  ## Research Design and Sample (1 = M, 0 = W)
+  
+  This study is part of a research programme (AARL-BS) which was initiated to investigate the relations between working hours, work activities, and work experience, such as learning, stress and coping of teachers at vocational schools. [Data was collected in two studies, an online survey study and an app-based diary study. This allowed for balancing the advantages and disadvantages of the respective methods regarding the estimation of working hours and the measuring of work experience, in particular. Participation was voluntary and all participants provided written informed consent.]{.underline}
+  
+  ### Questionnaire Study
+  
+  The survey study was conducted from February to November 2022. A sample of 1,146 full-time teachers participated in the survey study, 74.3 % of which held no further management function beyond their teaching duties. The mean age was 46.98 years and 39.1 % of the sample is female. The distribution of the survey sample is representative for vocational teachers in the German federal state of Baden-Wuerttemberg with regard to gender, age composition, level of employment, and administrative district.
+  
+  In the survey study, data on teachers’ working time, the distribution of the working hours between different tasks, working conditions, job satisfaction, and further constructs were collected. The questionnaire was developed on the basis of a comprehensive literature review (Aprea & Sarochan, 2023) and intensive consultations with representatives of the Association of Vocational School Teachers in Baden-Württemberg (BLV). [See the other papers ...]{.underline}
+  
+  ### Diary Study (go more into detail here, ESM, design)
+  
+  The diary study took place from mid-March to mid-October 2022, including weekends and vacation periods, excluding four weeks during the summer holiday. A multi-cohort design was chosen to reduce participant burden. Each of the five cohorts held the diary for one week and paused for four weeks. The diary app was implemented using mQuest by the German online service provider Cluetec (Karlsruhe). [Diary entries from 145 full-time teachers were included, 75.2 % of which without a management function. The mean age is 44.99 years and 46.9 % of the sample is female. After intensive data preparation and filtering, the analysis is based on 10.327 activities that were reported in the diary app]{.underline}.
+  
+  The participants were requested to record all work-related activities by selecting the respective work activity from a given list of activities, indicating start and end time and answering one item each for experienced stress, coping, and learning related to the respective task. [In addition, in a weekly review, the participants were requested to indicate the working hours for each day of the past week.]{.underline} During a cohort’s diary period, three daily notifications reminded the participants to record their work activities.
+  
+  ## Measures and Data Analysis
+  
+  -   Stress, Coping and Learning across the Daily Work Activities
+  -   Stress, coping and learning were all measured using 1 item scales self report
+  -   Description of the Developed Task Framework
+  
+  From bwpat
+  
+  Afterwards, the perception of stress, coping and learning at the given work activity are evaluated by the participants. (1) Stress, (2) coping and (3) learning are each designed with an 8-point Likert-scale with 0 as the lowest and 7 as the highest value. To avoid influencing entries with a default value, “-1” is set as the default value in these three items and must be changed to proceed. All three questions are depicted with a slider to set the value and a brief explanation: (1) Did you find this work activity stressful? (0 = not at all stressful; 7 = very stressful; -1 = invalid entry); (2) How well were you able to cope with this stress? (0 = not coped well at all; 7 = coped very well; -1 = invalid entry); (3) Did you learn anything new for your job during this work activity? (0 = learned nothing at all; 7 = learned very much; -1 = invalid entry). Based on theoretical assumptions, participants could only evaluate their coping for work activities with a stress-level above 0.
+  
+  ### Learning Outcome Framework (RQ 2)
+  
+  K. Kompetenzebene
+  
+  KI. Individuum
+  
+  Performanzebene
+  
+  ## Data Analysis (still from bwpat)
+  
+  Descriptive statistics were calculated to address RQ1 and RQ2. Regarding RQ3, a multiple level model was calculated to investigate the statistical prediction of vocational teachers' informal learning based on their stress and coping during their daily work activities, following Karasek's learning hypothesis. *Interaction terms were checked. However, moderators showed no significant effects, so no interactions were included in the final analysis.*
+    
+    # Data availability statement
+    
+    The anonymized data are available on Mendeley Data (<https://www.elsevier.com/researcher/author/tools-and-resources/research-data>) under the following link: ...\
+    
+## Possible Journals {.unnumbered}
+
+Teaching and Teacher Education (IF: 4.0),\
+[https://doi.org/10.1016/S0742-051X(02)00101-4](https://doi.org/10.1016/S0742-051X(02)00101-4 "Persistent link using digital object identifier") was also published here
+
+Regelungen/Hinweise:
+
+-   Abstract: 100 words, 3 - 6 keywords
+
+-   Report: 5.000-9.000 words
+
+Ansonsten:
+
+-   Human Resource Development International (IF: 3.8)
+
+    -   <https://doi.org/10.1080/13678860010004123> was also published here
+
+-   Journal of Workplace Learning (IF: )
+
+-   Vocations and Learning (IF: 1.9)
+
+-   Learning Environments Research (IF: 2.7)
+
+-   Technology, Knowledge and Learning (IF: 3.0) - not that fitting...
+
+-   Empirical Research in Vocational Education and Training (IF: 1.6)
+
+-   Learning and Instruction (IF: 4.7) - not that fitting...
+
+
+```{r, eval=FALSE, include=FALSE}
+# create sample_table from df_rq2, delete all duplicates, only keep columns code, sex, age, jobscope
+sample_table <- df_rq2 %>%
+  select(code, sex, age, jobscope) %>%
+  distinct()
+
+sample_table_test <- sample_table %>%
+  group_by(code) %>%
+  mutate(n_code = n())
+```
+
+```{r, eval=FALSE, include=FALSE}
+# check df_rq2 for values != (keine angabe ODER nichts ODER vermutliche falscheingabe) in learn_descr
+df_rq2_test <- df_rq2 %>%
+  filter(!str_detect(cat_1, "keine angabe|nichts|vermutliche falscheingabe"))
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+welcome_table <- welcome_raw %>%
+  select(Code, Geschlecht, Alter) %>%
+  distinct()
+```
+
+
+
+```{r}
+# show number of entries in combined_df with value "1" in column act_no
+combined_df %>%
+  filter(act_no == 13) %>%
+  nrow()
+
+```
+
+
+```{r}
+# show number of entries in combined_df with value "1" in column act_no
+combined_df_lo %>%
+  filter(act_no == 1) %>%
+  nrow()
+```
+
+
+```{r, eval=FALSE}
+# create a sub-table of column learn_descr from combined_df_lo for all entries with value "situational diagnostics" in column cat_1_en
+prep_wordcloud <- combined_df_lo %>%
+  filter(cat_1_en == "situational diagnostics") %>%
+  ungroup %>%
+  select(learn_descr)
+
+# save as csv but separator = ";"
+# write.csv2(prep_wordcloud, "_data/prep_wordcloud_sit_diag.csv", row.names = FALSE, fileEncoding = "latin1")
+
+# substitute "neuen", "neuer", neue" with neu in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud_sit_diag <- prep_wordcloud %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neuen", "neu")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neuer", "neu")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neue", "neu"))
+
+# substitute "sus", "schülerinnen", "schülern" with "schüler" in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud <- prep_wordcloud %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "sus", "schüler")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "schülerinnen", "schüler")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "schülern", "schüler"))
+
+# to lower: prep_wordcloud_sit_diag$learn_descr
+prep_wordcloud$learn_descr <- tolower(prep_wordcloud$learn_descr)
+
+# use tm package, create a corpus
+docs <- Corpus(VectorSource(prep_wordcloud$learn_descr))
+
+# use tm to remove punctuation, stopwords, case, etc.
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("german"))
+
+# create table of word counts
+dtm <- TermDocumentMatrix(docs)
+matrix <- as.matrix(dtm)
+words <- sort(rowSums(matrix), decreasing = TRUE)
+df_wordcloud <- data.frame(word = names(words), freq = words)
+
+# remove the column with the entry schüler from df_wordcloud
+# df_wordcloud <- df_wordcloud %>%
+#   filter(word != "schüler")
+
+# make wordcloud
+wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 150), size = 0.4, color = "random-dark")
+```
+
+```{r, eval=FALSE}
+# create a sub-table of column learn_descr from combined_df_lo for all entries with value "situational diagnostics" in column cat_1_en
+prep_wordcloud <- combined_df_lo %>%
+  filter(cat_1_en == "expansion of knowledge") %>%
+  ungroup %>%
+  select(learn_descr)
+
+# save as csv but separator = ";"
+# write.csv(prep_wordcloud_sit_diag, "_data/prep_wordcloud_sit_diag.csv", row.names = FALSE)
+
+# substitute "neuen", "neuer", neue" with neu in column learn_descr in dataframe prep_wordcloud
+# prep_wordcloud <- prep_wordcloud %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neuen", "neu")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neuer", "neu")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neue", "neu")) %>%
+#   mutate(learn_descr = str_replace_all(learn_descr, "neus", "neu"))
+
+# use tm package, create a corpus
+docs <- Corpus(VectorSource(prep_wordcloud$learn_descr))
+
+# use tm to remove punctuation, stopwords, case, etc.
+docs <- docs %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("german"))
+
+# create table of word counts
+dtm <- TermDocumentMatrix(docs)
+matrix <- as.matrix(dtm)
+words <- sort(rowSums(matrix), decreasing = TRUE)
+df_wordcloud <- data.frame(word = names(words), freq = words)
+
+# make wordcloud
+wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 200), size = 1, color = "random-dark")
+```
+
+
+```{r, eval=FALSE}
+wordcloud2(data = demoFreq, shape = "star")
+head(demoFreq)
+
+wordcloud2(data = prep_wordcloud_sit_diag)
+```
+
+# combined_df from informal learning activities
+```{r, eval=FALSE}
+# filter: combined_df for entries with act_no =! 12, 13
+combined_df_lo_informal <- combined_df_lo %>%
+  filter(act_no != 12 & act_no != 13)
+  # select(id, code, act_no, learn_descr, cat_1, cat_2, cat_1_en, cat_2_en, pc_learn)
+
+```
+
+## Examples (RQ4)
+```{r}
+df_rq4_lo <- df_rq4 %>%
+  filter(!is.na(code_id))
+
+df_rq4_lo_1 <- df_rq4_lo %>%
+  filter(act_no == 1)
+
+df_rq4_lo_3 <- df_rq4_lo %>%
+  filter(act_no == 3)
+
+df_rq4_lo_6 <- df_rq4_lo %>%
+  filter(act_no == 6)
+
+```
+
+    
+

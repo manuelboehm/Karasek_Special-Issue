@@ -27,189 +27,7 @@ numbersections: true
 \newpage
 \pagenumbering{arabic}
 
-# Acknowledgement {.unnumbered}
 
-\newpage
-
-# Abstract {.unnumbered}
-
-...
-
-Keywords: workplace learning, teacher training, informal learning, experience sampling, multilevel modelling
-
-\newpage
-
-# Introduction
-
-[Schools as learning venues for teachers in the sense of workplace learning]
-While schools are learning venues for teachers, they also are teachers' workplaces (https://www.tandfonline.com/doi/epdf/10.1080/0158037X.2024.2314128?needAccess=true) and therefore serve as context for teachers' workplace learning (Billett, 2001; workplace affordances, ...). 
-
-[highlighted under todays' current conditions]
-
-[Importance and relevance of professional learning]
-
-[Comparison informal and formal workplace learning]
-
-
-Professional learning is 
-
-According to @rauschUsingDiariesResearch2014, ...
-
--   teacher shortage and difficult working conditions of teachers
-
-    -   stress, coping are important
-
-    -   learning of teachers has a particular important role
-
-        -   teachers have to prepare their lessons and
-
-        -   furthermore, teachers need to stay up to date
-
-        -   The teaching profession has a particular set of characteristics and job demands. At the same time, teachers are provided with a high degree of freedom or job decision latitude. –\> Karasek: learning hypothesis
-
-    -   vocational schools are under-represented in studies (). while there is research tackling other schools, still very little research on vocational schools.
-
--   lack of research on teachers at vocational schools ()
-
-    -   experience sampling
-
-In @@boehmWorkingHoursWork2024, results from the study were described with a focus on teachers' working hours and the distribution of working hours between different tasks. 
-Building on this article, this paper will focus on teachers' workplace learning. 
-Thus, the following research questions will be tackled:
-
-1.  RQ (Stress, coping and learning across activities, control for age, sex, jobscope + data from the questionnaire study) - MLM
-
-    Which of teachers' everyday work activities are perceived as (a) the most stressful and (b) with which of the stressful activities could the teachers cope the best? (c) Which of teachers' everyday activities are perceived as the most conducive to learning?
-
-2.  [Description of the Learning (freetext fields, qualitative analysis)]
-
-3.  RQ (Karasek, control for age, sex, jobscope + data from the questionnaire study) - MLM
-
-    Do stress and coping predict informal learning in teachers' everyday work activities, as stated in Karasek's learning hypothesis?
-
-    H: according to Karasek
-
-include a participation effect (control for a bias) H: higher participation -\> bigger pc_learn Can time effects be found in the data? Does continued experience sampling have an effect on perceived informal learning?
-
-# Research on Teachers' Workplace Learning
-
-## Characteristics of the Teaching Profession and Vocational Teachers' Everyday Work Activities
-
-### Characteristics
-
--   High degree of freedom in the profession
-
--   subject (especially in vocational schools).
-
-    -   --\> high demand to learn
-
--   Needed: Alternative to Rothland (2013)???
-
-    -   Multiple sources that describe the characteristics
-
--   teacher stressors and coping (briefly): outline from research on teacher stress
-
-    -   –\> Lazarus & Folkman (for Stress)
-
-### Teachers' Daily Work Activities
-
--   Overview teachers' work activities (framework from the literature)
-
-## Workplace Learning and Vocational Teachers' Learning Activities
-
--   formal, non-formal vs. informal WPL (so far from bwpat!!!)
-- how do teachers learn?
-- include selected frameworks from literature (NK, MA)
-
-In workplace learning, researchers typically differentiate between formal, non-formal and informal learning (e.g., Coombs & Ahmed, 1974; Imants & van Veen, 2010). Formal learning is typically defined as structured learning in pedagogical settings such as university teacher training. In these settings, learning occurs intentionally and is planned (Marsick & Watkins, 2015; UNESCO Institute for Statistics, 2012). Non-formal learning is “institutionalized, intentional and planned” as well (UNESCO Institute for Statistics, 2012, p. 11) but in contrast to formal learning, it is not part of the national qualifications framework but includes training and development in companies (Bilger et al., 2013, p. 20) such as information resources for further teacher training. In contrast, informal learning is unintentional and experiential. It occurs as a by-product of other activities such as working (e.g., Marsick & Watkins, 2015, p. 6; UNESCO Institute for Statistics, 2012, p. 19). This learning is also referred to as implicit learning (Eraut, 2004) or incidental learning (Marsick & Watkins, 2015). Though less conscious, this informal learning is considered as a vital source of teachers’ professional development. Work task characteristics that foster informal workplace learning include newness, complexity, collaboration and so forth (Hoekstra, 2007; Lohman, 2003; Rausch, 2013; Kwakman, 2003) many of which, as discussed above, are also likely to cause stress (Karasek, 1979).
-
--   Billett?!
--   Karasek
-    -   Studies on Karasek
-        -   The Job Demand-Control (-Support) Model and psychological well-being: A review of 20 years of empirical research (<https://doi.org/10.1080/026783799296084>)
-        -   
-
-1.  Billett and others (which characteristics of the situation and the activity foster learning?!)
-
-2.  Consideration of stress (Karasek, ...)
-
-    use stress as a characteristic of activities to introduce Karasek (and briefly talk about negative consequences: Lazarus & Folkman)
-
-get concrete: Teachers' Learning Activities
-
-## Learning Outomes from Vocational Teachers' Workplace Learning
-
--   Goal: categorizing learning outcomes that stem from teachers' informal workplace learning
--   For this, existing frameworks from workplace learning literature are analyzed and compared
--   Then, a category framework is developed deductively from existing frameworks and then adjusted inductively from the results from this study.
-
-### Eraut (2004)
-
-8 categories:
-
--   
-
--   
-
-### Tynjälä (2013, 3-P model)
-
-### Kyndt et al. (2013)
-
-### Cerasoli et al. (2018)
-
-### Park (2020)
-
-### Smet et al. (2022)
-
---\> also consider additional frameworks from teacher professional development
-
-## Job Demands and Job Resources in the Teaching Profession
-
-### Job Demands / Stress
-
-### Job Resources / Coping
-
-### The Effect of Job Demands / Stress and Job Resources / Coping on Vocational Teachers' Workplace Learning
-
-# Description of the Longitudinal Study
-
-## Research Design and Sample (1 = M, 0 = W)
-
-This study is part of a research programme (AARL-BS) which was initiated to investigate the relations between working hours, work activities, and work experience, such as learning, stress and coping of teachers at vocational schools. [Data was collected in two studies, an online survey study and an app-based diary study. This allowed for balancing the advantages and disadvantages of the respective methods regarding the estimation of working hours and the measuring of work experience, in particular. Participation was voluntary and all participants provided written informed consent.]{.underline}
-
-### Questionnaire Study
-
-The survey study was conducted from February to November 2022. A sample of 1,146 full-time teachers participated in the survey study, 74.3 % of which held no further management function beyond their teaching duties. The mean age was 46.98 years and 39.1 % of the sample is female. The distribution of the survey sample is representative for vocational teachers in the German federal state of Baden-Wuerttemberg with regard to gender, age composition, level of employment, and administrative district.
-
-In the survey study, data on teachers’ working time, the distribution of the working hours between different tasks, working conditions, job satisfaction, and further constructs were collected. The questionnaire was developed on the basis of a comprehensive literature review (Aprea & Sarochan, 2023) and intensive consultations with representatives of the Association of Vocational School Teachers in Baden-Württemberg (BLV). [See the other papers ...]{.underline}
-
-### Diary Study (go more into detail here, ESM, design)
-
-The diary study took place from mid-March to mid-October 2022, including weekends and vacation periods, excluding four weeks during the summer holiday. A multi-cohort design was chosen to reduce participant burden. Each of the five cohorts held the diary for one week and paused for four weeks. The diary app was implemented using mQuest by the German online service provider Cluetec (Karlsruhe). [Diary entries from 145 full-time teachers were included, 75.2 % of which without a management function. The mean age is 44.99 years and 46.9 % of the sample is female. After intensive data preparation and filtering, the analysis is based on 10.327 activities that were reported in the diary app]{.underline}.
-
-The participants were requested to record all work-related activities by selecting the respective work activity from a given list of activities, indicating start and end time and answering one item each for experienced stress, coping, and learning related to the respective task. [In addition, in a weekly review, the participants were requested to indicate the working hours for each day of the past week.]{.underline} During a cohort’s diary period, three daily notifications reminded the participants to record their work activities.
-
-## Measures and Data Analysis
-
--   Stress, Coping and Learning across the Daily Work Activities
-    -   Stress, coping and learning were all measured using 1 item scales self report
-    -   Description of the Developed Task Framework
-
-From bwpat
-
-Afterwards, the perception of stress, coping and learning at the given work activity are evaluated by the participants. (1) Stress, (2) coping and (3) learning are each designed with an 8-point Likert-scale with 0 as the lowest and 7 as the highest value. To avoid influencing entries with a default value, “-1” is set as the default value in these three items and must be changed to proceed. All three questions are depicted with a slider to set the value and a brief explanation: (1) Did you find this work activity stressful? (0 = not at all stressful; 7 = very stressful; -1 = invalid entry); (2) How well were you able to cope with this stress? (0 = not coped well at all; 7 = coped very well; -1 = invalid entry); (3) Did you learn anything new for your job during this work activity? (0 = learned nothing at all; 7 = learned very much; -1 = invalid entry). Based on theoretical assumptions, participants could only evaluate their coping for work activities with a stress-level above 0.
-
-### Learning Outcome Framework (RQ 2)
-
-K. Kompetenzebene
-
-KI. Individuum
-
-Performanzebene
-
-## Data Analysis (still from bwpat)
-
-Descriptive statistics were calculated to address RQ1 and RQ2. Regarding RQ3, a multiple level model was calculated to investigate the statistical prediction of vocational teachers' informal learning based on their stress and coping during their daily work activities, following Karasek's learning hypothesis. *Interaction terms were checked. However, moderators showed no significant effects, so no interactions were included in the final analysis.*
 
 ```{r}
 # if any objects are available in the global environment, remove them
@@ -251,22 +69,10 @@ activities_raw <- read.csv2("_data/raw/20221018_1717_2_AARL-BS Taetigkeiten_de10
 jobscope <- read.csv2("_data/jobscope.csv", na = "?")
 # jobscope correction
 jobscope_correction <- read.csv2("_data/jobscope_v3.csv")
-# learning outcome framework
-# lo_categorization <- read.csv2("_data/lo_categorization_cat_1_only.csv")
-# lo_categorization <- lo_categorization %>%
-#   select(-pc_learn)
-
-lo_categorization <- read.csv2("_data/Categorization_import/lo_coding.csv")
-
-lo_categorization <- lo_categorization %>%
-  distinct(, .keep_all = TRUE)
-
-# parent categories for lo_framework
-# lo_framework <- read.csv2("_archive/framework_learning_outcomes.csv")
-lo_framework <- read.csv2("_data/Categorization_import/lo_framework.csv")
 
 # zuordnung_new_task with activity names (12, 29, 3)
-zuordnung_new_task <- read.csv2("_data/zuordnung_new_task_.csv")
+zuordnung_new_task <- read.csv2("_data/zuordnung_new_task.csv", 
+                                 fileEncoding = "ISO-8859-1")
 
 ```
 
@@ -288,7 +94,7 @@ source("_src/data_prep_qualitative.R", local = knitr::knit_global())
 #   ungroup() %>%
 #   filter(n_entry > 1)
 
-combined_df_pre <- combined_df
+# combined_df_pre <- combined_df
 ```
 
 
@@ -345,7 +151,7 @@ combined_df <- combined_df %>%
 
 ```
 
-```{r}
+```{r correction for learning outcomes, eval=FALSE}
 #####
 # Adjustments of data (format, corrections, ...)
 #####
@@ -361,14 +167,6 @@ combined_df$sickness <- df_sickness$krank_[match(combined_df$id, df_sickness$id)
 
 # combined_df <- combined_df %>% 
 #   filter(is.na(sickness))
-
-# remove additional reportings of sickness and vacation
-# sickness
-# reporting of sickness as activity -> remove these entries
-combined_df <- combined_df %>%
-  filter(!(str_detect(activity, "onstige") & 
-           (str_detect(activity, "krank") | str_detect(activity, "Krank") | str_detect(activity, "corona") | str_detect(activity, "Corona")) &
-           id != 20252 & id != 19836  & id != 48289 & id != 28568 & id != 4759))
 
 # vacation
 # reporting of vacation as activity -> remove these entries
@@ -389,6 +187,20 @@ combined_df <- combined_df %>%
 # reporting of vacation as activity -> remove these entries
 combined_df <- combined_df %>%
   filter(!(str_detect(activity, "frei") | str_detect(activity, "Freien Tag") | str_detect(activity, "eiertag")))
+```
+
+```{r}
+###
+# Selected Adjustments of data 
+###
+
+# remove additional reportings of sickness and vacation
+# sickness
+# reporting of sickness as activity -> remove these entries
+combined_df <- combined_df %>%
+  filter(!(str_detect(activity, "onstige") & 
+           (str_detect(activity, "krank") | str_detect(activity, "Krank") | str_detect(activity, "corona") | str_detect(activity, "Corona")) &
+           id != 20252 & id != 19836  & id != 48289 & id != 28568 & id != 4759))
 
 # commuting between home and school
 # reporting of commutes as activity -> remove these entries
@@ -398,9 +210,7 @@ combined_df <- combined_df %>%
 # other invalid entries --> remove these entries
 combined_df <- combined_df %>%
   filter(!(str_detect(activity, "keine") | str_detect(activity, "Keine") | str_detect(activity, "mQuest") | str_detect(activity, "zeitstudie") | str_detect(activity, ": Hausarbeit") | id == 36469 | id == 49189 | id == 5081 | id == 4356 | id == 5417 | id == 17552))
-```
 
-```{r}
 ##########
 # correct categories
 ##########
@@ -470,6 +280,15 @@ combined_df <- combined_df %>%
 # insert English activity names
 ```
 
+```{r insert 12-category names}
+# rename columns in table zuordnung: neue_kategorie to activity_12, alte_kategorie to act_no
+zuordnung_new_task <- zuordnung_new_task %>%
+  rename(activity_12 = neue_kategorie,
+         act_no = alte_kategorie)
+
+combined_df <- combined_df %>%
+  left_join(zuordnung_new_task %>% select(act_no, activity_12, taskname_new_en), by = "act_no")
+```
 
 ```{r remove unnecessary columns and dataframes, include=FALSE}
 rm(week_rv)
@@ -482,7 +301,7 @@ rm(fbs_data)
 rm(df_old)
 ```
 
-```{r}
+```{r, eval=FALSE}
 # check combined_df for duplicates (in id)
 combined_df_duplicates <- combined_df %>%
   group_by(id) %>%
@@ -492,724 +311,131 @@ combined_df_duplicates <- combined_df %>%
 
 ```
 
-# Results
+# Data Analysis / Results
 
-## RQ1: Stress, Coping and Learning during Teachers' Daily Work Activities
+## Overall data prep & check (descriptives & assumptions)
 
--   same approach as in bwpat paper: simple comparison of mean values and SDs across the activities
--   numbers differ from results in bwpat article because of different sample size
--   29 activities?! --\> decision needed! or 12 activities?!
+```{r}
+colSums(is.na(combined_df))
 
-```{r filter and prepare data, include=FALSE}
+psych::describe(combined_df)
+
+```
+
+## RQ1: Extent of percieved Learning across Vocational Teachers' Everyday Work Activities (--> aus bwpat)
+- 12 activity categories
+
+
+```{r rq1_analysis}
 df_rq1 <- combined_df
-```
 
-```{r correlations and data checks, include=FALSE}
-# correlations: stress, coping, learning
-cor_rq1 <- corrr::correlate(df_rq1 %>% select(stress, coping, pc_learn))
-
-```
-
-```{r rq1 correlations kable table, echo=FALSE}
-cor_rq1 %>%
-  as.matrix() %>%
-  `colnames<-`(c("Term", "Stress", "Coping", "Learning")) %>%
-  as.data.frame() %>%
-  mutate(Term = c("Stress", "Coping", "Learning")) %>%
-  kable(caption = "Correlations between Stress, Coping and Learning during Teachers' Daily Work Activities", 
-        align = "lcccc", 
-        digits = 2) %>%
-  kable_styling(latex_options = c("HOLD_position"), 
-                font_size = 9)
-```
-
-```{r rq1 analysis, include=FALSE}
-# make sure coping is given only for stress above 0 and never -1
-# something like this...
-# df_rq3_coping <- df_rq3 %>%
-#  mutate(coping = ifelse(coping < 0, 0, coping))
-
-# act_no 29 does not exist... -> correct!
-
-rq1_stress_coping_learn <- df_rq1 %>%
-  group_by(act_no) %>%
-  summarise(stress_m = mean(stress), 
-            stress_sd = sd(stress), 
-            stress_md = median(stress), 
-            
-            coping_m = mean(coping), 
-            coping_sd = sd(coping), 
-            coping_md = median(coping), 
-            
-            learn_m = mean(pc_learn), 
-            learn_sd = sd(pc_learn), 
-            learn_md = median(pc_learn)
-            )
-```
-
-```{r, rq1 kable table, echo=FALSE, eval=FALSE}
-rq1_stress_coping_learn %>%
-# mutate_if(is.numeric, ~ifelse(is.na(.), " ", format(round(., 2)))) %>%
-mutate(across(is.numeric & !act_no, ~ifelse(is.na(.x) , " ", sprintf("%.2f", .x)))) %>%
-kable(# digits = c(1,2,2,2,2,2,2,2,2,2)
-      , caption = "Descriptive Statistics regarding Stress, Coping and Learning during Teachers' Daily Work Activities", col.names = c("", "M", "SD", "Mdn", "M", "SD", "Mdn", "M", "SD", "Mdn"), align = "lccccccccc") %>%
-        add_header_above(c("Activity" = 1, "Stress" = 3, "Coping" = 3, "Learning" = 3)) %>%
-  kable_styling(latex_options = c("HOLD_position"), font_size = 9)
-```
-
-```{r, include=FALSE}
-df_rq1b <- combined_df %>%
-  select(act_no, pc_learn)
-
-rq1b_learn <- df_rq1b %>%
-  group_by(act_no) %>%
-  summarise(learn_m = mean(pc_learn), 
-            learn_sd = sd(pc_learn), 
-            learn_md = median(pc_learn)
-            )
-
-# add new column with activity names from zuordnung_new_task, match via (act_no = alte_kategorie)
-activity_name_29 <- zuordnung_new_task %>%
-  select(alte_kategorie, task_name_en)
-
-
-rq1b_learn <- rq1b_learn %>%
-  left_join(activity_name_29, by = c("act_no" = "alte_kategorie")) %>%
-  select(act_no, task_name_en, everything())
-
-```
-
-```{r rq1b only pc_learn, echo=FALSE}
-rq1b_learn %>%
-# mutate_if(is.numeric, ~ifelse(is.na(.), " ", format(round(., 2)))) %>%
-mutate(across(is.numeric & !act_no, ~ifelse(is.na(.x) , " ", sprintf("%.2f", .x)))) %>%
-kable(# digits = c(1,2,2,2,2,2,2,2,2,2)
-      , caption = "Descriptive Statistics regarding Perceived Learning during Teachers' Daily Work Activities", col.names = c("", "", "M", "SD", "Mdn"), align = "llccc") %>%
-        add_header_above(c("Activity" = 2, "Learning" = 3)) %>%
-  kable_styling(latex_options = c("HOLD_position"), font_size = 9)
-
-```
-
-## RQ2: Description of the Learning During Teachers' Daily Work Activities
-
-```{r, include=FALSE}
-combined_df_lo <- combined_df %>%
-  filter(pc_learn != 0)
-
-# %>%
-#  filter(learn_descr != "") # | other_descr != "")
-```
-
-```{r automatic coding BEFORE manual coding, eval=FALSE}
-# add column cat_1
-combined_df_lo$cat_1 <- NA
-
-# convert learn_descr to lower letters
-combined_df_lo$learn_descr <- tolower(combined_df_lo$learn_descr)
-
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_1 = case_when(
-    # NA values
-    is.na(learn_descr) ~ "no learning outcome mentioned",
-    
-    # Empty or meaningless entries
-    str_detect(learn_descr, "^\\s*$") ~ "no learning outcome mentioned", # empty/whitespace
-    str_detect(learn_descr, "^\\s*-\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*\\.\\s*$") ~ "no learning outcome mentioned", 
-    str_detect(learn_descr, "^\\s*./.\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*das\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*ferien\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*elternzeit\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*av\\s*$") ~ "no learning outcome mentioned",
-    str_detect(learn_descr, "^\\s*(abi korrektur|abi-korrektur|abi aufsicht|abiturprüfung|prüfungsaufsicht)\\s*$") ~ "no learning outcome mentioned",
-    
-    # Single letters or repeated letters
-    str_detect(learn_descr, "^\\s*[a-zäöüß]\\s*$") ~ "no learning outcome mentioned", # single letter
-    str_detect(learn_descr, "^\\s*([a-zäöüß])\\1+\\s*$") ~ "no learning outcome mentioned", # repeated letter
-    
-    # Nothing learned
-    str_detect(learn_descr, "^\\s*(keine|nein|kein|0)\\s*$") ~ "nothing was learned",
-    
-    # Unspecified learning
-    str_detect(learn_descr, "^\\s*(ja|s\\. oben)\\s*$") ~ "other unspecified learning outcome",
-    
-    # Default: keep existing value or set to NA for manual coding
-    TRUE ~ NA_character_
-  ))
-```
-
-```{r Preparation lo_framework & lo_categorization}
-# column names tolower
-names(lo_framework) <- tolower(names(lo_framework))
-names(lo_categorization) <- tolower(names(lo_categorization))
-
-lo_framework <- lo_framework %>%
-  mutate(across(everything(), tolower))
-lo_categorization <- lo_categorization %>%
-  mutate(across(everything(), tolower))
-
-lo_framework <- lo_framework %>% rename(sub_category = sub.category)
-
-# remove leading and ending whitespaces
-lo_categorization <- lo_categorization %>%  mutate_all(str_trim)
-lo_framework <- lo_framework %>%  mutate_all(str_trim)
-
-# convert id into integer
-combined_df_lo$id <- as.integer(combined_df_lo$id)
-lo_categorization$id <- as.integer(lo_categorization$id)
-
-```
-
-```{r match categories into df_rq2}
-# conduct left_join to add the categorization (lo_categorization) to df_rq2), also add the column learning_outcome
-
-# import cat_1 & cat_2 via id 
-
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_categorization %>% select(id, cat_1, code_id_1, code_id_2), by = "id")
-
-# empty columns into na
-combined_df_lo <- combined_df_lo %>%
-  mutate(
-    cat_1 = na_if(cat_1, ""), 
-    code_id_1 = na_if(code_id_1, ""), 
-    code_id_2 = na_if(code_id_2, "")
+df_rq1 %>%
+  group_by(activity_12) %>%
+  summarise(
+    mean_learn = mean(pc_learn, na.rm = TRUE),
+    sd_learn = sd(pc_learn, na.rm = TRUE),
+    median_learn = median(pc_learn, na.rm = TRUE),
+    n = n()
   )
 
-# 9 in code_id_1 oder code_id_2 into na
-combined_df_lo <- combined_df_lo %>%
-  mutate(
-    cat_1 = na_if(cat_1, "no learning outcome mentioned"), 
-    code_id_1 = na_if(code_id_1, "9" ), 
-    code_id_2 = na_if(code_id_2, "9")
+```
+
+```{r rq1_vis}
+ggplot(df_rq1, aes(x = factor(activity_12), y = pc_learn)) +
+  geom_boxplot() +
+  labs(x = "Activity category", y = "Perceived learning (pc_learn)")
+```
+
+```{r}
+ggplot(df_rq1, aes(x = factor(activity_12), y = pc_learn)) +
+  geom_violin() +
+  geom_boxplot(width = 0.1, outlier.shape = NA)
+
+```
+
+```{r}
+df_rq1 %>%
+  group_by(activity_12) %>%
+  summarise(
+    mean_learn = mean(pc_learn, na.rm = TRUE),
+    se = sd(pc_learn, na.rm = TRUE)/sqrt(n())
+  ) %>%
+  ggplot(aes(x = factor(activity_12), y = mean_learn)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = mean_learn - se, ymax = mean_learn + se), width = 0.2)
+
+```
+
+```{r}
+df_rq1 %>%
+  group_by(activity_12) %>%
+  summarise(
+    prop_zero = mean(pc_learn == 0, na.rm = TRUE)
   )
-combined_df_lo <- combined_df_lo %>%
-  mutate(
-    cat_1 = na_if(cat_1, "nothing was learned"),
-    code_id_1 = na_if(code_id_1, "4a" ), 
-    code_id_2 = na_if(code_id_2, "4a")
-  )
-combined_df_lo <- combined_df_lo %>%
-  mutate(
-    code_id_1 = na_if(code_id_1, "4b" ), 
-    code_id_2 = na_if(code_id_2, "4b")
-  )
 
-# remove data without learning outcomes
-# combined_df_lo <- combined_df_lo %>%
-#   filter(cat_1 == no learning outcome mentioned
-# )
-          
-# Final: cat_1, cat_2
-
-```
-
-```{r add category names from lo_framework, eval=FALSE}
-# left_join 
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_framework %>% select(code, class, sub_category), 
-            by = c("code_id_1" = "code")) %>%
-            rename(cat_1_en = sub_category, 
-                   cat_1_top = class)
-
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_framework %>% select(code, class, sub_category), 
-            by = c("code_id_2" = "code")) %>%
-            rename(cat_2_en = sub_category, 
-                   cat_2_top = class)
-
-# cat_1_en
-# cat_2_en
-```
-
-```{r wide to long, import names}
-# switch from wide to long format
-combined_df_lo_wide <- combined_df_lo
-combined_df_lo <- combined_df_lo %>%
-  pivot_longer(cols = c(code_id_1, code_id_2), 
-               names_to = "code_type", 
-               values_to = "code_id")
-
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_framework %>% select(code, class, sub_category), 
-            by = c("code_id" = "code")) %>%
-            rename(code_category = sub_category, 
-                   code_top = class)
-
-df_rq2a <- combined_df_lo
-```
-
-
-```{r alternative to fuzzy join, include=FALSE, eval=FALSE}
-# remove "-" at the beginning of learn_descr if text follows
-combined_df_lo <- combined_df_lo %>%
-  mutate(learn_descr = str_replace(learn_descr, "^-\\s*", ""))
-
-# conduct left_join to add the categorization (lo_categorization) to df_rq2), also add the column learning_outcome
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_categorization, by = c("learn_descr" = "learning_outcome"), relationship = "many-to-many")
-
-# select columns from lo_framework (X1, X1_en, X5_en)
-lo_framework_ <- lo_framework %>%
-  select(X1, X1_en, X5, X5_en)
-
-# remove whitespace at the beginning and end of X5_en, X5, X1, X1_en
-lo_framework_ <- lo_framework_ %>%
-  mutate(across(everything(), str_trim))
-
-# add english names for the categories from lo_framework, match via cat_1 (df_rq2) and X5_en (lo_framework)
-combined_df_lo <- combined_df_lo %>%
-  left_join(lo_framework_, by = c("cat_1" = "X5"))
-
-# rename columns (X1 = cat_2, X1_en = cat_2_en, X5_en = cat_1_en)
-combined_df_lo <- combined_df_lo %>%
-  rename(cat_2 = X1, cat_2_en = X1_en, cat_1_en = X5_en)
-
-# change order of columns (everything, then cat_1, cat_1_en, cat_2, cat_2_en)
-combined_df_lo <- combined_df_lo %>%
-  select(everything(), cat_1, cat_1_en, cat_2, cat_2_en)
-
-```
-
-```{r prüfung der zugeordneten Werte, eval=FALSE}
-# delete duplicates in df_rq2_
-combined_df_lo <- combined_df_lo %>%
-  distinct()
-
-# group for id in df_rq2_, then add column n_id as the number of rows for each id
-combined_df_lo <- combined_df_lo %>%
-  group_by(id) %>%
-  mutate(n_id = n())
-```
-
-```{r leere learn_descr is NA, include=FALSE, eval=FALSE}
-# convert empty learn_descr to NA
-combined_df_lo <- combined_df_lo %>%
-  mutate(learn_descr = ifelse(learn_descr == "", NA, learn_descr))
 ```
 
 ```{r, eval=FALSE}
-# check combined_df for duplicates (in id)
-# combined_df_lo_dupl <- combined_df_lo %>%
-#   group_by(id) %>%
-#   mutate(n_entry = n()) %>%
-#   ungroup() %>%
-#   filter(n_entry > 1)
+kruskal.test(pc_learn ~ factor(activity_12), data = df_rq1)
 
-# filter: only entries with cat_1 = NA in combined_df_lo_code
-combined_df_lo_code <- combined_df_lo %>% #####
-  filter(is.na(cat_1))
+rstatix::kruskal_effsize(df_rq1, pc_learn ~ factor(activity_12))
 
 ```
 
 
-###
-# Export of the data for Coding
-###
+## RQ2: The Effect of Vocational Teachers' Everyday Work Activities on the Extent of their Perceived Learning (MLM regression)
+/ What is the Effect of Vocational Teachers' Everyday Work Activities on the Extent of their Perceived Learning?
+- stufenweise aufbauen
+- include: 
+-- learning outcome (pc_learn)
+-- check for effects of activity (dummy variables) --> only if rq2 is significant
+-- control variables (age, sex, jobscope)
+-- check for effects of n_entry (number of entries per person)
 
-```{r, eval=FALSE, include=FALSE}
-# export dataframe combined_df_lo as csv
-write.csv(combined_df_lo, "_data/data_LO_to_code.csv", row.names = FALSE, fileEncoding = "UTF-8")
+
+```{r rq2_prep}
+
+```
+
+```{r rq2_analysis mlm}
+
+```
+
+## ----------
+
+## RQ3: Comparison of Global and Situational Measures of Stress and Coping
+/ To what extent do Situational measures of stress and coping correspond with global self-reports?
+a) Stress
+b) coping
+
+```{r rq3_prep}
+
+```
+
+```{r rq3_analysis}
 
 ```
 
 
-```{r check which entries have to be checked, include=FALSE, eval=FALSE}
-# change cat_1 to NA when cat_1 is empty
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_1 = na_if(cat_1, ""), 
-         learn_descr = na_if(learn_descr, ""))
-  
-# Wie viele Zeilen mit NA in cat_1? 
+## RQ4: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Everyday Work Activities (as stated in Karasek's Learning Hypothesis)
+- stufenweise aufbauen
+- include: 
+-- learning outcome (pc_learn)
+-- stress and coping as predictors (situational measures)
+-- stress and coping as predictors (global measures)
+-- interaction effect (stress*coping) global / situational?!
+-- control variables (age, sex, jobscope)
+(-- check for effects of activity (dummy variables) --> only if rq2 is significant) --> careful as stress and coping lie in these activities...
+-- check for effects of n_entry (number of entries per person)
 
-# filter df_rq2 for NA in cat_1
-combined_df_lo_na <- combined_df_lo %>%
-  filter(is.na(cat_1))
-
-combined_df_lo_NOTna <- combined_df_lo %>%
-  filter(!is.na(cat_1))
-
-### Rest, der noch zu kodieren ist #####
-df_rq2_NA_tocheck <- df_rq2_na %>% 
-  filter(!is.na(learn_descr))
-
-# put column learn_descr from df_rq2_NA_tocheck into dataframe
-combined_df_lo_NA_tocheck_ <- combined_df_lo_NA_tocheck %>%
-  select(learn_descr, cat_1)
-
-combined_df_lo_NA_tocheck_ <- combined_df_lo_NA_tocheck_ %>%
-  ungroup %>%
-  select(-id)
-
-# delete duplicates
-combined_df_lo_NA_tocheck_unique <- combined_df_lo_NA_tocheck_ %>%
-  distinct()
-
-# save as csv but separator = ";"
-# write.csv(combined_df_lo_NA_tocheck_unique, "_data/df_rq2_NA_tocheck_unique.csv")
+```{r rq4_prep}
 
 ```
 
-```{r, include=FALSE, eval=FALSE}
-# set cat_2_en and cat_1_en to "no response" if cat_1 is "keine angabe", set cat_2 to "keine angabe"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_2 = ifelse(cat_1 == "keine angabe", "keine angabe", cat_2),
-         cat_1_en = ifelse(cat_1 == "keine angabe", "no response", cat_1_en),
-         cat_2_en = ifelse(cat_1 == "keine angabe", "no response", cat_2_en))
-
-# set cat_2_en and cat_1_en to "nothing" if cat_1 is "nichts", set cat_2 to "nichts"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_2 = ifelse(cat_1 == "nichts", "nichts", cat_2),
-         cat_1_en = ifelse(cat_1 == "nichts", "nothing", cat_1_en),
-         cat_2_en = ifelse(cat_1 == "nichts", "nothing", cat_2_en))
-
-# set cat_2_en and cat_1_en to "other" if cat_1 is "sonstiges", set cat_2 to "sonstiges"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_2 = ifelse(cat_1 == "sonstiges", "sonstiges", cat_2),
-         cat_1_en = ifelse(cat_1 == "sonstiges", "other", cat_1_en),
-         cat_2_en = ifelse(cat_1 == "sonstiges", "other", cat_2_en))
-
-# set cat_2_en and cat_1_en to "presumed incorrect entry" if cat_1 is "vermutliche falscheingabe", set cat_2 to "vermutliche falscheingabe"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_2 = ifelse(cat_1 == "vermutliche falscheingabe", "vermutliche falscheingabe", cat_2),
-         cat_1_en = ifelse(cat_1 == "vermutliche falscheingabe", "presumed incorrect entry", cat_1_en),
-         cat_2_en = ifelse(cat_1 == "vermutliche falscheingabe", "presumed incorrect entry", cat_2_en))
-
-# If cat_1 is "jobunzufriedenheit/frustration", set cat_1_en to "job dissatisfaction / frustration", set cat_2 to "kompetenz", set cat_2_en to "competence"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_1_en = ifelse(cat_1 == "jobunzufriedenheit/frustration", "job dissatisfaction / frustration", cat_1_en),
-         cat_2 = ifelse(cat_1 == "jobunzufriedenheit/frustration", "kompetenz", cat_2),
-         cat_2_en = ifelse(cat_1 == "jobunzufriedenheit/frustration", "competence", cat_2_en))
-
-# if cat_1 is "pausenbewusstsein und ressourcenschonung", set cat_1_en to "Break awareness and resource conservation", set cat_2 to "kompetenz", set cat_2_en to "competence"
-combined_df_lo <- combined_df_lo %>%
-  mutate(cat_1_en = ifelse(cat_1 == "pausenbewusstsein und ressourcenschonung", "Break awareness and resource conservation", cat_1_en),
-         cat_2 = ifelse(cat_1 == "pausenbewusstsein und ressourcenschonung", "kompetenz", cat_2),
-         cat_2_en = ifelse(cat_1 == "pausenbewusstsein und ressourcenschonung", "competence", cat_2_en))
-
-combined_df_lo <- combined_df_lo %>%
-  filter(cat_1 != "keine angabe" & cat_1 != "nichts" & cat_1 != "vermutliche falscheingabe")
+```{r rq4_analysis mlm}
 
 ```
 
-
-```{r, include=FALSE}
-# create a table of cat_1 in df_rq2, also include a total sum
-table_cat_1 <- df_rq2a %>%
-  group_by(code_category, code_id) %>%
-  summarize(count = n(), .groups = 'drop') %>%
-  arrange(desc(count))
-
-# add sum of all categories
-table_cat_1 <- table_cat_1 %>%
-  mutate(sum = sum(count))
-
-# add relative frequency in percent
-table_cat_1 <- table_cat_1 %>%
-  mutate(percentage = count / sum * 100)
-
-# order the table: first order by column count
-table_cat_1 <- table_cat_1 %>%
-  arrange(desc(count), code_category)
-
-# order by column cat_1_en, value other" comes last
-table_cat_1 <- table_cat_1 %>%
-  arrange(code_category == "other", .by_group = TRUE)
-
-# select columns from table_cat_1 (cat_1_en, count, percentage)
-table_cat_1 <- table_cat_1 %>%
-  select(code_id, code_category, count, sum, percentage)
-
-# in table_cat_1, ersten Buchstaben in stringspalten (cat_1_en + cat_2_en) großschreiben
-# table_cat_1 <- table_cat_1 %>%
-#   mutate(across(everthing()), tools::toTitleCase))
-```
-
-```{r, include=FALSE, eval=FALSE}
-df_rq2b <- combined_df_lo
-
-# create a table of cat_1 in df_rq2, also include a total sum
-table_cat_2 <- df_rq2b %>%
-  group_by(cat_2_en) %>%
-  summarize(count = n(), .groups = 'drop') %>%
-  arrange(desc(count))
-
-# add sum of all categories
-table_cat_2 <- table_cat_2 %>%
-  mutate(sum = sum(count))
-
-# add relative frequency in percent
-table_cat_2 <- table_cat_2 %>%
-  mutate(percentage = count / sum * 100)
-
-# order the table: first order by column count
-table_cat_2 <- table_cat_2 %>%
-  arrange(desc(count), cat_2_en)
-
-# order by column cat_1_en, value other" comes last
-table_cat_2 <- table_cat_2 %>%
-  arrange(cat_2_en == "other", .by_group = TRUE)
-
-# select columns from table_cat_1 (cat_1_en, count, percentage)
-table_cat_2 <- table_cat_2 %>%
-  select(cat_2_en, count, sum, percentage)
-
-# in table_cat_1, ersten Buchstaben in stringspalten (cat_1_en + cat_2_en) großschreiben
-table_cat_2 <- table_cat_2 %>%
-  mutate(across(c(cat_2_en), tools::toTitleCase))
-```
-
-```{r rq2_1 kable, echo=FALSE}
-table_cat_1 %>%
-  kable(
-    caption = "Outcomes of Vocational Teachers' Everyday Work Activities (RQ2)",
-    col.names = c("Learning Outcome (Parent-Category)", "Learning Outcome (Detail)", "Number of LOs", "Sum", "Percentage")
-  )
-```
-
-```{r rq2_2 kable, echo=FALSE, eval=FALSE}
-table_cat_2 %>%
-  kable(
-    caption = "Outcomes of Vocational Teachers' Everyday Work Activities (RQ2)",
-    col.names = c("Learning Outcome (Parent-Category)", "Number of LOs", "Sum", "Percentage")
-  )
-```
-
-## RQ3: Learning Outcomes across Vocational Teachers' Everyday Work Activities
-
-```{r, include=FALSE}
-df_rq3 <- combined_df_lo
-
-# put the data into the long format
-# df_long <- df_rq3 %>%
-#   pivot_longer(cols = c(cat_1_en),
-#                names_to = "category_type", 
-#                values_to = "category")
-
-# counting the occurrence for every activity and each category
-table_rq3 <- combined_df_lo %>%
-  group_by(act_no, code_category) %>%
-  summarize(count = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = code_category, values_from = count, values_fill = 0)  
-
-# sum of the rows (for each activity)
-table_rq3 <- table_rq3 %>%
-  mutate(act_no = as.character(act_no)) %>%
-  mutate(sum = rowSums(select(., -act_no)))
-
-table_rq3 <- table_rq3 %>%
-  select(-"NA")
-
-# sum of the columns (for each category)
-#####
-
-# Calculate column sums for each learning outcome category
-column_sums <- colSums(select(table_rq3, -act_no, -sum), na.rm = TRUE)
-
-# Create a tibble for the totals row
-total_row <- tibble(
-  act_no = "Total",
-  !!!column_sums  # Using the `!!!` operator to spread the sums into columns
-)
-
-# Bind the totals row to the original table
-table_rq3 <- table_rq3 %>%
-  bind_rows(total_row)
-
-table_rq3 <- table_rq3
-# rm(table_rq3)
-# rm(table_rq2b_with_totals)
-rm(total_row)
-
-```
-
-```{r, include=FALSE}
-# transpone table_rq2b
-table_rq3_ <- as.data.frame(t(table_rq3))
-
-table_rq3_ <- tibble::rownames_to_column(table_rq3_)
-
-table_rq3 <- table_rq3_
-colnames(table_rq3) <- table_rq3[1, ]  # Setzt die erste Zeile als Spaltennamen
-table_rq3 <- table_rq3[-1, ]  # Entfernt die erste Zeile aus dem Dataframe
-rownames(table_rq3) <- NULL  # Setzt die Zeilennummern zurück
-
-# rename first column into activity
-table_rq3 <- table_rq3 %>%
-  rename(lo = act_no)
-
-# nur Kleinbuchstaben in table_rq3$lo
-table_rq3$lo <- tolower(table_rq3$lo)
-
-table_rq3 <- table_rq3 %>%
-  left_join(lo_framework %>% select(class, sub_category), 
-            by = c("lo" = "sub_category"))
-```
-
-```{r divide the tables, include=FALSE}
-# divide the table into two tables: one with activity from 1 to 15 and one with 16 to 29 as well as Total
-table_rq3_1 <- table_rq3 %>%
-  select("lo", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
-
-table_rq3_2 <- table_rq3 %>%
-  select("lo", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "Total")
-```
-
-```{r rq3_1 kable, echo=FALSE}
-table_rq3_1 %>%
-  kable(
-    caption = "Learning Categories across Vocational Teachers' EverydayDaily Work Activities (RQ2 (1))", col.names = c("LO category", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15")
-  )
-```
-
-```{r rq3_2 kable, echo=FALSE}
-table_rq3_2 %>%
-  kable(
-    caption = "Learning Categories across Vocational Teachers' Everyday Work Activities (RQ2 (2))"
-  )
-```
-
-### RQ3b: Learning Outcomes across Vocational Teachers' Everyday Work Activities
-
-```{r, include=FALSE}
-df_rq3b <- combined_df_lo
-
-# count the occurence of every category for each activity (create a Kontingenztabelle)
-table_rq3b <- df_rq3b %>%
-  group_by(act_no, code_category) %>%
-  summarize(count = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = code_category, values_from = count, values_fill = 0)
-
-# remove NA column
-table_rq3b <- table_rq3b %>%
-  select(-"NA")
-
-# sum of the rows (for each activity)
-table_rq3b <- table_rq3b %>%
-  mutate(act_no = as.character(act_no)) %>%
-  mutate(sum = rowSums(select(., -act_no)))
-
-# sum of the columns (for each category)
-#####
-
-# Calculate column sums for each learning outcome category
-column_sums <- colSums(select(table_rq3b, -act_no, -sum), na.rm = TRUE)
-
-# Create a tibble for the totals row
-total_row <- tibble(
-  act_no = "Total",
-  !!!column_sums  # Using the `!!!` operator to spread the sums into columns
-)
-
-# Bind the totals row to the original table
-table_rq3b <- table_rq3b %>%
-  bind_rows(total_row)
-
-table_rq3b <- table_rq3b
-# rm(table_rq3)
-# rm(table_rq2b_with_totals)
-rm(total_row)
-
-# subset of columns from zuordnung_new_task (only alte_kategorie, task_name_en)
-zuordnung_new_task_ <- zuordnung_new_task %>%
-  select(alte_kategorie, task_name_en)
-
-# alte_kategorie in zuordnung_new_task_ to character
-zuordnung_new_task_$alte_kategorie <- as.character(zuordnung_new_task_$alte_kategorie)
-
-# add column activity from zuordnung_new_task, match via act_no and alte_kategorie
-table_rq3b <- table_rq3b %>%
-  left_join(zuordnung_new_task_, by = c("act_no" = "alte_kategorie"))
-
-# rename task_name_en into activity
-table_rq3b <- table_rq3b %>%
-  rename(activity = task_name_en)
-
-```
-
-```{r divide the tables rq3b, include=FALSE}
-# divide the table table_rq3b into 2 tables with the same number of columns but both should contain act_no and activity
-table_rq3b_1 <- table_rq3b %>%
-  select("act_no", "activity", c(2:16))
-
-table_rq3b_2 <- table_rq3b %>%
-  select("act_no", "activity", c(16:29))
-
-```
-
-```{r rq3b_1 kable, echo=FALSE}
-table_rq3b_1 %>%
-  kable(
-    caption = "Learning Categories across Vocational Teachers' Everyday Work Activities (RQ3 (1))"
-    )
-```
-
-```{r rq3b_2 kable, echo=FALSE}
-table_rq3b_2 %>%
-  kable(
-    caption = "Learning Categories across Vocational Teachers' Everyday Work Activities (RQ3 (2))"
-    )
-```
-
-
-## RQ4: Relation of extent of perceived learning to coded learning outcomes
-
-```{r, include=FALSE}
-df_rq4 <- combined_df_lo
-
-# create a table cate_1_pcl of cat_1 and also include pc_learn from df_rq2
-table_rq4_cat_1 <- df_rq4 %>%
-  group_by(code_category) %>%
-  summarize(count = n(), 
-            pc_learn_m = mean(pc_learn, na.rm = TRUE), 
-            pc_learn_sd = sd(pc_learn, na.rm = TRUE),
-            pc_learn_md = median(pc_learn, na.rm = TRUE),
-            .groups = 'drop') %>%
-  arrange(desc(count))
-```
-
-```{r, include=FALSE}
-# create a table cate_1_pcl of cat_2 in also include pc_learn from df_rq2
-table_rq4_cat_2 <- df_rq4 %>%
-  group_by(code_top) %>%
-  summarize(count = n(), 
-            pc_learn_m = mean(pc_learn, na.rm = TRUE), 
-            pc_learn_sd = sd(pc_learn, na.rm = TRUE), 
-            pc_learn_md = median(pc_learn, na.rm = TRUE),
-            .groups = 'drop') %>%
-  arrange(desc(count))
-
-# order the table: other comes last in column cat_2_en
-table_rq4_cat_2 <- table_rq4_cat_2 %>%
-  arrange(code_top == "other", .by_group = TRUE)
-```
-
-```{r, include=FALSE}
-# count the occurrence of competence in df_rq2 (cat_2) 
-table_rq4_cat_2b <- df_rq4 %>%
-  group_by(code_category) %>%
-  summarize(count = n(), .groups = 'drop') %>%
-  arrange(desc(count))
-```
-
-```{r rq4 cat_1 kable, echo=FALSE}
-table_rq4_cat_1 %>%
-  kable(
-    caption = "Relation of Extent of Perceived Learning to Coded Learning Outcomes (RQ4)", col.names = c("LO category", "Number of LOs", "M", "SD", "Mdn")
-  )
-```
-
-```{r rq4 cat_2 kable, echo=FALSE}
-table_rq4_cat_2 %>%
-  kable(
-    caption = "Relation of Extent of Perceived Learning to Coded Learning Outcomes (RQ4)", col.names = c("LO category", "Number of LOs", "M", "SD", "Mdn")
-  )
-```
-
-
-## RQ5: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Everyday Work Activities (as stated in Karasek's Learning Hypothesis)
-
--   interaction effect
 
 ```{r filter data & prepare them, include=FALSE}
 df_rq3 <- combined_df
@@ -1307,14 +533,6 @@ rq3_results_table %>%
 # kable(rq3_model2, digits = 2, caption = "MLM of Informal Learning during Teachers' Work Activities ")
 ```
 
-# Conclusion
-
-\newpage
-
-# Data availability statement
-
-The anonymized data are available on Mendeley Data (<https://www.elsevier.com/researcher/author/tools-and-resources/research-data>) under the following link: ...\
-
 # References
 
 ::: {#refs custom-style="Bibliography"}
@@ -1323,198 +541,4 @@ The anonymized data are available on Mendeley Data (<https://www.elsevier.com/re
 \newpage
 
 # Appendix
-
-## Possible Journals {.unnumbered}
-
-Teaching and Teacher Education (IF: 4.0),\
-[https://doi.org/10.1016/S0742-051X(02)00101-4](https://doi.org/10.1016/S0742-051X(02)00101-4 "Persistent link using digital object identifier") was also published here
-
-Regelungen/Hinweise:
-
--   Abstract: 100 words, 3 - 6 keywords
-
--   Report: 5.000-9.000 words
-
-Ansonsten:
-
--   Human Resource Development International (IF: 3.8)
-
-    -   <https://doi.org/10.1080/13678860010004123> was also published here
-
--   Journal of Workplace Learning (IF: )
-
--   Vocations and Learning (IF: 1.9)
-
--   Learning Environments Research (IF: 2.7)
-
--   Technology, Knowledge and Learning (IF: 3.0) - not that fitting...
-
--   Empirical Research in Vocational Education and Training (IF: 1.6)
-
--   Learning and Instruction (IF: 4.7) - not that fitting...
-
-
-```{r, eval=FALSE, include=FALSE}
-# create sample_table from df_rq2, delete all duplicates, only keep columns code, sex, age, jobscope
-sample_table <- df_rq2 %>%
-  select(code, sex, age, jobscope) %>%
-  distinct()
-
-sample_table_test <- sample_table %>%
-  group_by(code) %>%
-  mutate(n_code = n())
-```
-
-```{r, eval=FALSE, include=FALSE}
-# check df_rq2 for values != (keine angabe ODER nichts ODER vermutliche falscheingabe) in learn_descr
-df_rq2_test <- df_rq2 %>%
-  filter(!str_detect(cat_1, "keine angabe|nichts|vermutliche falscheingabe"))
-```
-
-
-```{r, eval=FALSE, include=FALSE}
-welcome_table <- welcome_raw %>%
-  select(Code, Geschlecht, Alter) %>%
-  distinct()
-```
-
-
-
-```{r}
-# show number of entries in combined_df with value "1" in column act_no
-combined_df %>%
-  filter(act_no == 13) %>%
-  nrow()
-
-```
-
-
-```{r}
-# show number of entries in combined_df with value "1" in column act_no
-combined_df_lo %>%
-  filter(act_no == 1) %>%
-  nrow()
-```
-
-
-```{r, eval=FALSE}
-# create a sub-table of column learn_descr from combined_df_lo for all entries with value "situational diagnostics" in column cat_1_en
-prep_wordcloud <- combined_df_lo %>%
-  filter(cat_1_en == "situational diagnostics") %>%
-  ungroup %>%
-  select(learn_descr)
-
-# save as csv but separator = ";"
-# write.csv2(prep_wordcloud, "_data/prep_wordcloud_sit_diag.csv", row.names = FALSE, fileEncoding = "latin1")
-
-# substitute "neuen", "neuer", neue" with neu in column learn_descr in dataframe prep_wordcloud
-# prep_wordcloud_sit_diag <- prep_wordcloud %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neuen", "neu")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neuer", "neu")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neue", "neu"))
-
-# substitute "sus", "schülerinnen", "schülern" with "schüler" in column learn_descr in dataframe prep_wordcloud
-# prep_wordcloud <- prep_wordcloud %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "sus", "schüler")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "schülerinnen", "schüler")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "schülern", "schüler"))
-
-# to lower: prep_wordcloud_sit_diag$learn_descr
-prep_wordcloud$learn_descr <- tolower(prep_wordcloud$learn_descr)
-
-# use tm package, create a corpus
-docs <- Corpus(VectorSource(prep_wordcloud$learn_descr))
-
-# use tm to remove punctuation, stopwords, case, etc.
-docs <- docs %>%
-  tm_map(removeNumbers) %>%
-  tm_map(removePunctuation) %>%
-  tm_map(stripWhitespace)
-docs <- tm_map(docs, content_transformer(tolower))
-docs <- tm_map(docs, removeWords, stopwords("german"))
-
-# create table of word counts
-dtm <- TermDocumentMatrix(docs)
-matrix <- as.matrix(dtm)
-words <- sort(rowSums(matrix), decreasing = TRUE)
-df_wordcloud <- data.frame(word = names(words), freq = words)
-
-# remove the column with the entry schüler from df_wordcloud
-# df_wordcloud <- df_wordcloud %>%
-#   filter(word != "schüler")
-
-# make wordcloud
-wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 150), size = 0.4, color = "random-dark")
-```
-
-```{r, eval=FALSE}
-# create a sub-table of column learn_descr from combined_df_lo for all entries with value "situational diagnostics" in column cat_1_en
-prep_wordcloud <- combined_df_lo %>%
-  filter(cat_1_en == "expansion of knowledge") %>%
-  ungroup %>%
-  select(learn_descr)
-
-# save as csv but separator = ";"
-# write.csv(prep_wordcloud_sit_diag, "_data/prep_wordcloud_sit_diag.csv", row.names = FALSE)
-
-# substitute "neuen", "neuer", neue" with neu in column learn_descr in dataframe prep_wordcloud
-# prep_wordcloud <- prep_wordcloud %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neuen", "neu")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neuer", "neu")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neue", "neu")) %>%
-#   mutate(learn_descr = str_replace_all(learn_descr, "neus", "neu"))
-
-# use tm package, create a corpus
-docs <- Corpus(VectorSource(prep_wordcloud$learn_descr))
-
-# use tm to remove punctuation, stopwords, case, etc.
-docs <- docs %>%
-  tm_map(removeNumbers) %>%
-  tm_map(removePunctuation) %>%
-  tm_map(stripWhitespace)
-docs <- tm_map(docs, content_transformer(tolower))
-docs <- tm_map(docs, removeWords, stopwords("german"))
-
-# create table of word counts
-dtm <- TermDocumentMatrix(docs)
-matrix <- as.matrix(dtm)
-words <- sort(rowSums(matrix), decreasing = TRUE)
-df_wordcloud <- data.frame(word = names(words), freq = words)
-
-# make wordcloud
-wordcloud2(slice_max(df_wordcloud, order_by = freq, n = 200), size = 1, color = "random-dark")
-```
-
-
-```{r, eval=FALSE}
-wordcloud2(data = demoFreq, shape = "star")
-head(demoFreq)
-
-wordcloud2(data = prep_wordcloud_sit_diag)
-```
-
-# combined_df from informal learning activities
-```{r, eval=FALSE}
-# filter: combined_df for entries with act_no =! 12, 13
-combined_df_lo_informal <- combined_df_lo %>%
-  filter(act_no != 12 & act_no != 13)
-  # select(id, code, act_no, learn_descr, cat_1, cat_2, cat_1_en, cat_2_en, pc_learn)
-
-```
-
-## Examples (RQ4)
-```{r}
-df_rq4_lo <- df_rq4 %>%
-  filter(!is.na(code_id))
-
-df_rq4_lo_1 <- df_rq4_lo %>%
-  filter(act_no == 1)
-
-df_rq4_lo_3 <- df_rq4_lo %>%
-  filter(act_no == 3)
-
-df_rq4_lo_6 <- df_rq4_lo %>%
-  filter(act_no == 6)
-
-```
 
