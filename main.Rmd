@@ -52,8 +52,9 @@ if (!require("pacman")) {
 pacman::p_load(papaja, knitr, dplyr, remotes, lme4, tidyr, kableExtra,
                modelsummary, performance, stats, lmerTest, ggplot2, corrr,
                parameters, car, psych, jtools, grateful, blockTools,
-               robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest, effects, 
-               sjPlot, devtools, rmdwc, fastDummies, crosstable, fuzzyjoin, datawizard, forcats, wordcloud2, tm) 
+               robustlmm, usethis, gitcreds, stringr, HLMdiag, lmtest,
+               effects, sjPlot, devtools, rmdwc, fastDummies, crosstable,
+               fuzzyjoin, datawizard, forcats, wordcloud2, tm, interactions, moments, nortest, LMERConvenienceFunctions) 
 
 # install.packages("robustlmm", dependencies = TRUE)
 # install.packages("broom.mixed", dependencies = TRUE)
@@ -74,6 +75,9 @@ jobscope_correction <- read.csv2("_data/jobscope_v3.csv")
 zuordnung_new_task <- read.csv2("_data/zuordnung_new_task.csv", 
                                  fileEncoding = "ISO-8859-1")
 
+# issues: #NULL, 
+# import fbs_data using csv2, #NULL = NA
+fbs_data <- read.csv2("_data/fbs_data/AARL-BS_w1_all_FBS_complete.csv", na = c("#NULL!"))
 ```
 
 ```{r data prep, include=FALSE}
@@ -290,6 +294,61 @@ combined_df <- combined_df %>%
   left_join(zuordnung_new_task %>% select(act_no, activity_12, taskname_new_en), by = "act_no")
 ```
 
+```{r import columns from fbs_data}
+# add variables from fbs_data to combined_df (stress, coping, resources) by matching with variable code
+
+### Wenn Sie Ihre bisherige Erfahrung als Lehrkraft an beruflichen Schulen insgesamt betrachten: Wie häufig fühlen Sie sich Situationen ausgesetzt, die Sie als belastend empfinden? 
+### not a good fit: how often rather than how stressed 
+# combined_df$stress_g_t <- fbs_data$LD05[match(combined_df$code, fbs_data$SERIAL)] # teachers
+# combined_df$stress_g_sm <- fbs_data$SD05[match(combined_df$code, fbs_data$SERIAL)] # school management
+# combined_df$stress_g_vd <- fbs_data$VD05[match(combined_df$code, fbs_data$SERIAL)] # teachers in training
+
+# combine all 3 variables into one variable stress_g
+# combined_df$stress_g <- NA
+# combined_df$stress_g <- ifelse(!is.na(combined_df$stress_g_t), 
+#                                combined_df$stress_g_t, 
+#                                ifelse(!is.na(combined_df$stress_g_sm), 
+#                                       combined_df$stress_g_sm, 
+#                                       ifelse(!is.na(combined_df$stress_g_vd), 
+#                                              combined_df$stress_g_vd, NA)))
+# 
+# combined_df$stress_g <- coalesce(combined_df$stress_g_t, 
+#                                  combined_df$stress_g_sm, 
+#                                  combined_df$stress_g_vd)
+# 
+# # create a table showing the number and prop of teachers (stress_g_t), school management (stress_g_sm) and teachers in training (stress_g_vd), but only consider persons (id = code) not the entries as situations
+# table_groups <- combined_df %>%
+#   group_by(code) %>%                                    # work per person
+#   summarise(
+#     teacher   = any(!is.na(stress_g_t)),                # is there ever a teacher entry?
+#     management = any(!is.na(stress_g_sm)),              # management entry?
+#     trainee   = any(!is.na(stress_g_vd))                # trainee entry?
+#   ) %>%
+#   mutate(group = case_when(
+#     teacher ~ "Teacher",
+#     management ~ "School management",
+#     trainee ~ "Teacher in training",
+#     TRUE ~ NA_character_
+#   )) %>%
+#   count(group) %>%
+#   mutate(prop = n / sum(n))
+# 
+# table_groups
+
+
+### ways of coping (Lazarus & Folkman) was used to measure coping -> how do people cope rather than how good are they able to cope with a situation...
+### the same is true for resources: both are measured qualitatively
+
+# check if all values were added correctly
+# sum(is.na(combined_df$stress_g))
+# table(combined_df$stress_g)
+
+# check if Refis are included in TBS-data ###################
+# How shall I treat teachers in training (VD) in the analyses?
+
+```
+
+
 ```{r remove unnecessary columns and dataframes, include=FALSE}
 rm(week_rv)
 rm(weights_20)
@@ -322,102 +381,7 @@ psych::describe(combined_df)
 
 ```
 
-## RQ1: Extent of percieved Learning across Vocational Teachers' Everyday Work Activities (--> aus bwpat)
-- 12 activity categories
-
-
-```{r rq1_analysis}
-df_rq1 <- combined_df
-
-df_rq1 %>%
-  group_by(activity_12) %>%
-  summarise(
-    mean_learn = mean(pc_learn, na.rm = TRUE),
-    sd_learn = sd(pc_learn, na.rm = TRUE),
-    median_learn = median(pc_learn, na.rm = TRUE),
-    n = n()
-  )
-
-```
-
-```{r rq1_vis}
-ggplot(df_rq1, aes(x = factor(activity_12), y = pc_learn)) +
-  geom_boxplot() +
-  labs(x = "Activity category", y = "Perceived learning (pc_learn)")
-```
-
-```{r}
-ggplot(df_rq1, aes(x = factor(activity_12), y = pc_learn)) +
-  geom_violin() +
-  geom_boxplot(width = 0.1, outlier.shape = NA)
-
-```
-
-```{r}
-df_rq1 %>%
-  group_by(activity_12) %>%
-  summarise(
-    mean_learn = mean(pc_learn, na.rm = TRUE),
-    se = sd(pc_learn, na.rm = TRUE)/sqrt(n())
-  ) %>%
-  ggplot(aes(x = factor(activity_12), y = mean_learn)) +
-  geom_col() +
-  geom_errorbar(aes(ymin = mean_learn - se, ymax = mean_learn + se), width = 0.2)
-
-```
-
-```{r}
-df_rq1 %>%
-  group_by(activity_12) %>%
-  summarise(
-    prop_zero = mean(pc_learn == 0, na.rm = TRUE)
-  )
-
-```
-
-```{r, eval=FALSE}
-kruskal.test(pc_learn ~ factor(activity_12), data = df_rq1)
-
-rstatix::kruskal_effsize(df_rq1, pc_learn ~ factor(activity_12))
-
-```
-
-
-## RQ2: The Effect of Vocational Teachers' Everyday Work Activities on the Extent of their Perceived Learning (MLM regression)
-/ What is the Effect of Vocational Teachers' Everyday Work Activities on the Extent of their Perceived Learning?
-- stufenweise aufbauen
-- include: 
--- learning outcome (pc_learn)
--- check for effects of activity (dummy variables) --> only if rq2 is significant
--- control variables (age, sex, jobscope)
--- check for effects of n_entry (number of entries per person)
-
-
-```{r rq2_prep}
-
-```
-
-```{r rq2_analysis mlm}
-
-```
-
-## ----------
-
-## RQ3: Comparison of Global and Situational Measures of Stress and Coping
-/ To what extent do Situational measures of stress and coping correspond with global self-reports?
-a) Stress
-b) coping
-
-```{r rq3_prep}
-
-```
-
-```{r rq3_analysis}
-
-```
-
-
-## RQ4: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Everyday Work Activities (as stated in Karasek's Learning Hypothesis)
+## RQ1: Predicting Vocational Teachers' Informal Learning Using Stress and Coping during their Everyday Work Activities (as stated in Karasek's Learning Hypothesis)
 - stufenweise aufbauen
 - include: 
 -- learning outcome (pc_learn)
@@ -428,31 +392,2327 @@ b) coping
 (-- check for effects of activity (dummy variables) --> only if rq2 is significant) --> careful as stress and coping lie in these activities...
 -- check for effects of n_entry (number of entries per person)
 
-```{r rq4_prep}
+### RQ1 Prep 
+```{r rq1_prep}
+## include teachers in training?!
+
+# Check data structure
+str(combined_df)
+summary(combined_df)
+
+###
+# check for outliers
+###
+
+# load activities_raw
+activities_raw <- read.csv2("_data/raw/20221018_1717_2_AARL-BS Taetigkeiten_de102944944440141306.csv")
+
+# import Coping as coping_old into combined_df from activities_raw (via id)
+combined_df <- combined_df %>%
+  left_join(activities_raw %>% 
+              select(id, coping_old = 
+                       Coping, 
+                     stress_old = 
+                       Stress, 
+                     pc_learn_old = Lernen),
+            by = c("id" = "id"))
+
+# compare coping and coping_old: coping_diff = coping - coping_old
+combined_df <- combined_df %>%
+  mutate(coping_diff = coping - coping_old, 
+         stress_diff = stress - stress_old, 
+         pc_learn_diff = pc_learn - pc_learn_old)
+# no differences in stress, only in coping
+
+# combined_df_coping_diff_notNA <- combined_df %>%
+#   filter(coping_diff != 0 | is.na(coping_diff))
+
+# combined_df_ <- combined_df # Backup with original values
+
+# when coping <> coping_old: coping == coping_old
+combined_df <- combined_df %>%
+  mutate(coping = if_else(is.na(coping_old), coping, coping_old))
+```
+
+```{r, exclude formal and non-formal learning}
+combined_df_ <- combined_df %>% 
+  filter(act_no != 12 & act_no != 13)
+```
+
+```{r model for outlier analysis, include=FALSE}
+# Filter: Minimum 5 entries per person
+df_rq1 <- combined_df_ %>%
+  rename(person_id = code) %>%
+  filter(!is.na(pc_learn) & !is.na(stress) & !is.na(coping)) %>%
+  group_by(person_id) %>%
+  # Minimum 5 Einträge pro Person
+  filter(n() >= 5) %>%
+  ungroup()
+
+cat("Sample size:", nrow(df_rq1), "observations from", 
+    n_distinct(df_rq1$person_id), "persons\n")
+
+
+################################################################################
+# 2. CALCULATE PERSON-MEANS (Between-Person Components)
+################################################################################
+
+# remove columns stress_PM, coping_PM, n_entry_PM if they exist
+# df_rq1 <- df_rq1 %>%
+#   select(-any_of(c("stress_PM", "coping_PM", "n_entry_PM")))
+
+person_means <- df_rq1 %>%
+  group_by(person_id) %>%
+  summarise(
+    stress_PM = mean(stress, na.rm = TRUE),
+    coping_PM = mean(coping, na.rm = TRUE),
+    n_entry_PM = mean(n_entry, na.rm = TRUE)
+  )
+
+# Merge back to main data
+df_rq1 <- df_rq1 %>%
+  left_join(person_means, by = "person_id")
+
+
+################################################################################
+# 3. CALCULATE PERSON-MEAN-CENTERED VARIABLES (Within-Person Components)
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Within-person deviations (person-mean-centered)
+    stress_within = stress - stress_PM,
+    coping_within = coping - coping_PM,
+    n_entry_within = n_entry - n_entry_PM
+  )
+
+################################################################################
+# 4. GRAND-MEAN CENTER BETWEEN-PERSON VARIABLES
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Grand-mean centered person-means
+    stress_between = stress_PM - mean(stress_PM, na.rm = TRUE),
+    coping_between = coping_PM - mean(coping_PM, na.rm = TRUE),
+    n_entry_between = n_entry_PM - mean(n_entry_PM, na.rm = TRUE),
+    
+    # Grand-mean centered controls
+    age_c = age - mean(age, na.rm = TRUE),
+    jobscope_c = jobscope - mean(jobscope, na.rm = TRUE),
+    
+    # Quadratic term for coping (from centered variable)
+    coping_between_sq = coping_between^2
+  )
+
+
+################################################################################
+# 5. DESCRIPTIVE STATISTICS
+################################################################################
+
+cat("\n=== DESCRIPTIVE STATISTICS ===\n")
+
+# Within-person variables
+desc_within <- df_rq1 %>%
+  summarise(across(
+    c(pc_learn, stress_within, coping_within, n_entry_within),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_within)
+
+# Between-person variables
+desc_between <- df_rq1 %>%
+  distinct(person_id, .keep_all = TRUE) %>%
+  summarise(across(
+    c(stress_between, coping_between, n_entry_between, age_c, jobscope_c),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_between)
+
+
+################################################################################
+# 6. HIERARCHICAL MODEL BUILDING (ML for Model Comparison)
+################################################################################
+
+cat("\n=== BUILDING HIERARCHICAL MODELS ===\n")
+
+# M0: Null model (ICC)
+m0 <- lmer(pc_learn ~ 1 + (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+icc_value <- icc(m0)
+cat("\nICC =", round(icc_value$ICC_adjusted, 3), "\n")
+
+
+# M1: Within-person main effects
+m1 <- lmer(pc_learn ~ stress_within + coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M2: Add Karasek interaction (KEY HYPOTHESIS!)
+m2 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M3: Add control variables (including n_entry)
+m3 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M4: Add between-person effects + quadratic coping
+m4 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           stress_between + coping_between + coping_between_sq + 
+           n_entry_between +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# Model comparison
+cat("\n=== MODEL COMPARISON (Likelihood Ratio Tests) ===\n")
+model_comparison <- anova(m0, m1, m2, m3, m4)
+print(model_comparison)
+
+
+################################################################################
+# 7. FINAL MODEL WITH REML (for inference)
+################################################################################
+
+cat("\n=== FINAL MODEL (REML) ===\n")
+
+m4_final <- lmer(pc_learn ~ stress_within + coping_within + 
+                 stress_within:coping_within + 
+                 n_entry_within +
+                 stress_between + coping_between + coping_between_sq + 
+                 n_entry_between +
+                 age_c + sex + jobscope_c + 
+                 (1 | person_id), 
+                 data = df_rq1, 
+                 REML = TRUE)
+```
+
+
+```{r outlier analysis}
+###
+# outlier analysis
+###
+boxplot(combined_df$coping, main = "Boxplot of Coping", ylab = "Coping Scores")
+boxplot(combined_df$stress, main = "Boxplot of Stress", ylab = "Stress Scores")
+boxplot(combined_df$pc_learn, main = "Boxplot of Perceived Learning", ylab = "Perceived Learning Scores")
+
+# looking at the outliers
+res_std <- rstudent(m4_final)  # studentisierte Residuen
+df_rq1[which(abs(res_std) > 2.5),] # Get the rows which absolute residuals > 2.5
+df_rq1_outliers <- df_rq1[which(abs(res_std) > 2.5),]
+
+# removing the outliers
+df_rq1_outl_removed <- romr.fnc(m4_final, df_rq1, trim = 2.5)
+# df_rq1_outl_removed$n.removed
+# df_rq1_outl_removed$percent.removed
+
+df_rq1 <- df_rq1_outl_removed$data
+```
+
+
+### RQ1 Analysis 
+```{r, rq1_analysis}
+################################################################################
+# rq1: Karasek Demand-Control Model - Final Analysis
+# Hierarchical Multilevel Models with Disaggregation
+################################################################################
+
+################################################################################
+# 1. DATA PREPARATION
+################################################################################
+
+# Filter: Minimum 5 entries per person
+# df_rq1 <- combined_df %>%
+df_rq1 <- df_rq1 %>%
+  # rename(person_id = code) %>%
+  filter(!is.na(pc_learn) & !is.na(stress) & !is.na(coping)) %>%
+  group_by(person_id) %>%
+  # Minimum 5 Einträge pro Person
+  filter(n() >= 5) %>%
+  ungroup()
+
+cat("Sample size:", nrow(df_rq1), "observations from", 
+    n_distinct(df_rq1$person_id), "persons\n")
+
+
+################################################################################
+# 2. CALCULATE PERSON-MEANS (Between-Person Components)
+################################################################################
+
+# remove columns stress_PM, coping_PM, n_entry_PM if they exist
+df_rq1 <- df_rq1 %>%
+  select(-any_of(c("stress_PM", "coping_PM", "n_entry_PM")))
+
+
+person_means <- df_rq1 %>%
+  group_by(person_id) %>%
+  summarise(
+    stress_PM = mean(stress, na.rm = TRUE),
+    coping_PM = mean(coping, na.rm = TRUE),
+    n_entry_PM = mean(n_entry, na.rm = TRUE)
+  )
+
+# Merge back to main data
+df_rq1 <- df_rq1 %>%
+  left_join(person_means, by = "person_id")
+
+
+################################################################################
+# 3. CALCULATE PERSON-MEAN-CENTERED VARIABLES (Within-Person Components)
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Within-person deviations (person-mean-centered)
+    stress_within = stress - stress_PM,
+    coping_within = coping - coping_PM,
+    n_entry_within = n_entry - n_entry_PM
+  )
+
+
+################################################################################
+# 4. GRAND-MEAN CENTER BETWEEN-PERSON VARIABLES
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Grand-mean centered person-means
+    stress_between = stress_PM - mean(stress_PM, na.rm = TRUE),
+    coping_between = coping_PM - mean(coping_PM, na.rm = TRUE),
+    n_entry_between = n_entry_PM - mean(n_entry_PM, na.rm = TRUE),
+    
+    # Grand-mean centered controls
+    age_c = age - mean(age, na.rm = TRUE),
+    jobscope_c = jobscope - mean(jobscope, na.rm = TRUE),
+    
+    # Quadratic term for coping (from centered variable)
+    coping_between_sq = coping_between^2
+  )
+
+
+################################################################################
+# 5. DESCRIPTIVE STATISTICS
+################################################################################
+
+cat("\n=== DESCRIPTIVE STATISTICS ===\n")
+
+# Within-person variables
+desc_within <- df_rq1 %>%
+  summarise(across(
+    c(pc_learn, stress_within, coping_within, n_entry_within),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_within)
+
+# Between-person variables
+desc_between <- df_rq1 %>%
+  distinct(person_id, .keep_all = TRUE) %>%
+  summarise(across(
+    c(stress_between, coping_between, n_entry_between, age_c, jobscope_c),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_between)
+
+
+################################################################################
+# 6. HIERARCHICAL MODEL BUILDING (ML for Model Comparison)
+################################################################################
+
+cat("\n=== BUILDING HIERARCHICAL MODELS ===\n")
+
+# M0: Null model (ICC)
+m0 <- lmer(pc_learn ~ 1 + (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+icc_value <- icc(m0)
+cat("\nICC =", round(icc_value$ICC_adjusted, 3), "\n")
+
+
+# M1: Within-person main effects
+m1 <- lmer(pc_learn ~ stress_within + coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M2: Add Karasek interaction (KEY HYPOTHESIS!)
+m2 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M3: Add control variables (including n_entry)
+m3 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M4: Add between-person effects + quadratic coping
+m4 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           stress_between + coping_between + coping_between_sq + 
+           n_entry_between +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# Model comparison
+cat("\n=== MODEL COMPARISON (Likelihood Ratio Tests) ===\n")
+model_comparison <- anova(m0, m1, m2, m3, m4)
+print(model_comparison)
+
+
+################################################################################
+# 7. FINAL MODEL WITH REML (for inference)
+################################################################################
+
+cat("\n=== FINAL MODEL (REML) ===\n")
+
+m4_final <- lmer(pc_learn ~ stress_within + coping_within + 
+                 stress_within:coping_within + 
+                 n_entry_within +
+                 stress_between + coping_between + coping_between_sq + 
+                 n_entry_between +
+                 age_c + sex + jobscope_c + 
+                 (1 | person_id), 
+                 data = df_rq1, 
+                 REML = TRUE)
+
+summary(m4_final)
+
+# Confidence intervals
+cat("\n=== 95% CONFIDENCE INTERVALS ===\n")
+print(confint(m4_final, method = "Wald"))
+
+# R-squared
+cat("\n=== VARIANCE EXPLAINED ===\n")
+r2_values <- r2(m4_final)
+print(r2_values)
+
+
+################################################################################
+# 8. KARASEK INTERACTION - SIMPLE SLOPES
+################################################################################
+
+cat("\n=== SIMPLE SLOPES ANALYSIS ===\n")
+
+simple_slopes <- sim_slopes(m4_final, 
+                            pred = stress_within, 
+                            modx = coping_within,
+                            johnson_neyman = TRUE)
+print(simple_slopes)
+
+
+################################################################################
+# 9. VISUALIZATION - KARASEK MODERATION PLOT
+################################################################################
+
+cat("\n=== CREATING MODERATION PLOT ===\n")
+
+# Calculate SD for coping
+coping_sd <- sd(df_rq1$coping_within, na.rm = TRUE)
+
+# Plot with -1 SD, 0, +1 SD
+p_karasek <- interact_plot(m4_final, 
+                           pred = stress_within, 
+                           modx = coping_within,
+                           modx.values = c(-coping_sd, 0, coping_sd),
+                           modx.labels = c("Low Coping (-1 SD)", 
+                                          "Typical Coping (Mean)", 
+                                          "High Coping (+1 SD)"),
+                           interval = TRUE,
+                           int.width = 0.95,
+                           x.label = "Situational Stress (within-person)",
+                           y.label = "Perceived Learning",
+                           legend.main = "Situational Coping\n(within-person)",
+                           main.title = "Karasek Demand-Control Model:\nStress × Coping → Learning",
+                           colors = c("firebrick", "gray40", "steelblue"),
+                           line.thickness = 1.2) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "right"
+  )
+
+print(p_karasek)
+ggsave("karasek_interaction.png", p_karasek, width = 10, height = 7, dpi = 300)
+
+# Additional plot: Focus on zero coping
+cat("\n=== SIMPLE SLOPE AT COPING = 0 ===\n")
+slope_at_zero <- sim_slopes(m4_final, 
+                            pred = stress_within, 
+                            modx = coping_within,
+                            modx.values = 0)
+print(slope_at_zero)
+
+
+################################################################################
+# 10. QUADRATIC COPING EFFECT (Between-Person)
+################################################################################
+
+cat("\n=== QUADRATIC COPING EFFECT ===\n")
+
+# Predict across range of coping
+coping_range <- seq(min(df_rq1$coping_between, na.rm = TRUE),
+                    max(df_rq1$coping_between, na.rm = TRUE),
+                    length.out = 100)
+
+pred_data_coping <- data.frame(
+  stress_within = 0,
+  coping_within = 0,
+  n_entry_within = 0,
+  stress_between = 0,
+  coping_between = coping_range,
+  coping_between_sq = coping_range^2,
+  n_entry_between = 0,
+  age_c = 0,
+  sex = factor(round(mean(df_rq1$sex, na.rm = TRUE)), 
+               levels = levels(factor(df_rq1$sex))),
+  jobscope_c = 0
+)
+
+pred_data_coping$predicted <- predict(m4_final, 
+                                     newdata = pred_data_coping, 
+                                     re.form = NA)
+
+# Plot
+p_coping_quad <- ggplot(pred_data_coping, 
+                        aes(x = coping_between + mean(df_rq1$coping_PM, na.rm = TRUE), 
+                            y = predicted)) +
+  geom_line(color = "darkblue", linewidth = 1.5) +
+  geom_ribbon(aes(ymin = predicted - 0.1, ymax = predicted + 0.1),
+              alpha = 0.2, fill = "darkblue") +
+  labs(x = "Average Coping (between-person)",
+       y = "Predicted Learning",
+       title = "Inverted-U: Coping and Learning",
+       subtitle = "Learning is highest at moderate coping levels") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5))
+
+print(p_coping_quad)
+ggsave("coping_quadratic.png", p_coping_quad, width = 10, height = 7, dpi = 300)
+
+
+################################################################################
+# 11. PUBLICATION-READY TABLE
+################################################################################
+
+cat("\n=== CREATING MODEL COMPARISON TABLE ===\n")
+
+tab_model(m0, m1, m2, m3, m4_final,
+          show.ci = TRUE,
+          show.se = TRUE,
+          show.stat = TRUE,
+          show.r2 = TRUE,
+          show.icc = TRUE,
+          dv.labels = c("M0: Null", 
+                        "M1: Main Effects", 
+                        "M2: Interaction", 
+                        "M3: Controls",
+                        "M4: Final"),
+          pred.labels = c("(Intercept)",
+                          "Stress (within)",
+                          "Coping (within)",
+                          "Stress × Coping (within)",
+                          "Entry# (within)",
+                          "Age",
+                          "Sex: Male",
+                          "Job Scope",
+                          "Stress (between)",
+                          "Coping (between)",
+                          "Coping² (between)",
+                          "Entry# (between)"),
+          string.pred = "Predictors",
+          string.ci = "95% CI",
+          string.p = "p",
+          title = "Hierarchical Multilevel Models Predicting Perceived Learning",
+          file = "table_main_results.html")
+
+
+################################################################################
+# 12. INTERPRETATION SUMMARY
+################################################################################
+
+cat("\n\n=== INTERPRETATION SUMMARY ===\n")
+
+coefs <- summary(m4_final)$coefficients
+
+# Karasek interaction
+interaction_beta <- coefs["stress_within:coping_within", "Estimate"]
+interaction_p <- coefs["stress_within:coping_within", "Pr(>|t|)"]
+
+cat("\n--- KARASEK HYPOTHESIS ---\n")
+cat("Stress × Coping (within-person): β =", round(interaction_beta, 3), 
+    ", p =", format.pval(interaction_p, digits = 3), "\n")
+if(interaction_p < 0.05) {
+  cat("✓ SUPPORTED: Positive interaction confirms Karasek's demand-control model\n")
+  cat("  → Stress promotes learning when coping is high\n")
+} else {
+  cat("✗ NOT SUPPORTED\n")
+}
+
+# Quadratic coping
+coping_quad_beta <- coefs["coping_between_sq", "Estimate"]
+coping_quad_p <- coefs["coping_between_sq", "Pr(>|t|)"]
+
+cat("\n--- QUADRATIC COPING (Between-Person) ---\n")
+cat("Coping² (between): β =", round(coping_quad_beta, 3), 
+    ", p =", format.pval(coping_quad_p, digits = 3), "\n")
+if(coping_quad_p < 0.05) {
+  if(coping_quad_beta < 0) {
+    cat("✓ INVERTED-U: Learning is highest at moderate coping levels\n")
+  } else {
+    cat("✓ U-SHAPED: Learning is lowest at moderate coping levels\n")
+  }
+}
+
+# Time effects
+n_entry_within_p <- coefs["n_entry_within", "Pr(>|t|)"]
+n_entry_between_p <- coefs["n_entry_between", "Pr(>|t|)"]
+
+cat("\n--- TIME/COMPLIANCE EFFECTS ---\n")
+cat("Entry# (within): p =", format.pval(n_entry_within_p, digits = 3), "\n")
+if(n_entry_within_p > 0.05) {
+  cat("✓ No temporal trend: Learning stable across study period\n")
+}
+cat("Entry# (between): p =", format.pval(n_entry_between_p, digits = 3), "\n")
+if(n_entry_between_p < 0.05) {
+  cat("→ Persons with more entries differ in average learning\n")
+}
+
+
+################################################################################
+# 13. SAVE WORKSPACE
+################################################################################
+
+save(m0, m1, m2, m3, m4_final,
+     df_rq1, person_means,
+     simple_slopes,
+     desc_within, desc_between,
+     file = "rq1_final_results.RData")
+
+cat("\n\n=== ANALYSIS COMPLETE ===\n")
+cat("✓ Models saved: rq1_final_results.RData\n")
+cat("✓ Table: table_main_results.html\n")
+cat("✓ Plots: karasek_interaction.png, coping_quadratic.png\n")
+
+################################################################################
+# END
+################################################################################
+```
+
+
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::
+
+\newpage
+
+# Appendix
+
+```{r, eval=FALSE}
+# count all unique values in column code in dataframe combined_df
+length(unique(combined_df$code))
+
+# count all unique values in column id in dataframe combined_df
+length(unique(combined_df$id))
+
+# create a table showing the number of entries per person (code), depict them with the code
+table_entries <- df_rq1 %>%
+  group_by(person_id) %>%
+  summarise(n_entry = n()) %>%
+  arrange(desc(n_entry))
+
+print(table_entries, n = 467)
 
 ```
 
-```{r rq4_analysis mlm}
+## Normal distribution check (pc_learn)
+```{r}
+################################################################################
+# Normality Check for DV: pc_learn
+################################################################################
+
+# library(tidyverse)
+# library(moments)      # For skewness & kurtosis
+# library(nortest)      # For normality tests
+# library(car)          # For Levene test
+
+################################################################################
+# 1. DESCRIPTIVE STATISTICS
+################################################################################
+
+cat("\n=== DESCRIPTIVE STATISTICS: pc_learn ===\n")
+desc_stats <- df_rq1 %>%
+  summarise(
+    N = n(),
+    Mean = mean(pc_learn, na.rm = TRUE),
+    Median = median(pc_learn, na.rm = TRUE),
+    SD = sd(pc_learn, na.rm = TRUE),
+    Min = min(pc_learn, na.rm = TRUE),
+    Max = max(pc_learn, na.rm = TRUE),
+    Range = Max - Min,
+    Q1 = quantile(pc_learn, 0.25, na.rm = TRUE),
+    Q3 = quantile(pc_learn, 0.75, na.rm = TRUE),
+    IQR = IQR(pc_learn, na.rm = TRUE),
+    Skewness = skewness(pc_learn, na.rm = TRUE),
+    Kurtosis = kurtosis(pc_learn, na.rm = TRUE)
+  )
+
+print(desc_stats)
+
+# Interpretation
+cat("\n--- INTERPRETATION ---\n")
+cat("Skewness:", round(desc_stats$Skewness, 3), 
+    ifelse(abs(desc_stats$Skewness) < 0.5, "(approximately symmetric)", 
+           ifelse(desc_stats$Skewness > 0, "(right-skewed)", "(left-skewed)")), "\n")
+cat("Kurtosis:", round(desc_stats$Kurtosis, 3), 
+    ifelse(abs(desc_stats$Kurtosis - 3) < 0.5, "(normal)", 
+           ifelse(desc_stats$Kurtosis > 3, "(heavy-tailed)", "(light-tailed)")), "\n")
+
+# Check for floor/ceiling effects
+prop_zero <- mean(df_rq1$pc_learn == 0, na.rm = TRUE) * 100
+prop_max <- mean(df_rq1$pc_learn == max(df_rq1$pc_learn, na.rm = TRUE), na.rm = TRUE) * 100
+cat("\nFloor effect (0):", round(prop_zero, 2), "%\n")
+cat("Ceiling effect (max):", round(prop_max, 2), "%\n")
+
+
+################################################################################
+# 2. FREQUENCY DISTRIBUTION
+################################################################################
+
+cat("\n=== FREQUENCY DISTRIBUTION ===\n")
+freq_table <- df_rq1 %>%
+  count(pc_learn) %>%
+  mutate(
+    Percent = n / sum(n) * 100,
+    Cumulative = cumsum(Percent)
+  )
+print(freq_table, n = Inf)
+
+
+################################################################################
+# 3. VISUAL INSPECTION
+################################################################################
+
+# Create comprehensive diagnostic plot
+png("normality_check_pc_learn.png", width = 14, height = 10, units = "in", res = 300)
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 2))
+
+# 3.1 Histogram with normal curve
+hist(df_rq1$pc_learn, breaks = 30, freq = FALSE, 
+     main = "Histogram: pc_learn", 
+     xlab = "Perceived Learning", 
+     col = "steelblue", border = "white")
+curve(dnorm(x, mean = mean(df_rq1$pc_learn, na.rm = TRUE), 
+            sd = sd(df_rq1$pc_learn, na.rm = TRUE)), 
+      add = TRUE, col = "red", lwd = 2)
+legend("topright", legend = "Normal curve", col = "red", lty = 1, lwd = 2)
+
+# 3.2 Q-Q Plot
+qqnorm(df_rq1$pc_learn, main = "Q-Q Plot: pc_learn", 
+       pch = 20, col = rgb(70/255, 130/255, 180/255, 0.5))
+qqline(df_rq1$pc_learn, col = "red", lwd = 2)
+
+# 3.3 Boxplot
+boxplot(df_rq1$pc_learn, main = "Boxplot: pc_learn", 
+        ylab = "Perceived Learning", col = "steelblue", 
+        outcol = "red", outpch = 20)
+
+# 3.4 Density plot
+plot(density(df_rq1$pc_learn, na.rm = TRUE), 
+     main = "Density Plot: pc_learn", 
+     xlab = "Perceived Learning", 
+     col = "steelblue", lwd = 2)
+polygon(density(df_rq1$pc_learn, na.rm = TRUE), 
+        col = rgb(70/255, 130/255, 180/255, 0.3), border = NA)
+
+# 3.5 Bar plot (if discrete)
+barplot(table(df_rq1$pc_learn), 
+        main = "Frequency: pc_learn", 
+        xlab = "Perceived Learning", 
+        ylab = "Count", 
+        col = "steelblue")
+
+# 3.6 Cumulative distribution
+plot(ecdf(df_rq1$pc_learn), 
+     main = "Cumulative Distribution: pc_learn", 
+     xlab = "Perceived Learning", 
+     ylab = "Cumulative Probability",
+     col = "steelblue", lwd = 2)
+
+dev.off()
+cat("\n→ Diagnostic plots saved: normality_check_pc_learn.png\n")
+
+
+################################################################################
+# 4. STATISTICAL TESTS FOR NORMALITY
+################################################################################
+
+cat("\n=== NORMALITY TESTS ===\n")
+
+# 4.1 Shapiro-Wilk (use sample if n > 5000)
+if(nrow(df_rq1) <= 5000) {
+  shapiro_test <- shapiro.test(df_rq1$pc_learn)
+  cat("\nShapiro-Wilk Test:\n")
+  cat("  W =", round(shapiro_test$statistic, 4), 
+      ", p =", format.pval(shapiro_test$p.value, digits = 3), "\n")
+  cat("  ", ifelse(shapiro_test$p.value > 0.05, 
+                    "✓ Data are normally distributed (p > .05)", 
+                    "✗ Data deviate from normality (p < .05)"), "\n")
+} else {
+  # Sample for Shapiro-Wilk
+  set.seed(123)
+  sample_data <- sample(df_rq1$pc_learn, 5000)
+  shapiro_test <- shapiro.test(sample_data)
+  cat("\nShapiro-Wilk Test (on random sample of 5000):\n")
+  cat("  W =", round(shapiro_test$statistic, 4), 
+      ", p =", format.pval(shapiro_test$p.value, digits = 3), "\n")
+  cat("  ", ifelse(shapiro_test$p.value > 0.05, 
+                    "✓ Sample appears normally distributed (p > .05)", 
+                    "✗ Sample deviates from normality (p < .05)"), "\n")
+}
+
+# 4.2 Kolmogorov-Smirnov Test
+ks_test <- ks.test(df_rq1$pc_learn, "pnorm", 
+                   mean = mean(df_rq1$pc_learn, na.rm = TRUE),
+                   sd = sd(df_rq1$pc_learn, na.rm = TRUE))
+cat("\nKolmogorov-Smirnov Test:\n")
+cat("  D =", round(ks_test$statistic, 4), 
+    ", p =", format.pval(ks_test$p.value, digits = 3), "\n")
+
+# 4.3 Anderson-Darling Test
+ad_test <- ad.test(df_rq1$pc_learn)
+cat("\nAnderson-Darling Test:\n")
+cat("  A =", round(ad_test$statistic, 4), 
+    ", p =", format.pval(ad_test$p.value, digits = 3), "\n")
+
+
+################################################################################
+# 5. MLM-SPECIFIC: CHECK RESIDUALS (AFTER FITTING MODEL)
+################################################################################
+
+cat("\n=== RESIDUAL NORMALITY (MLM-specific) ===\n")
+cat("Note: For MLM, normality of RESIDUALS is more important than raw DV!\n")
+
+# Fit a simple model to check residuals
+m_check <- lmer(pc_learn ~ stress_wn + coping_wn + (1 | person_id), 
+                data = df_rq1, REML = TRUE)
+
+# Extract residuals
+resid_vals <- residuals(m_check)
+
+# Descriptives
+cat("\nResidual Statistics:\n")
+cat("  Mean:", round(mean(resid_vals), 6), "\n")
+cat("  SD:", round(sd(resid_vals), 4), "\n")
+cat("  Skewness:", round(skewness(resid_vals), 3), "\n")
+cat("  Kurtosis:", round(kurtosis(resid_vals), 3), "\n")
+
+# Shapiro-Wilk on residuals
+if(length(resid_vals) <= 5000) {
+  shapiro_resid <- shapiro.test(resid_vals)
+} else {
+  set.seed(123)
+  shapiro_resid <- shapiro.test(sample(resid_vals, 5000))
+}
+cat("\nShapiro-Wilk Test (Residuals):\n")
+cat("  W =", round(shapiro_resid$statistic, 4), 
+    ", p =", format.pval(shapiro_resid$p.value, digits = 3), "\n")
+
+# Residual plots
+png("normality_check_residuals.png", width = 12, height = 8, units = "in", res = 300)
+par(mfrow = c(2, 3))
+hist(resid_vals, breaks = 50, freq = FALSE, 
+     main = "Residual Distribution", xlab = "Residuals", 
+     col = "steelblue", border = "white")
+curve(dnorm(x, mean = mean(resid_vals), sd = sd(resid_vals)), 
+      add = TRUE, col = "red", lwd = 2)
+qqnorm(resid_vals, main = "Q-Q Plot: Residuals", pch = 20, 
+       col = rgb(70/255, 130/255, 180/255, 0.5))
+qqline(resid_vals, col = "red", lwd = 2)
+plot(fitted(m_check), resid_vals, 
+     main = "Residuals vs Fitted", 
+     xlab = "Fitted Values", ylab = "Residuals", 
+     pch = 20, col = rgb(70/255, 130/255, 180/255, 0.5))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+plot(density(resid_vals), main = "Density: Residuals", 
+     col = "steelblue", lwd = 2)
+boxplot(resid_vals, main = "Boxplot: Residuals", 
+        col = "steelblue", ylab = "Residuals")
+plot(ecdf(resid_vals), main = "ECDF: Residuals", 
+     col = "steelblue", lwd = 2)
+dev.off()
+cat("\n→ Residual plots saved: normality_check_residuals.png\n")
+
+
+################################################################################
+# 6. RECOMMENDATIONS
+################################################################################
+
+cat("\n=== RECOMMENDATIONS ===\n")
+
+# Based on skewness
+if(abs(desc_stats$Skewness) > 2) {
+  cat("⚠ High skewness detected (|skew| > 2)\n")
+  cat("  → Consider transformation (log, sqrt) or robust MLM\n")
+} else if(abs(desc_stats$Skewness) > 1) {
+  cat("⚠ Moderate skewness (|skew| > 1)\n")
+  cat("  → MLM is relatively robust, but check residuals\n")
+} else {
+  cat("✓ Skewness acceptable (|skew| < 1)\n")
+}
+
+# Based on floor/ceiling effects
+if(prop_zero > 25) {
+  cat("⚠ Floor effect > 25% zeros\n")
+  cat("  → Consider zero-inflated models or hurdle models\n")
+} else if(prop_zero > 10) {
+  cat("⚠ Moderate floor effect (", round(prop_zero, 1), "% zeros)\n")
+  cat("  → MLM should be OK, but monitor residuals\n")
+}
+
+if(prop_max > 25) {
+  cat("⚠ Ceiling effect > 25% at maximum\n")
+  cat("  → Consider transformation or tobit models\n")
+}
+
+cat("\n--- KEY POINT ---\n")
+cat("For MLM: Normality of RESIDUALS is more critical than raw DV normality!\n")
+cat("→ Check residual plots above for violations\n")
+
+################################################################################
+# END
+################################################################################
+```
+
+## Linearity Check (rq1)
+```{r}
+################################################################################
+# Linearity & Homoscedasticity Checks for MLM
+# Following Snijders & Bosker (2012), Chapter 10
+################################################################################
+
+# library(tidyverse)
+# library(lme4)
+# library(lmerTest)
+
+################################################################################
+# 1. FIT FINAL MODEL WITH REML
+################################################################################
+
+# m3_reml <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + n_entry_wn + age + sex + jobscope + (1 | person_id), data = df_rq1, REML = TRUE)
+
+cat("\n=== MODEL SUMMARY ===\n")
+summary(m3_reml)
+
+
+################################################################################
+# 2. EXTRACT LEVEL-2 RESIDUALS (Random Intercepts)
+################################################################################
+
+# Extract random effects (BLUPs - Best Linear Unbiased Predictors)
+random_effects <- ranef(m3_reml)$person_id
+colnames(random_effects) <- "u0j"  # Level-2 residual (random intercept)
+
+# Add person_id
+random_effects$person_id <- rownames(random_effects)
+
+# Merge with person-level covariates
+person_data <- df_rq1 %>%
+  distinct(person_id, .keep_all = TRUE) %>%
+  select(person_id, age, sex, jobscope, stress_PM, coping_PM, n_entry_PM)
+
+diagnostics_data <- person_data %>%
+  left_join(random_effects, by = "person_id")
+
+# Calculate squared residuals for homoscedasticity check
+diagnostics_data <- diagnostics_data %>%
+  mutate(u0j_squared = u0j^2)
+
+cat("\n=== LEVEL-2 DIAGNOSTICS DATA ===\n")
+cat("Number of persons:", nrow(diagnostics_data), "\n")
+print(head(diagnostics_data))
+
+
+################################################################################
+# 3. LINEARITY CHECK: Level-2 Residuals vs Level-2 Covariates
+# (Snijders & Bosker, 2012, p. 144-145)
+################################################################################
+
+cat("\n=== LINEARITY CHECK ===\n")
+cat("Plotting unstandardized Level-2 residuals against Level-2 covariates\n")
+cat("Looking for: Flat line around 0 (LOESS should be horizontal)\n")
+
+png("linearity_check_level2.png", width = 16, height = 10, units = "in", res = 300)
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 2))
+
+# 3.1 Age
+plot(diagnostics_data$age, diagnostics_data$u0j,
+     xlab = "Age", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Age",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$age, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+legend("topright", legend = c("LOESS", "Zero line"), 
+       col = c("blue", "red"), lty = c(1, 2), lwd = 2, cex = 0.8)
+
+# 3.2 Job Scope
+plot(diagnostics_data$jobscope, diagnostics_data$u0j,
+     xlab = "Job Scope", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Job Scope",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$jobscope, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 3.3 Stress (Person-Mean)
+plot(diagnostics_data$stress_PM, diagnostics_data$u0j,
+     xlab = "Stress (Person-Mean)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Stress",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$stress_PM, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 3.4 Coping (Person-Mean)
+plot(diagnostics_data$coping_PM, diagnostics_data$u0j,
+     xlab = "Coping (Person-Mean)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Coping",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$coping_PM, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 3.5 n_entry (Person-Mean)
+plot(diagnostics_data$n_entry_PM, diagnostics_data$u0j,
+     xlab = "Entry# (Person-Mean)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Entry Number",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$n_entry_PM, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 3.6 Sex (Boxplot)
+boxplot(u0j ~ sex, data = diagnostics_data,
+        xlab = "Sex", ylab = "Level-2 Residuals (u0j)",
+        main = "Linearity: Sex",
+        col = c("pink", "lightblue"),
+        names = c("Female", "Male"))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+
+dev.off()
+cat("→ Linearity plots saved: linearity_check_level2.png\n")
+```
+
+```{r}
+# Check distribution
+table(diagnostics_data$jobscope)
+
+# Mögliche Lösungen:
+# 1. Dichotomisieren (100 vs. <100)
+# 2. Kategorisieren (z.B. <88, 88-99, 100)
+# 3. Als ist belassen (wenn statistischer Test OK)
+```
+
+
+
+## Homoskedasticity Check (rq1)
+```{r}
+################################################################################
+# 4. HOMOSCEDASTICITY CHECK: Squared Level-2 Residuals vs Covariates
+# (Snijders & Bosker, 2012, p. 145-146)
+################################################################################
+
+cat("\n=== HOMOSCEDASTICITY CHECK ===\n")
+cat("Plotting SQUARED Level-2 residuals against Level-2 covariates\n")
+cat("Looking for: Flat line (constant variance across covariate values)\n")
+
+png("homoscedasticity_check_level2.png", width = 16, height = 10, units = "in", res = 300)
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 2))
+
+# 4.1 Age
+plot(diagnostics_data$age, diagnostics_data$u0j_squared,
+     xlab = "Age", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Age",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$age, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+legend("topright", legend = c("LOESS", "Mean variance"), 
+       col = c("darkred", "blue"), lty = c(1, 2), lwd = 2, cex = 0.8)
+
+# 4.2 Job Scope
+plot(diagnostics_data$jobscope, diagnostics_data$u0j_squared,
+     xlab = "Job Scope", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Job Scope",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$jobscope, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 4.3 Stress (Person-Mean)
+plot(diagnostics_data$stress_PM, diagnostics_data$u0j_squared,
+     xlab = "Stress (Person-Mean)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Stress",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$stress_PM, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 4.4 Coping (Person-Mean)
+plot(diagnostics_data$coping_PM, diagnostics_data$u0j_squared,
+     xlab = "Coping (Person-Mean)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Coping",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$coping_PM, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 4.5 n_entry (Person-Mean)
+plot(diagnostics_data$n_entry_PM, diagnostics_data$u0j_squared,
+     xlab = "Entry# (Person-Mean)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Entry Number",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$n_entry_PM, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 4.6 Sex (Boxplot)
+boxplot(u0j_squared ~ sex, data = diagnostics_data,
+        xlab = "Sex", ylab = "Squared Level-2 Residuals (u0j²)",
+        main = "Homoscedasticity: Sex",
+        col = c("pink", "lightblue"),
+        names = c("Female", "Male"))
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+dev.off()
+cat("→ Homoscedasticity plots saved: homoscedasticity_check_level2.png\n")
+
+
+################################################################################
+# 5. STATISTICAL TESTS FOR LINEARITY (Optional)
+################################################################################
+
+cat("\n=== STATISTICAL TESTS FOR NON-LINEARITY ===\n")
+
+# Test for non-linear relationships by adding quadratic terms
+# If quadratic terms are significant, there's evidence of non-linearity
+
+test_nonlinearity <- function(var_name, var_values, residuals) {
+  df_test <- data.frame(
+    x = var_values,
+    x_sq = var_values^2,
+    resid = residuals
+  )
+  
+  # Linear model
+  m_linear <- lm(resid ~ x, data = df_test)
+  # Quadratic model
+  m_quad <- lm(resid ~ x + x_sq, data = df_test)
+  
+  # F-test for quadratic term
+  f_test <- anova(m_linear, m_quad)
+  
+  cat("\n", var_name, ":\n", sep = "")
+  cat("  Linear R² =", round(summary(m_linear)$r.squared, 4), "\n")
+  cat("  Quadratic R² =", round(summary(m_quad)$r.squared, 4), "\n")
+  cat("  F-test for quadratic: p =", format.pval(f_test$`Pr(>F)`[2], digits = 3), "\n")
+  
+  if(f_test$`Pr(>F)`[2] < 0.05) {
+    cat("  ⚠ Evidence of non-linearity (p < .05)\n")
+  } else {
+    cat("  ✓ Linear relationship is adequate (p ≥ .05)\n")
+  }
+}
+
+# Test each continuous covariate
+test_nonlinearity("Age", diagnostics_data$age, diagnostics_data$u0j)
+test_nonlinearity("Job Scope", diagnostics_data$jobscope, diagnostics_data$u0j)
+test_nonlinearity("Stress (PM)", diagnostics_data$stress_PM, diagnostics_data$u0j)
+test_nonlinearity("Coping (PM)", diagnostics_data$coping_PM, diagnostics_data$u0j)
+test_nonlinearity("Entry# (PM)", diagnostics_data$n_entry_PM, diagnostics_data$u0j)
+
+
+################################################################################
+# 6. BREUSCH-PAGAN TEST FOR HOMOSCEDASTICITY (Level-2)
+################################################################################
+
+cat("\n=== BREUSCH-PAGAN TEST FOR HOMOSCEDASTICITY ===\n")
+
+# Test if variance of Level-2 residuals depends on covariates
+library(lmtest)
+
+# Model: squared residuals ~ covariates
+m_variance <- lm(u0j_squared ~ age + sex + jobscope + stress_PM + coping_PM + n_entry_PM,
+                 data = diagnostics_data)
+
+bp_test <- lmtest::bptest(m_variance)
+cat("\nBreusch-Pagan Test:\n")
+cat("  BP =", round(bp_test$statistic, 3), "\n")
+cat("  p =", format.pval(bp_test$p.value, digits = 3), "\n")
+
+if(bp_test$p.value < 0.05) {
+  cat("  ⚠ Evidence of heteroscedasticity (p < .05)\n")
+  cat("  → Consider weighted models or robust SE\n")
+} else {
+  cat("  ✓ Homoscedasticity assumption met (p ≥ .05)\n")
+}
+
+
+################################################################################
+# 7. INTERPRETATION GUIDE
+################################################################################
+
+cat("\n\n=== INTERPRETATION GUIDE ===\n")
+cat("\n--- LINEARITY CHECK ---\n")
+cat("• Look at LOESS curves (blue lines) in linearity plots\n")
+cat("• GOOD: Flat horizontal line around zero\n")
+cat("• BAD: Curved pattern (U-shape, inverted U, monotonic curve)\n")
+cat("• If non-linear: Consider adding quadratic terms or transformations\n")
+
+cat("\n--- HOMOSCEDASTICITY CHECK ---\n")
+cat("• Look at LOESS curves (red lines) in homoscedasticity plots\n")
+cat("• GOOD: Flat horizontal line (constant variance)\n")
+cat("• BAD: Increasing/decreasing trend (heteroscedasticity)\n")
+cat("• If heteroscedastic: Consider weighted models or robust SE\n")
+
+cat("\n--- ACTIONS IF ASSUMPTIONS VIOLATED ---\n")
+cat("1. Non-linearity:\n")
+cat("   • Add quadratic/polynomial terms\n")
+cat("   • Transform predictors (log, sqrt)\n")
+cat("   • Use splines or GAMs\n")
+cat("\n2. Heteroscedasticity:\n")
+cat("   • Use weighted models (nlme::lme with weights)\n")
+cat("   • Use cluster-robust standard errors\n")
+cat("   • Transform outcome variable\n")
+
+cat("\n=== ANALYSIS COMPLETE ===\n")
+
+################################################################################
+# END
+################################################################################
+```
+
+## Quadratic Model (rq1) because of Non-linearity of Stress + Coping
+```{r}
+################################################################################
+# Quadratic Models: Testing Non-Linear Effects of Stress & Coping
+################################################################################
+
+# library(tidyverse)
+# library(lme4)
+# library(lmerTest)
+# library(sjPlot)
+# library(interactions)
+
+################################################################################
+# 1. CREATE QUADRATIC TERMS
+################################################################################
+
+# Center variables FIRST, then square (important for interpretation!)
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Center person-means at grand mean (if not already done)
+    stress_PM_c = stress_PM - mean(stress_PM, na.rm = TRUE),
+    coping_PM_c = coping_PM - mean(coping_PM, na.rm = TRUE),
+    n_entry_PM_c = n_entry_PM - mean(n_entry_PM, na.rm = TRUE),
+    
+    # Create quadratic terms from CENTERED variables
+    stress_PM_c_sq = stress_PM_c^2,
+    coping_PM_c_sq = coping_PM_c^2
+  )
+
+cat("\n=== QUADRATIC TERMS CREATED ===\n")
+cat("Stress PM: Mean =", round(mean(df_rq1$stress_PM_c, na.rm = TRUE), 6), 
+    ", SD =", round(sd(df_rq1$stress_PM_c, na.rm = TRUE), 3), "\n")
+cat("Coping PM: Mean =", round(mean(df_rq1$coping_PM_c, na.rm = TRUE), 6), 
+    ", SD =", round(sd(df_rq1$coping_PM_c, na.rm = TRUE), 3), "\n")
+cat("n_entry PM: Mean =", round(mean(df_rq1$n_entry_PM_c, na.rm = TRUE), 6), 
+    ", SD =", round(sd(df_rq1$n_entry_PM_c, na.rm = TRUE), 3), "\n")
+
+
+################################################################################
+# 2. MODEL COMPARISON: Linear vs Quadratic
+################################################################################
+
+cat("\n=== MODEL COMPARISON: LINEAR VS QUADRATIC ===\n")
+
+# Original linear model (from before)
+m_linear <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + 
+                 n_entry_wn + 
+                 stress_PM_c + coping_PM_c + n_entry_PM_c +
+                 age + sex + jobscope + 
+                 (1 | person_id), 
+                 data = df_rq1, REML = FALSE)
+
+# Add quadratic Stress only
+m_quad_stress <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + 
+                      n_entry_wn + 
+                      stress_PM_c + stress_PM_c_sq + coping_PM_c + n_entry_PM_c +
+                      age + sex + jobscope + 
+                      (1 | person_id), 
+                      data = df_rq1, REML = FALSE)
+
+# Add quadratic Coping only
+m_quad_coping <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + 
+                      n_entry_wn + 
+                      stress_PM_c + coping_PM_c + coping_PM_c_sq + n_entry_PM_c +
+                      age + sex + jobscope + 
+                      (1 | person_id), 
+                      data = df_rq1, REML = FALSE)
+
+# Add BOTH quadratic terms
+m_quad_both <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + 
+                    n_entry_wn + 
+                    stress_PM_c + stress_PM_c_sq + 
+                    coping_PM_c + coping_PM_c_sq + 
+                    n_entry_PM_c +
+                    age + sex + jobscope + 
+                    (1 | person_id), 
+                    data = df_rq1, REML = FALSE)
+
+# Model comparison
+cat("\n--- Likelihood Ratio Tests ---\n")
+comparison <- anova(m_linear, m_quad_stress, m_quad_coping, m_quad_both)
+print(comparison)
+
+
+################################################################################
+# 3. FINAL MODEL WITH REML
+################################################################################
+
+# Refit best model with REML for inference
+m_final <- lmer(pc_learn ~ stress_wn + coping_wn + stress_wn:coping_wn + 
+                n_entry_wn + 
+                stress_PM_c + stress_PM_c_sq + 
+                coping_PM_c + coping_PM_c_sq + 
+                n_entry_PM_c +
+                age + sex + jobscope + 
+                (1 | person_id), 
+                data = df_rq1, REML = TRUE)
+
+cat("\n=== FINAL MODEL WITH QUADRATIC TERMS (REML) ===\n")
+summary(m_final)
+
+
+################################################################################
+# 4. INTERPRETATION OF QUADRATIC EFFECTS
+################################################################################
+
+cat("\n=== INTERPRETATION GUIDE ===\n")
+
+coefs <- summary(m_final)$coefficients
+
+# Stress quadratic
+stress_linear <- coefs["stress_PM_c", "Estimate"]
+stress_quad <- coefs["stress_PM_c_sq", "Estimate"]
+stress_p <- coefs["stress_PM_c_sq", "Pr(>|t|)"]
+
+cat("\n--- STRESS (Between-Person) ---\n")
+cat("Linear term: β =", round(stress_linear, 3), "\n")
+cat("Quadratic term: β =", round(stress_quad, 3), ", p =", 
+    format.pval(stress_p, digits = 3), "\n")
+
+if(stress_p < 0.05) {
+  if(stress_quad > 0) {
+    cat("→ U-SHAPED: Learning lowest at moderate stress, higher at extremes\n")
+  } else {
+    cat("→ INVERTED-U: Learning highest at moderate stress (Yerkes-Dodson!)\n")
+  }
+}
+
+# Coping quadratic
+coping_linear <- coefs["coping_PM_c", "Estimate"]
+coping_quad <- coefs["coping_PM_c_sq", "Estimate"]
+coping_p <- coefs["coping_PM_c_sq", "Pr(>|t|)"]
+
+cat("\n--- COPING (Between-Person) ---\n")
+cat("Linear term: β =", round(coping_linear, 3), "\n")
+cat("Quadratic term: β =", round(coping_quad, 3), ", p =", 
+    format.pval(coping_p, digits = 3), "\n")
+
+if(coping_p < 0.05) {
+  if(coping_quad > 0) {
+    cat("→ U-SHAPED: Learning lowest at moderate coping\n")
+  } else {
+    cat("→ INVERTED-U: Learning highest at moderate coping\n")
+  }
+}
+
+# Critical: Does interaction remain significant?
+interaction_coef <- coefs["stress_wn:coping_wn", "Estimate"]
+interaction_p <- coefs["stress_wn:coping_wn", "Pr(>|t|)"]
+
+cat("\n--- KARASEK INTERACTION (Within-Person) ---\n")
+cat("Stress × Coping: β =", round(interaction_coef, 3), 
+    ", p =", format.pval(interaction_p, digits = 3), "\n")
+
+if(interaction_p < 0.05) {
+  cat("✓ INTERACTION REMAINS SIGNIFICANT after controlling for quadratic effects!\n")
+} else {
+  cat("⚠ Interaction became non-significant (was it spurious?)\n")
+}
+
+
+################################################################################
+# 5. VISUALIZE QUADRATIC EFFECTS
+################################################################################
+
+cat("\n=== CREATING VISUALIZATIONS ===\n")
+
+# Predict across range of Stress (holding others constant)
+stress_range <- seq(min(df_rq1$stress_PM_c, na.rm = TRUE),
+                    max(df_rq1$stress_PM_c, na.rm = TRUE),
+                    length.out = 100)
+
+pred_data_stress <- data.frame(
+  stress_wn = 0,
+  coping_wn = 0,
+  n_entry_wn = 0,
+  stress_PM_c = stress_range,
+  stress_PM_c_sq = stress_range^2,
+  coping_PM_c = 0,
+  coping_PM_c_sq = 0,
+  n_entry_PM_c = 0,
+  age = mean(df_rq1$age, na.rm = TRUE),
+  sex = factor(round(mean(df_rq1$sex, na.rm = TRUE)), levels = levels(factor(df_rq1$sex))),
+  jobscope = mean(df_rq1$jobscope, na.rm = TRUE)
+)
+
+pred_data_stress$predicted <- predict(m_final, newdata = pred_data_stress, 
+                                      re.form = NA)
+
+# Plot Stress quadratic
+p_stress <- ggplot(pred_data_stress, 
+                   aes(x = stress_PM_c + mean(df_rq1$stress_PM, na.rm = TRUE), 
+                       y = predicted)) +
+  geom_line(color = "darkred", size = 1.5) +
+  geom_ribbon(aes(ymin = predicted - 0.1, ymax = predicted + 0.1),
+              alpha = 0.2, fill = "darkred") +
+  labs(x = "Average Stress (Between-Person)",
+       y = "Predicted Learning",
+       title = "Quadratic Effect of Stress on Learning") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+print(p_stress)
+ggsave("quadratic_stress.png", p_stress, width = 10, height = 7, dpi = 300)
+
+
+# Predict across range of Coping
+coping_range <- seq(min(df_rq1$coping_PM_c, na.rm = TRUE),
+                    max(df_rq1$coping_PM_c, na.rm = TRUE),
+                    length.out = 100)
+
+pred_data_coping <- data.frame(
+  stress_wn = 0,
+  coping_wn = 0,
+  n_entry_wn = 0,
+  stress_PM_c = 0,
+  stress_PM_c_sq = 0,
+  coping_PM_c = coping_range,
+  coping_PM_c_sq = coping_range^2,
+  n_entry_PM_c = 0,
+  age = mean(df_rq1$age, na.rm = TRUE),
+  sex = factor(round(mean(df_rq1$sex, na.rm = TRUE)), levels = levels(factor(df_rq1$sex))),
+  jobscope = mean(df_rq1$jobscope, na.rm = TRUE)
+)
+
+pred_data_coping$predicted <- predict(m_final, newdata = pred_data_coping, 
+                                      re.form = NA)
+
+# Plot Coping quadratic
+p_coping <- ggplot(pred_data_coping, 
+                   aes(x = coping_PM_c + mean(df_rq1$coping_PM, na.rm = TRUE), 
+                       y = predicted)) +
+  geom_line(color = "darkblue", size = 1.5) +
+  geom_ribbon(aes(ymin = predicted - 0.1, ymax = predicted + 0.1),
+              alpha = 0.2, fill = "darkblue") +
+  labs(x = "Average Coping (Between-Person)",
+       y = "Predicted Learning",
+       title = "Quadratic Effect of Coping on Learning") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+print(p_coping)
+ggsave("quadratic_coping.png", p_coping, width = 10, height = 7, dpi = 300)
+
+
+################################################################################
+# 6. CHECK IF KARASEK INTERACTION STILL HOLDS
+################################################################################
+
+cat("\n=== KARASEK INTERACTION WITH QUADRATIC CONTROLS ===\n")
+
+# Simple slopes (from final model with quadratics)
+ss_final <- sim_slopes(m_final, pred = stress_wn, modx = coping_wn)
+print(ss_final)
+
+# Interaction plot
+p_interaction_final <- interact_plot(m_final, 
+                                     pred = stress_wn, 
+                                     modx = coping_wn,
+                                     modx.values = "plus-minus",
+                                     interval = TRUE,
+                                     x.label = "Stress (within-person)",
+                                     y.label = "Perceived Learning",
+                                     legend.main = "Coping (within-person)",
+                                     main.title = "Karasek Interaction (with Quadratic Controls)") +
+  theme_minimal(base_size = 14)
+
+print(p_interaction_final)
+ggsave("karasek_with_quadratics.png", p_interaction_final, 
+       width = 10, height = 7, dpi = 300)
+
+
+################################################################################
+# 7. COMPARISON TABLE
+################################################################################
+
+tab_model(m_linear, m_final,
+          show.ci = TRUE,
+          show.r2 = TRUE,
+          show.icc = TRUE,
+          dv.labels = c("Linear Model", "Quadratic Model"),
+          title = "Model Comparison: Linear vs Quadratic Between-Person Effects",
+          file = "model_comparison_quadratic.html")
+
+cat("\n✓ Analysis complete!\n")
+cat("→ Plots saved: quadratic_stress.png, quadratic_coping.png\n")
+cat("→ Interaction plot: karasek_with_quadratics.png\n")
+cat("→ Table: model_comparison_quadratic.html\n")
+
+################################################################################
+# END
+################################################################################
+
+# calc icc
+icc(m_final)
+
+icc(m)
 
 ```
 
 
-```{r filter data & prepare them, include=FALSE}
-df_rq3 <- combined_df
-df_rq3$act_no <- as.factor(df_rq3$act_no)
+## Clean Model-Sequence
+```{r}
+################################################################################
+# rq1: Karasek Demand-Control Model - Final Analysis
+# Hierarchical Multilevel Models with Disaggregation
+################################################################################
 
-# standardize all variables
+################################################################################
+# 1. DATA PREPARATION
+################################################################################
 
-# df_rq3$pc_learn_z <- standardize(df_rq3$pc_learn)
-df_rq3$stress_z <- standardize(df_rq3$stress)
-df_rq3$coping_z <- standardize(df_rq3$coping)
+# Filter: Minimum 5 entries per person
+df_rq1 <- combined_df %>%
+  rename(person_id = code) %>%
+  filter(!is.na(pc_learn) & !is.na(stress) & !is.na(coping)) %>%
+  group_by(person_id) %>%
+  filter(n() >= 5) %>%
+  ungroup()
+
+cat("Sample size:", nrow(df_rq1), "observations from", 
+    n_distinct(df_rq1$person_id), "persons\n")
 
 
-# add dummy variables for act #####
-df_rq3 <- dummy_cols(df_rq3, select_columns = "act_no")
+################################################################################
+# 2. CALCULATE PERSON-MEANS (Between-Person Components)
+################################################################################
+
+person_means <- df_rq1 %>%
+  group_by(person_id) %>%
+  summarise(
+    stress_PM = mean(stress, na.rm = TRUE),
+    coping_PM = mean(coping, na.rm = TRUE),
+    n_entry_PM = mean(n_entry, na.rm = TRUE)
+  )
+
+# Merge back to main data
+df_rq1 <- df_rq1 %>%
+  left_join(person_means, by = "person_id")
+
+
+################################################################################
+# 3. CALCULATE PERSON-MEAN-CENTERED VARIABLES (Within-Person Components)
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Within-person deviations (person-mean-centered)
+    stress_within = stress - stress_PM,
+    coping_within = coping - coping_PM,
+    n_entry_within = n_entry - n_entry_PM
+  )
+
+
+################################################################################
+# 4. GRAND-MEAN CENTER BETWEEN-PERSON VARIABLES
+################################################################################
+
+df_rq1 <- df_rq1 %>%
+  mutate(
+    # Grand-mean centered person-means
+    stress_between = stress_PM - mean(stress_PM, na.rm = TRUE),
+    coping_between = coping_PM - mean(coping_PM, na.rm = TRUE),
+    n_entry_between = n_entry_PM - mean(n_entry_PM, na.rm = TRUE),
+    
+    # Grand-mean centered controls
+    age_c = age - mean(age, na.rm = TRUE),
+    jobscope_c = jobscope - mean(jobscope, na.rm = TRUE),
+    
+    # Quadratic term for coping (from centered variable)
+    coping_between_sq = coping_between^2
+  )
+
+
+################################################################################
+# 5. DESCRIPTIVE STATISTICS
+################################################################################
+
+cat("\n=== DESCRIPTIVE STATISTICS ===\n")
+
+# Within-person variables
+desc_within <- df_rq1 %>%
+  summarise(across(
+    c(pc_learn, stress_within, coping_within, n_entry_within),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_within)
+
+# Between-person variables
+desc_between <- df_rq1 %>%
+  distinct(person_id, .keep_all = TRUE) %>%
+  summarise(across(
+    c(stress_between, coping_between, n_entry_between, age_c, jobscope_c),
+    list(M = ~mean(., na.rm = TRUE),
+         SD = ~sd(., na.rm = TRUE)),
+    .names = "{.col}_{.fn}"
+  ))
+print(desc_between)
+
+
+################################################################################
+# 6. HIERARCHICAL MODEL BUILDING (ML for Model Comparison)
+################################################################################
+
+cat("\n=== BUILDING HIERARCHICAL MODELS ===\n")
+
+# M0: Null model (ICC)
+m0 <- lmer(pc_learn ~ 1 + (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+icc_value <- icc(m0)
+cat("\nICC =", round(icc_value$ICC_adjusted, 3), "\n")
+
+
+# M1: Within-person main effects
+m1 <- lmer(pc_learn ~ stress_within + coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M2: Add Karasek interaction (KEY HYPOTHESIS!)
+m2 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M3: Add control variables (including n_entry)
+m3 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# M4: Add between-person effects + quadratic coping
+m4 <- lmer(pc_learn ~ stress_within + coping_within + 
+           stress_within:coping_within + 
+           n_entry_within +
+           stress_between + coping_between + coping_between_sq + 
+           n_entry_between +
+           age_c + sex + jobscope_c + 
+           (1 | person_id), 
+           data = df_rq1, 
+           REML = FALSE)
+
+
+# Model comparison
+cat("\n=== MODEL COMPARISON (Likelihood Ratio Tests) ===\n")
+model_comparison <- anova(m0, m1, m2, m3, m4)
+print(model_comparison)
+
+
+################################################################################
+# 7. FINAL MODEL WITH REML (for inference)
+################################################################################
+
+cat("\n=== FINAL MODEL (REML) ===\n")
+
+m4_final <- lmer(pc_learn ~ stress_within + coping_within + 
+                 stress_within:coping_within + 
+                 n_entry_within +
+                 stress_between + coping_between + coping_between_sq + 
+                 n_entry_between +
+                 age_c + sex + jobscope_c + 
+                 (1 | person_id), 
+                 data = df_rq1, 
+                 REML = TRUE)
+
+summary(m4_final)
+
+# Confidence intervals
+cat("\n=== 95% CONFIDENCE INTERVALS ===\n")
+print(confint(m4_final, method = "Wald"))
+
+# R-squared
+cat("\n=== VARIANCE EXPLAINED ===\n")
+r2_values <- r2(m4_final)
+print(r2_values)
+
+
+################################################################################
+# 8. KARASEK INTERACTION - SIMPLE SLOPES
+################################################################################
+
+cat("\n=== SIMPLE SLOPES ANALYSIS ===\n")
+
+simple_slopes <- sim_slopes(m4_final, 
+                            pred = stress_within, 
+                            modx = coping_within,
+                            johnson_neyman = TRUE)
+print(simple_slopes)
+
+
+################################################################################
+# 9. VISUALIZATION - KARASEK MODERATION PLOT
+################################################################################
+
+cat("\n=== CREATING MODERATION PLOT ===\n")
+
+# Calculate SD for coping
+coping_sd <- sd(df_rq1$coping_within, na.rm = TRUE)
+
+# Plot with -1 SD, 0, +1 SD
+p_karasek <- interact_plot(m4_final, 
+                           pred = stress_within, 
+                           modx = coping_within,
+                           modx.values = c(-coping_sd, 0, coping_sd),
+                           modx.labels = c("Low Coping (-1 SD)", 
+                                          "Typical Coping (Mean)", 
+                                          "High Coping (+1 SD)"),
+                           interval = TRUE,
+                           int.width = 0.95,
+                           x.label = "Situational Stress (within-person)",
+                           y.label = "Perceived Learning",
+                           legend.main = "Situational Coping\n(within-person)",
+                           main.title = "Karasek Demand-Control Model:\nStress × Coping → Learning",
+                           colors = c("firebrick", "gray40", "steelblue"),
+                           line.thickness = 1.2) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "right"
+  )
+
+print(p_karasek)
+ggsave("karasek_interaction.png", p_karasek, width = 10, height = 7, dpi = 300)
+
+# Additional plot: Focus on zero coping
+cat("\n=== SIMPLE SLOPE AT COPING = 0 ===\n")
+slope_at_zero <- sim_slopes(m4_final, 
+                            pred = stress_within, 
+                            modx = coping_within,
+                            modx.values = 0)
+print(slope_at_zero)
+
+
+################################################################################
+# 10. QUADRATIC COPING EFFECT (Between-Person)
+################################################################################
+
+cat("\n=== QUADRATIC COPING EFFECT ===\n")
+
+# Predict across range of coping
+coping_range <- seq(min(df_rq1$coping_between, na.rm = TRUE),
+                    max(df_rq1$coping_between, na.rm = TRUE),
+                    length.out = 100)
+
+pred_data_coping <- data.frame(
+  stress_within = 0,
+  coping_within = 0,
+  n_entry_within = 0,
+  stress_between = 0,
+  coping_between = coping_range,
+  coping_between_sq = coping_range^2,
+  n_entry_between = 0,
+  age_c = 0,
+  sex = factor(round(mean(df_rq1$sex, na.rm = TRUE)), 
+               levels = levels(factor(df_rq1$sex))),
+  jobscope_c = 0
+)
+
+pred_data_coping$predicted <- predict(m4_final, 
+                                     newdata = pred_data_coping, 
+                                     re.form = NA)
+
+# Plot
+p_coping_quad <- ggplot(pred_data_coping, 
+                        aes(x = coping_between + mean(df_rq1$coping_PM, na.rm = TRUE), 
+                            y = predicted)) +
+  geom_line(color = "darkblue", linewidth = 1.5) +
+  geom_ribbon(aes(ymin = predicted - 0.1, ymax = predicted + 0.1),
+              alpha = 0.2, fill = "darkblue") +
+  labs(x = "Average Coping (between-person)",
+       y = "Predicted Learning",
+       title = "Inverted-U: Coping and Learning",
+       subtitle = "Learning is highest at moderate coping levels") +
+  theme_minimal(base_size = 14) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5))
+
+print(p_coping_quad)
+ggsave("coping_quadratic.png", p_coping_quad, width = 10, height = 7, dpi = 300)
+
+
+################################################################################
+# 11. PUBLICATION-READY TABLE
+################################################################################
+
+cat("\n=== CREATING MODEL COMPARISON TABLE ===\n")
+
+tab_model(m0, m1, m2, m3, m4_final,
+          show.ci = TRUE,
+          show.se = TRUE,
+          show.stat = TRUE,
+          show.r2 = TRUE,
+          show.icc = TRUE,
+          dv.labels = c("M0: Null", 
+                        "M1: Main Effects", 
+                        "M2: Interaction", 
+                        "M3: Controls",
+                        "M4: Final"),
+          pred.labels = c("(Intercept)",
+                          "Stress (within)",
+                          "Coping (within)",
+                          "Stress × Coping (within)",
+                          "Entry# (within)",
+                          "Age",
+                          "Sex: Male",
+                          "Job Scope",
+                          "Stress (between)",
+                          "Coping (between)",
+                          "Coping² (between)",
+                          "Entry# (between)"),
+          string.pred = "Predictors",
+          string.ci = "95% CI",
+          string.p = "p",
+          title = "Hierarchical Multilevel Models Predicting Perceived Learning",
+          file = "table_main_results.html")
+
+
+################################################################################
+# 12. INTERPRETATION SUMMARY
+################################################################################
+
+cat("\n\n=== INTERPRETATION SUMMARY ===\n")
+
+coefs <- summary(m4_final)$coefficients
+
+# Karasek interaction
+interaction_beta <- coefs["stress_within:coping_within", "Estimate"]
+interaction_p <- coefs["stress_within:coping_within", "Pr(>|t|)"]
+
+cat("\n--- KARASEK HYPOTHESIS ---\n")
+cat("Stress × Coping (within-person): β =", round(interaction_beta, 3), 
+    ", p =", format.pval(interaction_p, digits = 3), "\n")
+if(interaction_p < 0.05) {
+  cat("✓ SUPPORTED: Positive interaction confirms Karasek's demand-control model\n")
+  cat("  → Stress promotes learning when coping is high\n")
+} else {
+  cat("✗ NOT SUPPORTED\n")
+}
+
+# Quadratic coping
+coping_quad_beta <- coefs["coping_between_sq", "Estimate"]
+coping_quad_p <- coefs["coping_between_sq", "Pr(>|t|)"]
+
+cat("\n--- QUADRATIC COPING (Between-Person) ---\n")
+cat("Coping² (between): β =", round(coping_quad_beta, 3), 
+    ", p =", format.pval(coping_quad_p, digits = 3), "\n")
+if(coping_quad_p < 0.05) {
+  if(coping_quad_beta < 0) {
+    cat("✓ INVERTED-U: Learning is highest at moderate coping levels\n")
+  } else {
+    cat("✓ U-SHAPED: Learning is lowest at moderate coping levels\n")
+  }
+}
+
+# Time effects
+n_entry_within_p <- coefs["n_entry_within", "Pr(>|t|)"]
+n_entry_between_p <- coefs["n_entry_between", "Pr(>|t|)"]
+
+cat("\n--- TIME/COMPLIANCE EFFECTS ---\n")
+cat("Entry# (within): p =", format.pval(n_entry_within_p, digits = 3), "\n")
+if(n_entry_within_p > 0.05) {
+  cat("✓ No temporal trend: Learning stable across study period\n")
+}
+cat("Entry# (between): p =", format.pval(n_entry_between_p, digits = 3), "\n")
+if(n_entry_between_p < 0.05) {
+  cat("→ Persons with more entries differ in average learning\n")
+}
+
+
+################################################################################
+# 13. SAVE WORKSPACE
+################################################################################
+
+save(m0, m1, m2, m3, m4_final,
+     df_rq1, person_means,
+     simple_slopes,
+     desc_within, desc_between,
+     file = "rq1_final_results.RData")
+
+cat("\n\n=== ANALYSIS COMPLETE ===\n")
+cat("✓ Models saved: rq1_final_results.RData\n")
+cat("✓ Table: table_main_results.html\n")
+cat("✓ Plots: karasek_interaction.png, coping_quadratic.png\n")
+
+################################################################################
+# END
+################################################################################
+```
+
+## Linearity for quadratic Model
+```{r}
+################################################################################
+# Linearity Check for Final Model (with Quadratic Coping)
+# Following Snijders & Bosker (2012), Chapter 10
+################################################################################
+
+
+################################################################################
+# 1. EXTRACT LEVEL-2 RESIDUALS FROM FINAL MODEL
+################################################################################
+
+cat("\n=== EXTRACTING LEVEL-2 RESIDUALS ===\n")
+
+# Extract random effects (BLUPs - Best Linear Unbiased Predictors)
+random_effects <- ranef(m4_final)$person_id
+colnames(random_effects) <- "u0j"  # Level-2 residual (random intercept)
+
+# Add person_id
+random_effects$person_id <- rownames(random_effects)
+
+# Merge with person-level covariates
+person_data <- df_rq1 %>%
+  distinct(person_id, .keep_all = TRUE) %>%
+  select(person_id, age_c, sex, jobscope_c, 
+         stress_between, coping_between, n_entry_between)
+
+diagnostics_data <- person_data %>%
+  left_join(random_effects, by = "person_id")
+
+# Calculate squared residuals for homoscedasticity check
+diagnostics_data <- diagnostics_data %>%
+  mutate(u0j_squared = u0j^2)
+
+cat("Number of persons:", nrow(diagnostics_data), "\n")
+
+
+################################################################################
+# 2. LINEARITY CHECK: Level-2 Residuals vs Covariates
+################################################################################
+
+cat("\n=== LINEARITY CHECK ===\n")
+cat("Plotting Level-2 residuals against covariates\n")
+cat("GOOD: Flat LOESS line around zero\n")
+cat("BAD: Curved pattern (indicates non-linearity)\n\n")
+
+png("linearity_check_final_model.png", width = 16, height = 10, units = "in", res = 300)
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 2))
+
+# 2.1 Age
+plot(diagnostics_data$age_c, diagnostics_data$u0j,
+     xlab = "Age (centered)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Age",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$age_c, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+legend("topright", legend = c("LOESS", "Zero line"), 
+       col = c("blue", "red"), lty = c(1, 2), lwd = 2, cex = 0.8)
+
+# 2.2 Job Scope
+plot(diagnostics_data$jobscope_c, diagnostics_data$u0j,
+     xlab = "Job Scope (centered)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Job Scope",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$jobscope_c, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 2.3 Stress (Between) - Should be flat now with quadratic coping controlled
+plot(diagnostics_data$stress_between, diagnostics_data$u0j,
+     xlab = "Stress (between-person)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Stress",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$stress_between, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 2.4 Coping (Between) - Should be MUCH BETTER now!
+plot(diagnostics_data$coping_between, diagnostics_data$u0j,
+     xlab = "Coping (between-person)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Coping (with quadratic term)",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$coping_between, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+text(min(diagnostics_data$coping_between, na.rm = TRUE), 
+     max(diagnostics_data$u0j, na.rm = TRUE) * 0.9,
+     "Quadratic term included!", cex = 0.9, pos = 4, col = "darkgreen", font = 2)
+
+# 2.5 n_entry (Between)
+plot(diagnostics_data$n_entry_between, diagnostics_data$u0j,
+     xlab = "Entry# (between-person)", ylab = "Level-2 Residuals (u0j)",
+     main = "Linearity: Average Entry Number",
+     pch = 20, col = rgb(0, 0, 1, 0.3))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+lines(lowess(diagnostics_data$n_entry_between, diagnostics_data$u0j, f = 0.5), 
+      col = "blue", lwd = 2)
+
+# 2.6 Sex (Boxplot)
+boxplot(u0j ~ sex, data = diagnostics_data,
+        xlab = "Sex", ylab = "Level-2 Residuals (u0j)",
+        main = "Linearity: Sex",
+        col = c("pink", "lightblue"),
+        names = c("Female", "Male"))
+abline(h = 0, col = "red", lwd = 2, lty = 2)
+
+dev.off()
+cat("→ Linearity plots saved: linearity_check_final_model.png\n")
+
+
+################################################################################
+# 3. HOMOSCEDASTICITY CHECK: Squared Residuals vs Covariates
+################################################################################
+
+cat("\n=== HOMOSCEDASTICITY CHECK ===\n")
+cat("Plotting SQUARED Level-2 residuals against covariates\n")
+cat("GOOD: Flat LOESS line (constant variance)\n")
+cat("BAD: Increasing/decreasing trend\n\n")
+
+png("homoscedasticity_check_final_model.png", width = 16, height = 10, units = "in", res = 300)
+par(mfrow = c(2, 3), mar = c(4, 4, 3, 2))
+
+# 3.1 Age
+plot(diagnostics_data$age_c, diagnostics_data$u0j_squared,
+     xlab = "Age (centered)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Age",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$age_c, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+legend("topright", legend = c("LOESS", "Mean variance"), 
+       col = c("darkred", "blue"), lty = c(1, 2), lwd = 2, cex = 0.8)
+
+# 3.2 Job Scope
+plot(diagnostics_data$jobscope_c, diagnostics_data$u0j_squared,
+     xlab = "Job Scope (centered)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Job Scope",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$jobscope_c, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 3.3 Stress (Between)
+plot(diagnostics_data$stress_between, diagnostics_data$u0j_squared,
+     xlab = "Stress (between-person)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Stress",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$stress_between, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 3.4 Coping (Between)
+plot(diagnostics_data$coping_between, diagnostics_data$u0j_squared,
+     xlab = "Coping (between-person)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Coping",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$coping_between, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 3.5 n_entry (Between)
+plot(diagnostics_data$n_entry_between, diagnostics_data$u0j_squared,
+     xlab = "Entry# (between-person)", ylab = "Squared Level-2 Residuals (u0j²)",
+     main = "Homoscedasticity: Average Entry Number",
+     pch = 20, col = rgb(1, 0, 0, 0.3))
+lines(lowess(diagnostics_data$n_entry_between, diagnostics_data$u0j_squared, f = 0.5), 
+      col = "darkred", lwd = 2)
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+# 3.6 Sex (Boxplot)
+boxplot(u0j_squared ~ sex, data = diagnostics_data,
+        xlab = "Sex", ylab = "Squared Level-2 Residuals (u0j²)",
+        main = "Homoscedasticity: Sex",
+        col = c("pink", "lightblue"),
+        names = c("Female", "Male"))
+abline(h = mean(diagnostics_data$u0j_squared), col = "blue", lwd = 2, lty = 2)
+
+dev.off()
+cat("→ Homoscedasticity plots saved: homoscedasticity_check_final_model.png\n")
+
+
+################################################################################
+# 4. STATISTICAL TESTS FOR NON-LINEARITY
+################################################################################
+
+cat("\n=== STATISTICAL TESTS FOR RESIDUAL NON-LINEARITY ===\n")
+cat("Testing if adding quadratic terms improves fit\n\n")
+
+test_nonlinearity <- function(var_name, var_values, residuals) {
+  df_test <- data.frame(
+    x = var_values,
+    x_sq = var_values^2,
+    resid = residuals
+  )
+  
+  # Remove NA
+  df_test <- df_test[complete.cases(df_test), ]
+  
+  # Linear model
+  m_linear <- lm(resid ~ x, data = df_test)
+  # Quadratic model
+  m_quad <- lm(resid ~ x + x_sq, data = df_test)
+  
+  # F-test for quadratic term
+  f_test <- anova(m_linear, m_quad)
+  
+  cat(var_name, ":\n", sep = "")
+  cat("  Linear R² =", round(summary(m_linear)$r.squared, 4), "\n")
+  cat("  Quadratic R² =", round(summary(m_quad)$r.squared, 4), "\n")
+  cat("  F-test for quadratic: p =", format.pval(f_test$`Pr(>F)`[2], digits = 3), "\n")
+  
+  if(is.na(f_test$`Pr(>F)`[2])) {
+    cat("  → Cannot compute (insufficient variation)\n")
+  } else if(f_test$`Pr(>F)`[2] < 0.05) {
+    cat("  ⚠ Evidence of residual non-linearity (p < .05)\n")
+  } else {
+    cat("  ✓ Linear relationship is adequate (p ≥ .05)\n")
+  }
+  cat("\n")
+}
+
+# Test each continuous covariate
+test_nonlinearity("Age", diagnostics_data$age_c, diagnostics_data$u0j)
+test_nonlinearity("Job Scope", diagnostics_data$jobscope_c, diagnostics_data$u0j)
+test_nonlinearity("Stress (Between)", diagnostics_data$stress_between, diagnostics_data$u0j)
+test_nonlinearity("Coping (Between)", diagnostics_data$coping_between, diagnostics_data$u0j)
+test_nonlinearity("Entry# (Between)", diagnostics_data$n_entry_between, diagnostics_data$u0j)
+
+
+################################################################################
+# 5. COMPARISON: Before vs After Adding Quadratic Coping
+################################################################################
+
+cat("\n=== IMPROVEMENT CHECK ===\n")
+cat("Comparing linearity before and after adding quadratic coping term\n\n")
+
+# For comparison, we need model WITHOUT quadratic coping
+m_without_quad <- lmer(pc_learn ~ stress_within + coping_within + 
+                       stress_within:coping_within + 
+                       n_entry_within +
+                       stress_between + coping_between + 
+                       n_entry_between +
+                       age_c + sex + jobscope_c + 
+                       (1 | person_id), 
+                       data = df_rq1, 
+                       REML = TRUE)
+
+# Extract residuals from model without quadratic
+random_effects_old <- ranef(m_without_quad)$person_id
+colnames(random_effects_old) <- "u0j_old"
+random_effects_old$person_id <- rownames(random_effects_old)
+
+diagnostics_data <- diagnostics_data %>%
+  left_join(random_effects_old, by = "person_id")
+
+# Test coping linearity in BOTH models
+cat("--- Coping Linearity Test ---\n\n")
+
+cat("WITHOUT quadratic coping term:\n")
+test_nonlinearity("Coping (old model)", 
+                 diagnostics_data$coping_between, 
+                 diagnostics_data$u0j_old)
+
+cat("WITH quadratic coping term:\n")
+test_nonlinearity("Coping (final model)", 
+                 diagnostics_data$coping_between, 
+                 diagnostics_data$u0j)
+
+
+################################################################################
+# 6. SUMMARY & INTERPRETATION
+################################################################################
+
+cat("\n=== INTERPRETATION GUIDE ===\n")
+cat("\n--- What to look for in plots ---\n")
+cat("LINEARITY:\n")
+cat("  • Blue LOESS should be horizontal around zero\n")
+cat("  • Deviations indicate non-linear relationships\n")
+cat("  • For COPING: Should be much flatter now!\n\n")
+
+cat("HOMOSCEDASTICITY:\n")
+cat("  • Red LOESS should be flat (constant variance)\n")
+cat("  • Increasing trend = heteroscedasticity\n\n")
+
+cat("--- Key Question ---\n")
+cat("Did adding quadratic coping SOLVE the non-linearity problem?\n")
+cat("→ Compare F-tests: old model vs. final model for Coping\n")
+cat("→ If p-value increases (becomes non-significant), it worked!\n\n")
+
+cat("✓ Diagnostics complete!\n")
+
+################################################################################
+# END
+################################################################################
+```
+
+## Test of Independence (RQ1)
+```{r}
+# Wähle nur die Level-2-Variablen
+level2_vars <- df_rq1 %>%
+  select(person_id, stress_between, coping_between, coping_between_sq, n_entry_between, age_c, sex, jobscope_c) %>%
+  distinct(person_id, .keep_all = TRUE)
+
+# Korrelationsmatrix
+cor(level2_vars %>% select(-person_id))
+
+vif(m4_final)
+```
+
+## check for missing data in df_rq1
+```{r}
+# Check for missing data in df_rq1
+summary(is.na(df_rq1))
+```
+
+## check for outliers
+```{r}
+# load activities_raw
+##### activities_raw <- read.csv("data/activities_raw.csv")
+
+# # import Coping as coping_old into combined_df from activities_raw (via id)
+# combined_df <- combined_df %>%
+#   left_join(activities_raw %>% 
+#               select(id, coping_old = 
+#                        Coping, 
+#                      stress_old = 
+#                        Stress, 
+#                      pc_learn_old = Lernen),
+#             by = c("id" = "id"))
+# 
+# # compare coping and coping_old: coping_diff = coping - coping_old
+# combined_df <- combined_df %>%
+#   mutate(coping_diff = coping - coping_old, 
+#          stress_diff = stress - stress_old, 
+#          pc_learn_diff = pc_learn - pc_learn_old)
+# # no differences in stress, only in coping
+# 
+# # combined_df_coping_diff_notNA <- combined_df %>%
+# #   filter(coping_diff != 0 | is.na(coping_diff))
+# 
+# # combined_df_ <- combined_df # Backup with original values
+# 
+# # when coping <> coping_old: coping == coping_old
+# combined_df <- combined_df %>%
+#   mutate(coping = if_else(is.na(coping_old), coping, coping_old))
+# 
+# # count all NAs in coping_old
+# sum(is.na(combined_df$coping_old))
+# sum(!is.na(combined_df$coping_old))
+
+###
+# outlier analysis
+###
+boxplot(combined_df$coping, main = "Boxplot of Coping", ylab = "Coping Scores")
+boxplot(combined_df$stress, main = "Boxplot of Stress", ylab = "Stress Scores")
+boxplot(combined_df$pc_learn, main = "Boxplot of Perceived Learning", ylab = "Perceived Learning Scores")
+
+# looking at the outliers
+res_std <- rstudent(m4_final)  # studentisierte Residuen
+df_rq1[which(abs(res_std) > 2.5),] # Get the rows which absolute residuals > 2.5
+df_rq1_outliers <- df_rq1[which(abs(res_std) > 2.5),]
+
+# removing the outliers
+df_rq1_outl_removed <- romr.fnc(m4_final, df_rq1, trim = 2.5)
+# df_rq1_outl_removed$n.removed
+# df_rq1_outl_removed$percent.removed
+
+df_rq1 <- df_rq1_outl_removed$data
+
+# mcp.fnc(m4_final)
 
 ```
 
+
+
+
+
+## Test all assumptions (OLD)
 ```{r test all assumptions, include=FALSE}
 # multicollinearity?!
 # especially with the interaction term ... 
@@ -528,17 +2788,3 @@ rq3_results_table <- modelsummary::msummary(list("Model 1" = rq3_model1,
 rq3_results_table %>%
   kableExtra::kable_styling(latex_options = "HOLD_position")
 ```
-
-```{r rq3 kable, echo=FALSE}
-# kable(rq3_model2, digits = 2, caption = "MLM of Informal Learning during Teachers' Work Activities ")
-```
-
-# References
-
-::: {#refs custom-style="Bibliography"}
-:::
-
-\newpage
-
-# Appendix
-
